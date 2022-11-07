@@ -12,15 +12,22 @@ type WeatherStationData = {
     Id: string;
     CityName: string;
     WeatherCode: boolean;
-    WeatherDesc: boolean;
+    WeatherDesc: string;
     WeatherImgUrl: string;
     MinTemp: string;
     Maxtemp: string;
     MaxTemp: string;
 };
 
+enum WheatherImage {
+    Sunny = require("../assets/weather/Sunny.jpg"),
+    Cloudy = require("../assets/weather/Cloudy.jpg"),
+    Rainy = require("../assets/weather/Rainy.jpg"),
+    Snowy = require("../assets/weather/Snowy.jpg"),
+}
+
 export default class WeatherAPIUtil {
-    static async getWeatherforecast() {
+    static async getWeatherforecast(): Promise<WeatherStationData> {
         const response = await fetch(
             "https://tourism.opendatahub.bz.it/v1/Weather?language=en&extended=true"
         );
@@ -36,5 +43,20 @@ export default class WeatherAPIUtil {
         }).filter((station) => {
             return new Date(station.date).getDay() === new Date().getDay();
         })[0];
+    }
+}
+
+export function getWeatherImage(weatherData: string) {
+    switch (weatherData) {
+        case "Sunny":
+            return WheatherImage.Sunny;
+        case "Cloudy":
+            return WheatherImage.Cloudy;
+        case "Rainy":
+            return WheatherImage.Rainy;
+        case "Snowy":
+            return WheatherImage.Snowy;
+        default:
+            return WheatherImage.Cloudy;
     }
 }

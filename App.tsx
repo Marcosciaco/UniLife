@@ -1,20 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StyleSheet, View, Image } from "react-native";
+import WeatherAPIUtil, { getWeatherImage } from "./utils/WeatherAPIUtil";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    const [weatherData, setWeatherData] = React.useState("");
+    const ret = WeatherAPIUtil.getWeatherforecast();
+
+    ret.then((value) => {
+        setWeatherData(value.WeatherDesc);
+    });
+
+    return (
+        <View style={styles.container}>
+            <Image
+                style={styles.tinyLogo}
+                source={getWeatherImage(weatherData)}
+            />
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    tinyLogo: {
+        width: 200,
+        height: 200,
+        borderRadius: 10,
+    },
 });
