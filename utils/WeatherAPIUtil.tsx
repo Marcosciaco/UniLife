@@ -1,5 +1,7 @@
+import { Image } from "react-native";
+
 type WeatherResponse = {
-    id: number;
+    Id: number;
     date: string;
     evolutiontitle: string;
     evolution: string;
@@ -9,14 +11,13 @@ type WeatherResponse = {
 
 type WeatherStationData = {
     date: string;
-    Id: string;
+    Id: number;
     CityName: string;
-    WeatherCode: boolean;
+    WeatherCode: string;
     WeatherDesc: string;
     WeatherImgUrl: string;
-    MinTemp: string;
-    Maxtemp: string;
-    MaxTemp: string;
+    MinTemp: number;
+    MaxTemp: number;
 };
 
 enum WheatherImage {

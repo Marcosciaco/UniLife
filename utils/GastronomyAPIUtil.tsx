@@ -1,16 +1,37 @@
 import { CategoryCode } from "../models/CategoryCode";
 
 export type GastronomyResponse = {
-    Altitude: number;
-    Detail: {
-        de: string;
-        en: string;
-        it: string;
-    };
+    Id: string;
+    CategoryCodes: {
+        Self: string;
+        Id: string;
+        Shortname: string;
+    }[];
+    Shortname: string;
     GpsPoints: {
         position: {
             Latitude: number;
             Logitude: number;
+        };
+    };
+    Detail: {
+        de: {
+            Title: string;
+            Language: string;
+            MetaDesc: string;
+            MetaTitle: string;
+        };
+        en: {
+            Title: string;
+            Language: string;
+            MetaTitle: string;
+            MetaDesc: string;
+        };
+        it: {
+            Title: string;
+            Language: string;
+            MetaDesc: string;
+            MetaTitle: string;
         };
     };
     ImageGallery: {
@@ -18,7 +39,8 @@ export type GastronomyResponse = {
         Height: number;
         ImageUrl: string;
     }[];
-    Shortname: string;
+    SmgTags: string[];
+    HasLanguage: string[];
 };
 
 export default class GastronomyAPIUtil {
