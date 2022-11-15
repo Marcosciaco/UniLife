@@ -1,35 +1,20 @@
 import React from "react";
-import { StyleSheet, View, Image } from "react-native";
-import WeatherAPIUtil, { getWeatherImage } from "./utils/WeatherAPIUtil";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "./views/Home";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-    const [weatherData, setWeatherData] = React.useState("");
-    const ret = WeatherAPIUtil.getWeatherforecast();
-
-    ret.then((value) => {
-        setWeatherData(value.WeatherDesc);
-    });
-
     return (
-        <View style={styles.container}>
-            <Image
-                style={styles.tinyLogo}
-                source={getWeatherImage(weatherData)}
-            />
-        </View>
+        <NavigationContainer>
+            <Stack.Navigator
+                screenOptions={{
+                    headerShown: false,
+                }}
+            >
+                <Stack.Screen name="Home" component={HomeScreen} />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    tinyLogo: {
-        width: 200,
-        height: 200,
-        borderRadius: 10,
-    },
-});
