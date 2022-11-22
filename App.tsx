@@ -1,6 +1,11 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
+<<<<<<< Updated upstream
 import HomeScreen from "./views/Home";
+=======
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "./views/login";
+>>>>>>> Stashed changes
 
 import "react-native-gesture-handler";
 
