@@ -1,6 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import HomeScreen from "./views/login";
+import HomeScreen from "./views/Home";
 
 import "react-native-gesture-handler";
 
@@ -27,7 +27,7 @@ import DrinkIcon from "./assets/icons/drink";
 import HomeIcon from "./assets/icons/home";
 import MensaIcon from "./assets/icons/mensa";
 import PinIcon from "./assets/icons/pin";
-import LoginScreen from "./views/login";
+import LoginScreen from "./views/Login";
 
 const Drawer = createDrawerNavigator();
 
