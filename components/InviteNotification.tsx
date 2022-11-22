@@ -1,20 +1,22 @@
 import React from "react";
-import { View, Text, TouchableHighlight, Alert } from "react-native";
+import {
+    View,
+    Text,
+    TouchableHighlight,
+    Alert,
+    StyleSheet,
+} from "react-native";
 import MailIcon from "../assets/icons/mail";
 
-export default function confirmInvitation() {
-    return Alert.alert(
-        "Do you want to accept the invitation?",
-        "",
-        [
-            {
-                text: "Cancel",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel",
-            },
-            { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
-    );
+export function confirmInvitation() {
+    return Alert.alert("Do you want to accept the invitation?", "", [
+        {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+    ]);
 }
 
 export function InviteNotification({
@@ -31,33 +33,15 @@ export function InviteNotification({
             }}
             underlayColor="#F3F8FF"
         >
-            <View
-                style={{
-                    backgroundColor: "#FBFDFF",
-                    borderRadius: 5,
-                    padding: 5,
-                    marginLeft: 10,
-                    marginRight: 10,
-                    marginBottom: 10,
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                }}
-            >
+            <View style={styles.container}>
                 <MailIcon color={"#2B363F"} height={30} width={30}></MailIcon>
                 <Text
-                    style={{
-                        paddingLeft: 10,
-                        fontFamily: "Poppins_400Regular",
-                    }}
+                    style={styles.inviteText}
                 >
                     Invite by{" "}
                 </Text>
                 <Text
-                    style={{
-                        color: "#AECFFF",
-                        fontFamily: "Poppins_600SemiBold",
-                    }}
+                    style={styles.inviteName}
                 >
                     {person}
                 </Text>
@@ -69,3 +53,31 @@ export function InviteNotification({
         </TouchableHighlight>
     );
 }
+
+export const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#FBFDFF",
+        borderRadius: 5,
+        padding: 5,
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: 10,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+
+    inviteName: {
+        color: "#AECFFF",
+        fontFamily: "Poppins_600SemiBold",
+    },
+
+    inviteType: {
+        fontFamily: "Poppins_400Regular",
+    },
+
+    inviteText: {
+        paddingLeft: 10,
+        fontFamily: "Poppins_400Regular",
+    },
+});

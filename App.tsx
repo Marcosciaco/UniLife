@@ -18,8 +18,6 @@ import {
 } from "@expo-google-fonts/poppins";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { CustomDrawerContent } from "./components/DrawerContent";
-import MailIcon from "./assets/icons/mail";
-import MapScreen from "./views/Map";
 import MensaScreen from "./views/Mensa";
 import RoomsScreen from "./views/Rooms";
 import SocializeScreen from "./views/Socialize";
