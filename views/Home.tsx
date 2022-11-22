@@ -128,7 +128,7 @@ export default function HomeScreen({ navigation }: any) {
                 flexGrow: 1,
             }}
         >
-            <ExpoStatusBar backgroundColor="#FBFDFF" />
+            <ExpoStatusBar backgroundColor="#FBFDFF" style="dark" />
             <HeaderRow />
             <View
                 style={{

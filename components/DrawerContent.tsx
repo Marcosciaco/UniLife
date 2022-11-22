@@ -9,12 +9,7 @@ import { View, ImageBackground, Image, Text } from "react-native";
 export function CustomDrawerContent(props: any) {
     return (
         <View style={{ flex: 1, height: 1000 }}>
-            <DrawerContentScrollView
-                {...props}
-                contentContainerStyle={{
-                    backgroundColor: "#FBFDFF",
-                }}
-            >
+            <DrawerContentScrollView {...props}>
                 <ImageBackground
                     source={require("../assets/images/drawer-background.png")}
                     style={{ padding: 20 }}
