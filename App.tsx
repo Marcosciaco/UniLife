@@ -1,11 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-<<<<<<< Updated upstream
-import HomeScreen from "./views/Home";
-=======
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./views/login";
->>>>>>> Stashed changes
 
 import "react-native-gesture-handler";
 
@@ -32,6 +27,7 @@ import DrinkIcon from "./assets/icons/drink";
 import HomeIcon from "./assets/icons/home";
 import MensaIcon from "./assets/icons/mensa";
 import PinIcon from "./assets/icons/pin";
+import LoginScreen from "./views/login";
 
 const Drawer = createDrawerNavigator();
 
@@ -103,6 +99,15 @@ export default function App() {
                 <Drawer.Screen
                     name="Get to university"
                     component={ToUniScreen}
+                    options={{
+                        drawerIcon: ({ color }) => (
+                            <PinIcon color={color} height={20} width={20} />
+                        ),
+                    }}
+                />
+                <Drawer.Screen
+                    name="Login"
+                    component={LoginScreen}
                     options={{
                         drawerIcon: ({ color }) => (
                             <PinIcon color={color} height={20} width={20} />
