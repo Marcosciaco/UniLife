@@ -6,6 +6,7 @@ import {
     Dimensions,
     TextInput,
     Pressable,
+    KeyboardAvoidingView,
 } from "react-native";
 import Svg, { Image, Ellipse, ClipPath } from "react-native-svg";
 import Animated, {
@@ -16,7 +17,10 @@ import Animated, {
     withDelay,
     withSequence,
     withSpring,
+    color,
 } from "react-native-reanimated";
+import CloseIcon from "../assets/icons/close";
+import LogoIcon from "../assets/icons/logo";
 
 const { height, width } = Dimensions.get("window");
 
@@ -106,12 +110,20 @@ export default function LoginScreen() {
             <Animated.View
                 style={[StyleSheet.absoluteFill, imageAnimatedStyle]}
             >
+                <View style={styles.logo}>
+                    <LogoIcon height={50} width={50} color="#2B363F"></LogoIcon>
+                </View>
+                <View style={styles.promoText}>
+                    <Text style={styles.standardText}>Join the</Text>
+                    <Text style={styles.highlightedText}>University</Text>
+                    <Text style={styles.standardText}>Experience</Text>
+                </View>
                 <Svg height={height + 100} width={width}>
                     <ClipPath id="ClipPathId">
                         <Ellipse cx={width / 2} rx={height} ry={height + 100} />
                     </ClipPath>
                     <Image
-                        href={require("../unibz_campus.jpg")}
+                        href={require("../assets/images/unibz_campus.jpg")}
                         width={width + 100}
                         height={height + 100}
                         preserveAspectRatio="xMidYMid slice"
@@ -124,19 +136,35 @@ export default function LoginScreen() {
                         closeButtonContainerStyle,
                     ]}
                 >
-                    <Text onPress={() => (imagePosition.value = 1)}>X</Text>
+                    <Text onPress={() => (imagePosition.value = 1)}>
+                        <CloseIcon
+                            height={20}
+                            width={20}
+                            color="#2B363F"
+                        ></CloseIcon>
+                    </Text>
                 </Animated.View>
             </Animated.View>
             <View style={styles.bottomContainer}>
                 <Animated.View
                     style={[styles.bottomContainer, buttonsAnimatedStyle]}
                 >
-                    <Pressable style={styles.button} onPress={loginHandler}>
-                        <Text style={styles.buttonText}>LOG IN</Text>
-                    </Pressable>
-                    <Pressable style={styles.button} onPress={registerHandler}>
-                        <Text style={styles.buttonText}>REGISTER</Text>
-                    </Pressable>
+                    <View style={styles.buttonContainer}>
+                        <Pressable
+                            onPress={registerHandler}
+                            style={styles.registerButton}
+                        >
+                            <Text style={styles.registerButtonText}>
+                                Register
+                            </Text>
+                        </Pressable>
+                        <Pressable
+                            onPress={loginHandler}
+                            style={styles.loginButton}
+                        >
+                            <Text style={styles.loginButtonText}>Login</Text>
+                        </Pressable>
+                    </View>
                 </Animated.View>
                 <Animated.View
                     style={[
@@ -173,15 +201,15 @@ export default function LoginScreen() {
                         style={[styles.formButton, formButtonAnimatedStyle]}
                     >
                         <Pressable
-                            onPress={() =>
-                                (formButtonScale.value = withSequence(
-                                    withSpring(1.5),
-                                    withSpring(1)
-                                ))
-                            }
+                        // onPress={() =>
+                        //     (formButtonScale.value = withSequence(
+                        //         withSpring(1.5),
+                        //         withSpring(1)
+                        //     ))
+                        // }
                         >
                             <Text style={styles.buttonText}>
-                                {isRegistering ? "REGISTER" : "LOG IN"}
+                                {isRegistering ? "Register" : "Login"}
                             </Text>
                         </Pressable>
                     </Animated.View>
@@ -197,54 +225,107 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
         backgroundColor: "white",
     },
+    logo: {
+        position: "absolute",
+        top: 50,
+        right: 15,
+        zIndex: 100,
+    },
+    promoText: {
+        position: "absolute",
+        bottom: 100,
+        left: 15,
+        zIndex: 100,
+    },
+    standardText: {
+        fontSize: 30,
+        fontFamily: "Poppins_300Light",
+        color: "#F3F8FF",
+    },
+    highlightedText: {
+        fontFamily: "Poppins_500Medium",
+        fontSize: 30,
+        color: "#007BE2",
+    },
+    buttonContainer: {
+        position: "absolute",
+        bottom: 5,
+        backgroundColor: "#2B363F",
+        margin: 10,
+        height: 70,
+        width: width - 20,
+        borderRadius: 20,
+        display: "flex",
+        alignSelf: "stretch",
+        flexDirection: "row",
+    },
+    loginButton: {
+        alignItems: "center",
+        justifyContent: "center",
+        width: (width - 28) / 2,
+        height: 66,
+        margin: 2,
+        borderRadius: 18,
+        backgroundColor: "white",
+    },
+    registerButton: {
+        alignItems: "center",
+        justifyContent: "center",
+        width: (width - 28) / 2,
+        height: 66,
+        margin: 2,
+        borderRadius: 18,
+        backgroundColor: "#2B363F",
+    },
+    loginButtonText: {
+        color: "#2B363F",
+        fontSize: 20,
+        fontFamily: "Poppins_300Light",
+    },
+    registerButtonText: {
+        color: "white",
+        fontSize: 20,
+        fontFamily: "Poppins_300Light",
+    },
     button: {
         backgroundColor: "rgba(243,248,255,2)",
         height: 45,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 45,
+        borderRadius: 10,
         marginHorizontal: 20,
         marginVertical: 10,
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: "white",
     },
     buttonText: {
-        fontSize: 20,
-        color: "rgba(56,73,86,1)",
+        fontSize: 15,
+        color: "#007BE2",
         letterSpacing: 0.5,
+        fontFamily: "Poppins_400Regular",
     },
     bottomContainer: {
         justifyContent: "center",
         height: height * 0.38,
     },
     textInput: {
-        height: 40,
-        borderWidth: 1,
-        borderColor: "rgba(0,0,0,0.1)",
-        backgroundColor: "rgba(243,248,255,2)",
+        height: 45,
+        backgroundColor: "#F3F8FF",
         marginHorizontal: 20,
         marginVertical: 10,
-        borderRadius: 25,
+        borderRadius: 10,
         paddingLeft: 10,
+        fontFamily: "Poppins_400Regular",
     },
     formButton: {
-        backgroundColor: "rgba(243,248,255,2)",
         height: 45,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 45,
+        borderRadius: 10,
         marginHorizontal: 20,
         marginVertical: 10,
-        borderWidth: 1,
-        borderColor: "white",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 7,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+        borderWidth: 2,
+        borderColor: "#007BE2",
     },
     formInputContainer: {
         marginBottom: 70,
