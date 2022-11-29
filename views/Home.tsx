@@ -11,6 +11,7 @@ import { CategoryCode } from "../models/CategoryCode";
 import HeaderRow from "../components/HomeHeaderComponent";
 import NotificationContainer from "../components/NotificationContainerComponent";
 import RestaurantMapView from "../components/RestaurantMapViewComponent";
+import Animated, { FadeInLeft } from "react-native-reanimated";
 
 export default function HomeScreen({ navigation }: any) {
     const [weatherData, setWeatherData] = React.useState("");
@@ -51,25 +52,31 @@ export default function HomeScreen({ navigation }: any) {
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
-            <ExpoStatusBar backgroundColor="#FBFDFF" style="dark" />
+            <ExpoStatusBar backgroundColor="transparent" style="dark" />
             <HeaderRow navigation={navigation} />
             <View style={styles.weatherRowContainer}>
                 <WeatherTempImage></WeatherTempImage>
-                <View style={styles.weatherDescriptionContainer}>
+                <Animated.View
+                    entering={FadeInLeft.duration(400)}
+                    style={styles.weatherDescriptionContainer}
+                >
                     <Text style={styles.weatherDescriptionText}>
                         Hi Marco 👋{"\n"}It's a {weatherData} day
                     </Text>
-                </View>
+                </Animated.View>
             </View>
             <NotificationContainer />
-            <View style={styles.mapContainerRow}>
+            <Animated.View
+                entering={FadeInLeft.delay(800).duration(400)}
+                style={styles.mapContainerRow}
+            >
                 <View style={styles.mapContainer}>
                     <RestaurantMapView
                         location={location}
                         restaurants={restaurants}
                     />
                 </View>
-            </View>
+            </Animated.View>
         </SafeAreaView>
     );
 }

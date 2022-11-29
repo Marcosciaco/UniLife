@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import MapView, { Callout, Marker, PROVIDER_DEFAULT } from "react-native-maps";
 
 export default function RestaurantMapView({ location, restaurants }: any) {
@@ -30,17 +30,7 @@ export default function RestaurantMapView({ location, restaurants }: any) {
                     title={restaurant.Detail.de.Title}
                 >
                     <Callout tooltip={true}>
-                        <View
-                            style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                backgroundColor: "#FBFDFF",
-                                borderRadius: 15,
-                                padding: 10,
-                            }}
-                        >
+                        <View style={styles.tooltipContainer}>
                             <Text
                                 style={{
                                     fontFamily: "Poppins_400Regular",
@@ -56,3 +46,15 @@ export default function RestaurantMapView({ location, restaurants }: any) {
         </MapView>
     );
 }
+
+export const styles = StyleSheet.create({
+    tooltipContainer: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#FBFDFF",
+        borderRadius: 15,
+        padding: 10,
+    },
+});

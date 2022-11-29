@@ -6,7 +6,6 @@ import {
     Dimensions,
     TextInput,
     Pressable,
-    KeyboardAvoidingView,
 } from "react-native";
 import Svg, { Image, Ellipse, ClipPath } from "react-native-svg";
 import Animated, {
@@ -15,9 +14,6 @@ import Animated, {
     interpolate,
     withTiming,
     withDelay,
-    withSequence,
-    withSpring,
-    color,
 } from "react-native-reanimated";
 import CloseIcon from "../assets/icons/close";
 import LogoIcon from "../assets/icons/logo";
@@ -33,7 +29,7 @@ export default function LoginScreen() {
         const interpolation = interpolate(
             imagePosition.value,
             [0, 1],
-            [-height * 0.52, 0]
+            [-height * 0.57, 0]
         );
         return {
             transform: [
@@ -200,14 +196,7 @@ export default function LoginScreen() {
                     <Animated.View
                         style={[styles.formButton, formButtonAnimatedStyle]}
                     >
-                        <Pressable
-                        // onPress={() =>
-                        //     (formButtonScale.value = withSequence(
-                        //         withSpring(1.5),
-                        //         withSpring(1)
-                        //     ))
-                        // }
-                        >
+                        <Pressable>
                             <Text style={styles.buttonText}>
                                 {isRegistering ? "Register" : "Login"}
                             </Text>
@@ -296,11 +285,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         marginVertical: 10,
         borderWidth: 2,
-        borderColor: "white",
     },
     buttonText: {
         fontSize: 15,
-        color: "#007BE2",
+        color: "#F3F8FF",
         letterSpacing: 0.5,
         fontFamily: "Poppins_400Regular",
     },
@@ -324,8 +312,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginHorizontal: 20,
         marginVertical: 10,
-        borderWidth: 2,
-        borderColor: "#007BE2",
+        backgroundColor: "#007BE2",
     },
     formInputContainer: {
         marginBottom: 70,

@@ -1,5 +1,6 @@
 import React from "react";
 import { ImageBackground, View, Text } from "react-native";
+import Animated, { FadeInLeft } from "react-native-reanimated";
 
 type WeatherResponse = {
     Id: number;
@@ -80,45 +81,47 @@ export function WeatherTempImage() {
     const img: WeatherImage = getWeatherImage(weatherDesc);
 
     return (
-        <ImageBackground
-            source={img}
-            style={{
-                width: 120,
-                height: 120,
-                elevation: 1,
-                borderRadius: 15,
-                overflow: "hidden",
-            }}
-            imageStyle={{ borderRadius: 15 }}
-        >
-            <View
+        <Animated.View entering={FadeInLeft.duration(400)}>
+            <ImageBackground
+                source={img}
                 style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    justifyContent: "center",
-                    alignItems: "center",
+                    width: 120,
+                    height: 120,
+                    elevation: 1,
+                    borderRadius: 15,
+                    overflow: "hidden",
                 }}
+                imageStyle={{ borderRadius: 15 }}
             >
-                <Text
+                <View
                     style={{
-                        fontFamily: "Poppins_200ExtraLight",
-                        fontStyle: "normal",
-                        fontSize: 55,
-                        lineHeight: 120,
-                        width: 120,
-                        height: 120,
-                        textAlign: "center",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        justifyContent: "center",
                         alignItems: "center",
-                        color: "#FFFFFF",
-                        backgroundColor: "rgba(0, 0, 0, 0.1)",
                     }}
                 >
-                    {weatherData?.MaxTemp}°
-                </Text>
-            </View>
-        </ImageBackground>
+                    <Text
+                        style={{
+                            fontFamily: "Poppins_200ExtraLight",
+                            fontStyle: "normal",
+                            fontSize: 55,
+                            lineHeight: 120,
+                            width: 120,
+                            height: 120,
+                            textAlign: "center",
+                            alignItems: "center",
+                            color: "#FFFFFF",
+                            backgroundColor: "rgba(0, 0, 0, 0.1)",
+                        }}
+                    >
+                        {weatherData?.MaxTemp}°
+                    </Text>
+                </View>
+            </ImageBackground>
+        </Animated.View>
     );
 }

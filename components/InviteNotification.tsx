@@ -35,16 +35,8 @@ export function InviteNotification({
         >
             <View style={styles.container}>
                 <MailIcon color={"#2B363F"} height={30} width={30}></MailIcon>
-                <Text
-                    style={styles.inviteText}
-                >
-                    Invite by{" "}
-                </Text>
-                <Text
-                    style={styles.inviteName}
-                >
-                    {person}
-                </Text>
+                <Text style={styles.inviteText}>Invite by </Text>
+                <Text style={styles.inviteName}>{person}</Text>
                 <Text style={{ fontFamily: "Poppins_400Regular" }}>
                     {" "}
                     for a {type}.
