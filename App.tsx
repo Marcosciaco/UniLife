@@ -27,7 +27,11 @@ import DrinkIcon from "./assets/icons/drink";
 import HomeIcon from "./assets/icons/home";
 import MensaIcon from "./assets/icons/mensa";
 import PinIcon from "./assets/icons/pin";
+<<<<<<< Updated upstream
 import LoginScreen from "./views/Login";
+=======
+import ProfileScreen from "./views/Profile";
+>>>>>>> Stashed changes
 
 const Drawer = createDrawerNavigator();
 
@@ -106,8 +110,13 @@ export default function App() {
                     }}
                 />
                 <Drawer.Screen
+<<<<<<< Updated upstream
                     name="Login"
                     component={LoginScreen}
+=======
+                    name="Profile"
+                    component={ProfileScreen}
+>>>>>>> Stashed changes
                     options={{
                         drawerIcon: ({ color }) => (
                             <PinIcon color={color} height={20} width={20} />
