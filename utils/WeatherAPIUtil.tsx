@@ -54,13 +54,13 @@ export function getWeatherImage(weatherData: string) {
 
     weatherData = weatherData.toLowerCase();
 
-    if (weatherData.includes("sunny")) {
+    if (weatherData.includes("sun")) {
         return WeatherImage.Sunny;
-    } else if (weatherData.includes("cloudy")) {
+    } else if (weatherData.includes("cloud")) {
         return WeatherImage.Cloudy;
-    } else if (weatherData.includes("rainy")) {
+    } else if (weatherData.includes("rain")) {
         return WeatherImage.Rainy;
-    } else if (weatherData.includes("snowy")) {
+    } else if (weatherData.includes("snow")) {
         return WeatherImage.Snowy;
     } else {
         return WeatherImage.Sunny;
