@@ -7,9 +7,11 @@ import {
     Pressable,
 } from "react-native";
 import { useState } from "react";
-import { Poppins_400Regular } from "@expo-google-fonts/poppins";
+import { auth } from "../utils/Firebase";
 const imgProfile = {
-    uri: "https://www.nelsalento.com/wp-content/uploads/2018/02/Grotta-Verde-di-Andrano1.jpg.webp",
+    uri:
+        auth.currentUser?.photoURL ||
+        "https://www.nelsalento.com/wp-content/uploads/2018/02/Grotta-Verde-di-Andrano1.jpg.webp",
 };
 
 export function FollowButton(props: any) {
@@ -36,9 +38,11 @@ export default function ProfileScreen({ navigation }: any) {
                 source={imgProfile}
                 resizeMode="cover"
             >
-                <Text style={styles.title}>Marco Sciacovelli</Text>
+                <Text style={styles.title}>
+                    {auth.currentUser?.displayName}
+                </Text>
                 <Text style={styles.subtitle}>
-                    Bolzano Italy / Computer Science 3rd year{" "}
+                    Bolzano Italy / Computer Science 3rd year
                 </Text>
                 <FollowButton onPress={() => null} />
             </ImageBackground>
@@ -55,7 +59,7 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 10,
-        height: 66,
+        height: 50,
         margin: 20,
         elevation: 3,
         backgroundColor: "#2B363F",
