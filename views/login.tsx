@@ -28,6 +28,7 @@ export default function LoginScreen({ navigation }: any) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [studentId, setStudentId] = useState("");
+    const [displayName, setDisplayName] = useState("");
 
     const imageAnimatedStyle = useAnimatedStyle(() => {
         const interpolation = interpolate(
@@ -178,6 +179,7 @@ export default function LoginScreen({ navigation }: any) {
                             placeholder="Username"
                             placeholderTextColor="black"
                             style={styles.textInput}
+                            onChangeText={(text) => setDisplayName(text)}
                         />
                     )}
                     {isRegistering && (
@@ -211,7 +213,8 @@ export default function LoginScreen({ navigation }: any) {
                                               email,
                                               password,
                                               studentId,
-                                              navigation
+                                              navigation,
+                                              displayName
                                           )
                                     : () => login(email, password, navigation)
                             }

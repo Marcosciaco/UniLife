@@ -3,10 +3,18 @@ import {
     DrawerItemList,
 } from "@react-navigation/drawer";
 import React from "react";
-import { View, ImageBackground, Image, Text, StyleSheet } from "react-native";
+import {
+    View,
+    ImageBackground,
+    Image,
+    Text,
+    StyleSheet,
+    Pressable,
+} from "react-native";
 import { auth } from "../utils/Firebase";
+import { logout } from "../utils/UserService";
 
-export function CustomDrawerContent(props: any) {
+export function CustomDrawerContent(props: any, { navigation }: any) {
     const [user, setUser] = React.useState<any>(null);
 
     React.useEffect(() => {
@@ -28,8 +36,13 @@ export function CustomDrawerContent(props: any) {
                         source={{ uri: user?.photoURL }}
                         style={styles.profilePic}
                     />
-                    <Text style={styles.profileName}>John Doe</Text>
+                    <Text style={styles.profileName}>
+                        {auth.currentUser?.displayName}
+                    </Text>
                 </ImageBackground>
+                <Pressable onPress={() => logout(navigation)}>
+                    <Text>Logout</Text>
+                </Pressable>
                 <View style={styles.drawerContent}>
                     <DrawerItemList {...props} />
                 </View>

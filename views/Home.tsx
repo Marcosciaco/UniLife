@@ -12,6 +12,7 @@ import HeaderRow from "../components/HomeHeaderComponent";
 import NotificationContainer from "../components/NotificationContainerComponent";
 import RestaurantMapView from "../components/RestaurantMapViewComponent";
 import Animated, { FadeInLeft } from "react-native-reanimated";
+import { auth } from "../utils/Firebase";
 
 export default function HomeScreen({ navigation }: any) {
     const [weatherData, setWeatherData] = React.useState("");
@@ -61,7 +62,8 @@ export default function HomeScreen({ navigation }: any) {
                     style={styles.weatherDescriptionContainer}
                 >
                     <Text style={styles.weatherDescriptionText}>
-                        Hi Marco 👋{"\n"}It's a {weatherData} day
+                        Hi {auth.currentUser?.displayName} 👋{"\n"}It's a{" "}
+                        {weatherData} day
                     </Text>
                 </Animated.View>
             </View>

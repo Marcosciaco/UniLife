@@ -29,10 +29,22 @@ import LoginScreen from "./views/Login";
 import ProfileScreen from "./views/Profile";
 import SettingsScreen from "./views/Settings";
 import AllUsersScreen from "./views/AllUsers";
+import { auth } from "./utils/Firebase";
+import { User } from "firebase/auth";
 
 const Drawer = createDrawerNavigator();
 
 export default function App() {
+    const [user, setUser] = React.useState<User>();
+
+    React.useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                setUser(user);
+            }
+        });
+    }, []);
+
     const [fontsLoaded] = useFonts({
         Poppins_900Black,
         Poppins_800ExtraBold,
@@ -61,87 +73,124 @@ export default function App() {
                     },
                 }}
             >
-                <Drawer.Screen
-                    name="Home"
-                    component={HomeScreen}
-                    options={{
-                        drawerIcon: ({ color }) => (
-                            <HomeIcon color={color} height={20} width={20} />
-                        ),
-                    }}
-                />
-                <Drawer.Screen
-                    name="Rooms"
-                    component={RoomsScreen}
-                    options={{
-                        drawerIcon: ({ color }) => (
-                            <DoorIcon color={color} height={20} width={20} />
-                        ),
-                    }}
-                />
-                <Drawer.Screen
-                    name="Mensa"
-                    component={MensaScreen}
-                    options={{
-                        drawerIcon: ({ color }) => (
-                            <MensaIcon color={color} height={20} width={20} />
-                        ),
-                    }}
-                />
-                <Drawer.Screen
-                    name="Socialize"
-                    component={SocializeScreen}
-                    options={{
-                        drawerIcon: ({ color }) => (
-                            <DrinkIcon color={color} height={20} width={20} />
-                        ),
-                    }}
-                />
-                <Drawer.Screen
-                    name="Get to university"
-                    component={ToUniScreen}
-                    options={{
-                        drawerIcon: ({ color }) => (
-                            <PinIcon color={color} height={20} width={20} />
-                        ),
-                    }}
-                />
-                <Drawer.Screen
-                    name="Profile"
-                    component={ProfileScreen}
-                    options={{
-                        drawerIcon: ({ color }) => (
-                            <PinIcon color={color} height={20} width={20} />
-                        ),
-                    }}
-                />
-                <Drawer.Screen
-                    name="Settings"
-                    component={SettingsScreen}
-                    options={{
-                        drawerIcon: ({ color }) => (
-                            <PinIcon color={color} height={20} width={20} />
-                        ),
-                    }}
-                />
-                <Drawer.Screen
-                    name="AllUsers"
-                    component={AllUsersScreen}
-                    options={{
-                        drawerIcon: ({ color }) => (
-                            <PinIcon color={color} height={20} width={20} />
-                        ),
-                    }}
-                />
-                <Drawer.Screen
-                    name="Login"
-                    component={LoginScreen}
-                    options={{
-                        drawerIcon: ({ color }) => (
-                            <PinIcon color={color} height={20} width={20} />
-                        ),
-                    }}
-                />
+                {user ? (
+                    <>
+                        <Drawer.Screen
+                            name="Home"
+                            component={HomeScreen}
+                            options={{
+                                drawerIcon: ({ color }) => (
+                                    <HomeIcon
+                                        color={color}
+                                        height={20}
+                                        width={20}
+                                    />
+                                ),
+                            }}
+                        />
+                        <Drawer.Screen
+                            name="Rooms"
+                            component={RoomsScreen}
+                            options={{
+                                drawerIcon: ({ color }) => (
+                                    <DoorIcon
+                                        color={color}
+                                        height={20}
+                                        width={20}
+                                    />
+                                ),
+                            }}
+                        />
+                        <Drawer.Screen
+                            name="Mensa"
+                            component={MensaScreen}
+                            options={{
+                                drawerIcon: ({ color }) => (
+                                    <MensaIcon
+                                        color={color}
+                                        height={20}
+                                        width={20}
+                                    />
+                                ),
+                            }}
+                        />
+                        <Drawer.Screen
+                            name="Socialize"
+                            component={SocializeScreen}
+                            options={{
+                                drawerIcon: ({ color }) => (
+                                    <DrinkIcon
+                                        color={color}
+                                        height={20}
+                                        width={20}
+                                    />
+                                ),
+                            }}
+                        />
+                        <Drawer.Screen
+                            name="Get to university"
+                            component={ToUniScreen}
+                            options={{
+                                drawerIcon: ({ color }) => (
+                                    <PinIcon
+                                        color={color}
+                                        height={20}
+                                        width={20}
+                                    />
+                                ),
+                            }}
+                        />
+                        <Drawer.Screen
+                            name="Profile"
+                            component={ProfileScreen}
+                            options={{
+                                drawerIcon: ({ color }) => (
+                                    <PinIcon
+                                        color={color}
+                                        height={20}
+                                        width={20}
+                                    />
+                                ),
+                            }}
+                        />
+                        <Drawer.Screen
+                            name="Settings"
+                            component={SettingsScreen}
+                            options={{
+                                drawerIcon: ({ color }) => (
+                                    <PinIcon
+                                        color={color}
+                                        height={20}
+                                        width={20}
+                                    />
+                                ),
+                            }}
+                        />
+                        <Drawer.Screen
+                            name="AllUsers"
+                            component={AllUsersScreen}
+                            options={{
+                                drawerIcon: ({ color }) => (
+                                    <PinIcon
+                                        color={color}
+                                        height={20}
+                                        width={20}
+                                    />
+                                ),
+                            }}
+                        />
+                    </>
+                ) : (
+                    <Drawer.Screen
+                        name="Login"
+                        component={LoginScreen}
+                        options={{
+                            drawerIcon: ({ color }) => (
+                                <PinIcon color={color} height={20} width={20} />
+                            ),
+                        }}
+                    />
+                )}
             </Drawer.Navigator>
         </NavigationContainer>
     );

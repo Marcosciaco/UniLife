@@ -1,6 +1,7 @@
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    updateProfile,
     User as FirebaseUser,
 } from "firebase/auth";
 import {
@@ -18,10 +19,16 @@ export function register(
     email: string,
     password: string,
     studentId: string,
-    navigation: any
+    navigation: any,
+    displayName: string
 ) {
     createUserWithEmailAndPassword(auth, email, password)
         .then((user) => {
+            if (auth.currentUser) {
+                updateProfile(auth.currentUser, {
+                    displayName: displayName,
+                });
+            }
             addUserToDB(user.user, studentId);
             navigation.navigate("Home");
         })
@@ -78,11 +85,12 @@ export function isLoggedIn() {
     return auth.currentUser != null;
 }
 
-export function logout() {
+export function logout(navigation: any) {
     updateDoc(doc(db, "users", getUserEmail() || ""), {
         isOnline: false,
     }).then(() => {
         auth.signOut();
+        navigation.navigate("Login");
     });
 }
 
