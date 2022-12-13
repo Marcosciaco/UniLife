@@ -28,6 +28,7 @@ import PinIcon from "./assets/icons/pin";
 import LoginScreen from "./views/Login";
 import ProfileScreen from "./views/Profile";
 import SettingsScreen from "./views/Settings";
+import AllUsersScreen from "./views/AllUsers";
 
 const Drawer = createDrawerNavigator();
 
@@ -117,6 +118,15 @@ export default function App() {
                 <Drawer.Screen
                     name="Settings"
                     component={SettingsScreen}
+                    options={{
+                        drawerIcon: ({ color }) => (
+                            <PinIcon color={color} height={20} width={20} />
+                        ),
+                    }}
+                />
+                <Drawer.Screen
+                    name="AllUsers"
+                    component={AllUsersScreen}
                     options={{
                         drawerIcon: ({ color }) => (
                             <PinIcon color={color} height={20} width={20} />

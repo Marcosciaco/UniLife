@@ -1,9 +1,19 @@
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    User,
+    User as FirebaseUser,
 } from "firebase/auth";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    query,
+    setDoc,
+    updateDoc,
+    where,
+} from "firebase/firestore";
+import { User } from "../models/User";
 import { auth, db } from "./Firebase";
 
 export function register(email: string, password: string, studentId: string) {
@@ -16,7 +26,7 @@ export function getUserEmail() {
     return auth.currentUser?.email;
 }
 
-async function addUserToDB(user: User, studentId: string) {
+async function addUserToDB(user: FirebaseUser, studentId: string) {
     setDoc(doc(db, "users", user.email || ""), {
         uid: user.uid,
         displayName: user.displayName,
@@ -43,7 +53,7 @@ export function login(email: string, password: string) {
     });
 }
 
-async function updateUserInDB(user: User) {
+async function updateUserInDB(user: FirebaseUser) {
     updateDoc(doc(db, "users", user.email || ""), {
         isOnline: true,
     }).then((docRef) => {
@@ -75,4 +85,15 @@ export function followUser(email: string) {
             });
         }
     });
+}
+
+export async function getAllUsers() {
+    const users: User[] = [];
+
+    const querySnapshot = await getDocs(collection(db, "users"));
+    querySnapshot.forEach((doc) => {
+        users.push(doc.data() as User);
+    });
+
+    return users;
 }

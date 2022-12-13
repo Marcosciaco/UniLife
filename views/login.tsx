@@ -27,6 +27,7 @@ export default function LoginScreen() {
     const [isRegistering, setIsRegistering] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [studentId, setStudentId] = useState("");
 
     const imageAnimatedStyle = useAnimatedStyle(() => {
         const interpolation = interpolate(
@@ -184,6 +185,7 @@ export default function LoginScreen() {
                             placeholder="Student-Id"
                             placeholderTextColor="black"
                             style={styles.textInput}
+                            onChangeText={(text) => setStudentId(text)}
                         />
                     )}
                     <TextInput
@@ -204,7 +206,7 @@ export default function LoginScreen() {
                         <Pressable
                             onPress={
                                 isRegistering
-                                    ? () => register(email, password)
+                                    ? () => register(email, password, studentId)
                                     : () => login(email, password)
                             }
                         >
