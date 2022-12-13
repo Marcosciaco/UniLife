@@ -21,7 +21,7 @@ import { login, register } from "../utils/UserService";
 
 const { height, width } = Dimensions.get("window");
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }: any) {
     const imagePosition = useSharedValue(1);
     const formButtonScale = useSharedValue(1);
     const [isRegistering, setIsRegistering] = useState(false);
@@ -206,8 +206,14 @@ export default function LoginScreen() {
                         <Pressable
                             onPress={
                                 isRegistering
-                                    ? () => register(email, password, studentId)
-                                    : () => login(email, password)
+                                    ? () =>
+                                          register(
+                                              email,
+                                              password,
+                                              studentId,
+                                              navigation
+                                          )
+                                    : () => login(email, password, navigation)
                             }
                         >
                             <Text style={styles.buttonText}>

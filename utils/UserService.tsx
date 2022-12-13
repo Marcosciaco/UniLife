@@ -8,18 +8,26 @@ import {
     doc,
     getDoc,
     getDocs,
-    query,
     setDoc,
     updateDoc,
-    where,
 } from "firebase/firestore";
 import { User } from "../models/User";
 import { auth, db } from "./Firebase";
 
-export function register(email: string, password: string, studentId: string) {
-    createUserWithEmailAndPassword(auth, email, password).then((user) => {
-        addUserToDB(user.user, studentId);
-    });
+export function register(
+    email: string,
+    password: string,
+    studentId: string,
+    navigation: any
+) {
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((user) => {
+            addUserToDB(user.user, studentId);
+            navigation.navigate("Home");
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 }
 
 export function getUserEmail() {
@@ -42,22 +50,27 @@ async function addUserToDB(user: FirebaseUser, studentId: string) {
         studentId: studentId,
         followers: "",
         isOnline: true,
-    }).then((docRef) => {
-        console.log("Document written with ID: ", docRef);
+    }).catch((error) => {
+        console.error("Error adding document: ", error);
     });
 }
 
-export function login(email: string, password: string) {
-    signInWithEmailAndPassword(auth, email, password).then((user) => {
-        updateUserInDB(user.user);
-    });
+export function login(email: string, password: string, navigation: any) {
+    signInWithEmailAndPassword(auth, email, password)
+        .then((user) => {
+            updateUserInDB(user.user);
+            navigation.navigate("Home");
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 }
 
 async function updateUserInDB(user: FirebaseUser) {
     updateDoc(doc(db, "users", user.email || ""), {
         isOnline: true,
-    }).then((docRef) => {
-        console.log("Document written with ID: ", docRef);
+    }).catch((error) => {
+        console.error("Error adding document: ", error);
     });
 }
 
