@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Button, Image, View, Platform, Alert, Text } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { db, storage } from "../utils/Firebase";
+import { auth, db, storage } from "../utils/Firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import { getUserEmail } from "../utils/UserService";
+import { updateProfile } from "firebase/auth";
 
 export default function SettingsScreen() {
     const [image, setImage] = useState("");
@@ -42,6 +43,11 @@ export default function SettingsScreen() {
                 updateDoc(doc(db, "users", email), {
                     photoURL: downloadURL,
                 });
+                if (auth.currentUser) {
+                    updateProfile(auth.currentUser, {
+                        photoURL: downloadURL,
+                    });
+                }
             });
         });
 

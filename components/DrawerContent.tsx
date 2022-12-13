@@ -4,8 +4,19 @@ import {
 } from "@react-navigation/drawer";
 import React from "react";
 import { View, ImageBackground, Image, Text, StyleSheet } from "react-native";
+import { auth } from "../utils/Firebase";
 
 export function CustomDrawerContent(props: any) {
+    const [user, setUser] = React.useState<any>(null);
+
+    React.useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                setUser(user);
+            }
+        });
+    }, []);
+
     return (
         <View style={styles.container}>
             <DrawerContentScrollView {...props}>
@@ -14,7 +25,7 @@ export function CustomDrawerContent(props: any) {
                     style={styles.profilePicBackground}
                 >
                     <Image
-                        source={require("../assets/images/user-profile.jpg")}
+                        source={{ uri: user?.photoURL }}
                         style={styles.profilePic}
                     />
                     <Text style={styles.profileName}>John Doe</Text>
