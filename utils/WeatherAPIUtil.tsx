@@ -50,8 +50,6 @@ export default class WeatherAPIUtil {
 }
 
 export function getWeatherImage(weatherData: string) {
-    //TODO Image division should be more precise
-
     weatherData = weatherData.toLowerCase();
 
     if (weatherData.includes("sun")) {

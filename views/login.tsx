@@ -17,13 +17,7 @@ import Animated, {
 } from "react-native-reanimated";
 import CloseIcon from "../assets/icons/close";
 import LogoIcon from "../assets/icons/logo";
-import {
-    createUserWithEmailAndPassword,
-    getAuth,
-    signInWithEmailAndPassword,
-} from "firebase/auth";
-import { addDoc, collection, getFirestore } from "firebase/firestore";
-import { auth, db } from "../App";
+import { login, register } from "../utils/UserService";
 
 const { height, width } = Dimensions.get("window");
 
@@ -33,52 +27,6 @@ export default function LoginScreen() {
     const [isRegistering, setIsRegistering] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
-    const register = (email: string, password: string) => {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                registerUser(user);
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode, errorMessage);
-            });
-    };
-
-    const registerUser = async (user: any) => {
-        try {
-            const docRef = await addDoc(collection(db, "users"), {
-                uid: user.uid,
-                displayName: user.displayName,
-                email: user.email,
-                emailVerified: user.emailVerified,
-                isAnonymous: user.isAnonymous,
-                phoneNumber: user.phoneNumber,
-                photoURL: user.photoURL,
-                providerData: user.providerData,
-                providerId: user.providerId,
-                refreshToken: user.refreshToken,
-                tenantId: user.tenantId,
-            });
-            console.log("Document written with ID: ", docRef.id);
-        } catch (e) {
-            console.error("Error adding document: ", e);
-        }
-    };
-
-    const login = (email: string, password: string) => {
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                console.log(user);
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-            });
-    };
 
     const imageAnimatedStyle = useAnimatedStyle(() => {
         const interpolation = interpolate(
