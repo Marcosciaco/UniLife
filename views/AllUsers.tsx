@@ -17,8 +17,6 @@ export default function AllUsersScreen({ navigation }: any) {
     const [users, setUsers] = React.useState<User[]>([]);
     React.useEffect(() => {
         getAllUsers().then((users) => {
-            console.log(users);
-
             setUsers(users);
         });
     }, []);
