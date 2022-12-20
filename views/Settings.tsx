@@ -20,7 +20,6 @@ export default function SettingsScreen() {
 
         if (!result.canceled) {
             setImage(result.assets[0].uri);
-            uploadImage();
         }
     };
 
@@ -29,6 +28,8 @@ export default function SettingsScreen() {
         const filename = uri.substring(uri.lastIndexOf("/") + 1);
         const uploadUri =
             Platform.OS === "ios" ? uri.replace("file://", "") : uri;
+
+        console.log("uploadUri", uploadUri);
 
         const email = getUserEmail() || "";
         const storageRef = ref(storage, "images/" + filename);
@@ -63,6 +64,7 @@ export default function SettingsScreen() {
         <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
+            <Button title="Upload" onPress={uploadImage} />
             <Button
                 title="Pick an image from camera roll"
                 onPress={pickImage}

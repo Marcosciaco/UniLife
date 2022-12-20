@@ -2,20 +2,15 @@ import {
     DrawerContentScrollView,
     DrawerItemList,
 } from "@react-navigation/drawer";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import {
-    View,
-    ImageBackground,
-    Image,
-    Text,
-    StyleSheet,
-    Pressable,
-} from "react-native";
+import { View, Image, Text, StyleSheet, Pressable } from "react-native";
+import LogoutIcon from "../assets/icons/logout";
 import { auth } from "../utils/Firebase";
-import { logout } from "../utils/UserService";
 
-export function CustomDrawerContent(props: any, { navigation }: any) {
+export function CustomDrawerContent({ ...props }: any) {
     const [user, setUser] = React.useState<any>(null);
+    const navigation = useNavigation();
 
     React.useEffect(() => {
         auth.onAuthStateChanged((user) => {
@@ -25,24 +20,35 @@ export function CustomDrawerContent(props: any, { navigation }: any) {
         });
     }, []);
 
+    const logout = () => {
+        auth.signOut().then(() => {
+            navigation.navigate("Login" as never);
+        });
+    };
+
     return (
         <View style={styles.container}>
             <DrawerContentScrollView {...props}>
-                <ImageBackground
-                    source={require("../assets/images/drawer-background.png")}
-                    style={styles.profilePicBackground}
-                >
-                    <Image
-                        source={{ uri: user?.photoURL }}
-                        style={styles.profilePic}
-                    />
-                    <Text style={styles.profileName}>
-                        {auth.currentUser?.displayName}
-                    </Text>
-                </ImageBackground>
-                <Pressable onPress={() => logout(navigation)}>
-                    <Text>Logout</Text>
-                </Pressable>
+                <View style={styles.header}>
+                    <View>
+                        <Image
+                            source={{ uri: user?.photoURL }}
+                            style={styles.profilePic}
+                        />
+                        <Text style={styles.profileName}>
+                            {auth.currentUser?.displayName}
+                        </Text>
+                    </View>
+                    <View>
+                        <Pressable onPress={logout} style={styles.logout}>
+                            <LogoutIcon
+                                height={20}
+                                width={20}
+                                color="#2B363F"
+                            />
+                        </Pressable>
+                    </View>
+                </View>
                 <View style={styles.drawerContent}>
                     <DrawerItemList {...props} />
                 </View>
@@ -54,6 +60,16 @@ export function CustomDrawerContent(props: any, { navigation }: any) {
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+
+    header: {
+        backgroundColor: "#AECFFF",
+        paddingTop: 10,
+        paddingLeft: 10,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-end",
     },
 
     profilePicBackground: {
@@ -78,5 +94,12 @@ export const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 10,
         height: "100%",
+    },
+
+    logout: {
+        backgroundColor: "#fff",
+        padding: 10,
+        borderRadius: 10,
+        margin: 10,
     },
 });

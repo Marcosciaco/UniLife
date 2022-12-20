@@ -5,18 +5,16 @@ import {
     StyleSheet,
     ImageBackground,
     Pressable,
+    Image,
 } from "react-native";
 import { useState } from "react";
 import { auth } from "../utils/Firebase";
-const imgProfile = {
-    uri:
-        auth.currentUser?.photoURL ||
-        "https://www.nelsalento.com/wp-content/uploads/2018/02/Grotta-Verde-di-Andrano1.jpg.webp",
-};
+import LogoIcon from "../assets/icons/logo";
 
 export function FollowButton(props: any) {
     const { onPress } = props;
     const [following, setFollowing] = useState<boolean>(true);
+
     const buttonText = following ? "Unfollow" : "Follow";
 
     const toggle = () => {
@@ -31,6 +29,16 @@ export function FollowButton(props: any) {
 }
 
 export default function ProfileScreen({ navigation }: any) {
+    const [imgProfile, setImgProfile] = useState<any>({
+        uri: "https://picsum.photos/1920/1080",
+    });
+
+    React.useEffect(() => {
+        if (auth.currentUser?.photoURL) {
+            setImgProfile({ uri: auth.currentUser?.photoURL });
+        }
+    }, []);
+
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -38,19 +46,46 @@ export default function ProfileScreen({ navigation }: any) {
                 source={imgProfile}
                 resizeMode="cover"
             >
-                <Text style={styles.title}>
-                    {auth.currentUser?.displayName}
-                </Text>
-                <Text style={styles.subtitle}>
-                    Bolzano Italy / Computer Science 3rd year
-                </Text>
-                <FollowButton onPress={() => null} />
+                <View style={styles.header}>
+                    <Pressable
+                        onPress={() => {
+                            navigation.openDrawer();
+                        }}
+                    >
+                        <LogoIcon color={"#2B363F"} height={30} width={30} />
+                    </Pressable>
+                    <LogoIcon color={"#2B363F"} width={40} height={40} />
+                </View>
+                {/* <Image source={imgProfile} style={styles.image}></Image> */}
+                <View>
+                    <Text style={styles.title}>
+                        {auth.currentUser?.displayName}
+                    </Text>
+                    <Text style={styles.subtitle}>
+                        Bolzano Italy / Computer Science 3rd year
+                    </Text>
+                    <FollowButton onPress={() => null} />
+                </View>
             </ImageBackground>
         </View>
     );
 }
 
 export const styles = StyleSheet.create({
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        alignSelf: "center",
+        marginTop: 20,
+    },
+    header: {
+        padding: 20,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
     container: {
         flex: 1,
         backgroundColor: "#fff",
@@ -84,6 +119,6 @@ export const styles = StyleSheet.create({
     },
     logo: {
         flex: 1,
-        justifyContent: "flex-end",
+        justifyContent: "space-between",
     },
 });
