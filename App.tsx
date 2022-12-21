@@ -68,7 +68,7 @@ export default function App() {
         <NavigationContainer>
             <Drawer.Navigator
                 drawerContent={(props) => <CustomDrawerContent {...props} />}
-                initialRouteName="Home"
+                initialRouteName={user ? "Home" : "Login"}
                 screenOptions={{
                     headerShown: false,
                     drawerLabelStyle: {
@@ -156,9 +156,7 @@ export default function App() {
                     name="Login"
                     component={LoginScreen}
                     options={{
-                        drawerIcon: ({ color }) => (
-                            <PinIcon color={color} height={20} width={20} />
-                        ),
+                        drawerLabel: () => null,
                     }}
                 />
             </Drawer.Navigator>
