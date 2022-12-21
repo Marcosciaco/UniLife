@@ -20,6 +20,14 @@ export default function HomeScreen({ navigation }: any) {
     const [restaurants, setRestaurants] = useState<GastronomyResponse[]>([]);
 
     React.useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                navigation.navigate("Login" as never);
+            }
+        });
+    }, []);
+
+    React.useEffect(() => {
         WeatherAPIUtil.getWeatherforecast().then((data) => {
             setWeatherData(data.WeatherDesc);
         });

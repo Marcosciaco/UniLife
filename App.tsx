@@ -29,8 +29,6 @@ import LoginScreen from "./views/Login";
 import ProfileScreen from "./views/Profile";
 import SettingsScreen from "./views/Settings";
 import AllUsersScreen from "./views/AllUsers";
-import { auth } from "./utils/Firebase";
-import { User } from "firebase/auth";
 import GroupIcon from "./assets/icons/group";
 import SettingsIcon from "./assets/icons/settings";
 import PersonIcon from "./assets/icons/person";
@@ -38,19 +36,6 @@ import PersonIcon from "./assets/icons/person";
 const Drawer = createDrawerNavigator();
 
 export default function App() {
-    const [user, setUser] = React.useState<User>();
-    const [logged, setLogged] = React.useState<boolean>(false);
-
-    React.useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                setUser(user);
-                setLogged(true);
-                console.log("User logged in");
-            }
-        });
-    }, []);
-
     const [fontsLoaded] = useFonts({
         Poppins_900Black,
         Poppins_800ExtraBold,
@@ -71,7 +56,7 @@ export default function App() {
         <NavigationContainer>
             <Drawer.Navigator
                 drawerContent={(props) => <CustomDrawerContent {...props} />}
-                initialRouteName={logged ? "Home" : "Login"}
+                initialRouteName={"Home"}
                 screenOptions={{
                     headerShown: false,
                     drawerLabelStyle: {
