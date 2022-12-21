@@ -21,7 +21,7 @@ export function register(
     studentId: string,
     navigation: any,
     displayName: string
-) {
+): void {
     createUserWithEmailAndPassword(auth, email, password)
         .then((user) => {
             if (auth.currentUser) {
@@ -29,7 +29,7 @@ export function register(
                     displayName: displayName,
                 });
             }
-            addUserToDB(user.user, studentId);
+            addUserToDB(user.user, studentId, displayName);
             navigation.navigate("Home");
         })
         .catch((error) => {
@@ -37,14 +37,18 @@ export function register(
         });
 }
 
-export function getUserEmail() {
-    return auth.currentUser?.email;
+export function getUserEmail(): string {
+    return auth.currentUser?.email || "";
 }
 
-async function addUserToDB(user: FirebaseUser, studentId: string) {
+async function addUserToDB(
+    user: FirebaseUser,
+    studentId: string,
+    displayName: string
+): Promise<void> {
     setDoc(doc(db, "users", user.email || ""), {
         uid: user.uid,
-        displayName: user.displayName,
+        displayName: displayName,
         email: user.email,
         emailVerified: user.emailVerified,
         isAnonymous: user.isAnonymous,
@@ -62,7 +66,7 @@ async function addUserToDB(user: FirebaseUser, studentId: string) {
     });
 }
 
-export function login(email: string, password: string, navigation: any) {
+export function login(email: string, password: string, navigation: any): void {
     signInWithEmailAndPassword(auth, email, password)
         .then((user) => {
             updateUserInDB(user.user);
@@ -73,7 +77,7 @@ export function login(email: string, password: string, navigation: any) {
         });
 }
 
-async function updateUserInDB(user: FirebaseUser) {
+async function updateUserInDB(user: FirebaseUser): Promise<void> {
     updateDoc(doc(db, "users", user.email || ""), {
         isOnline: true,
     }).catch((error) => {
@@ -81,11 +85,11 @@ async function updateUserInDB(user: FirebaseUser) {
     });
 }
 
-export function isLoggedIn() {
+export function isLoggedIn(): boolean {
     return auth.currentUser != null;
 }
 
-export function logout(navigation: any) {
+export function logout(navigation: any): void {
     updateDoc(doc(db, "users", getUserEmail() || ""), {
         isOnline: false,
     }).then(() => {
@@ -98,7 +102,7 @@ export function getCurrentUser() {
     return getDoc(doc(db, "users", getUserEmail() || ""));
 }
 
-export function followUser(email: string) {
+export function followUser(email: string): void {
     getDoc(doc(db, "users", email)).then((resp) => {
         if (resp.exists()) {
             updateDoc(doc(db, "users", email), {
@@ -108,7 +112,7 @@ export function followUser(email: string) {
     });
 }
 
-export async function getAllUsers() {
+export async function getAllUsers(): Promise<User[]> {
     const users: User[] = [];
 
     const querySnapshot = await getDocs(collection(db, "users"));
