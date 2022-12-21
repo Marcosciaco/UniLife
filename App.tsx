@@ -159,9 +159,7 @@ export default function App() {
                     name="Login"
                     component={LoginScreen}
                     options={{
-                        drawerIcon: ({ color }) => (
-                            <PinIcon color={color} height={20} width={20} />
-                        ),
+                        drawerLabel: () => null,
                     }}
                 />
             </Drawer.Navigator>
