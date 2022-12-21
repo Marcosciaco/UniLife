@@ -41,13 +41,12 @@ export default function RoomListEntry({
         <Animated.View entering={FadeInLeft.delay(delay)} style={styles.row}>
             <Pressable style={styles.rowContainer}>
                 <View style={styles.slotRoom}>
-                    <Text>
-                        {room.room.campus} {room.room.building}
-                        {room.room.name}
+                    <Text style={styles.slotRoomText}>
+                        {room.room.campus} {room.room.building} {room.room.name}
                     </Text>
                 </View>
                 <View style={styles.slotTime}>
-                    <Text>
+                    <Text style={styles.slotTimeText} numberOfLines={1}>
                         {getHour(actual.start) === "1:00"
                             ? "Opening"
                             : getHour(actual.start)}
@@ -55,7 +54,10 @@ export default function RoomListEntry({
                         {getHour(actual.end) === "1:00"
                             ? "Closing"
                             : getHour(actual.end)}
-                        {!available ? " - " + actual.description : ""}
+                        {!available
+                            ? " - " +
+                              (actual.description || "No description found")
+                            : ""}
                     </Text>
                 </View>
                 {available ? (
@@ -121,21 +123,24 @@ export const styles = StyleSheet.create({
         boxShadow: "0px 0px 5px rgba(56, 73, 86, 0.1)",
     },
     slotRoom: {
-        fontSize: 20,
-        fontFamily: "Poppins_600SemiBold",
         paddingRight: 5,
         marginLeft: 5,
         borderRightWidth: 1,
+        width: 80,
         borderRightColor: "#2B363F",
         borderRightStyle: "solid",
-        minWidth: "10%",
-        textAlign: "center",
+    },
+    slotRoomText: {
+        fontSize: 15,
+        fontFamily: "Poppins_600SemiBold",
     },
     slotTime: {
-        maxWidth: "65%",
-        fontSize: 20,
+        width: "50%",
+    },
+    slotTimeText: {
+        maxWidth: "100%",
+        fontSize: 12,
         fontFamily: "Poppins_600SemiBold",
-        textAlign: "center",
         textOverflow: "ellipsis",
         overflow: "hidden",
         whiteSpace: "nowrap",
