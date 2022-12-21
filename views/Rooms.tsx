@@ -7,18 +7,55 @@ import {
     FlatList,
     Pressable,
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FilterIcon from "../assets/icons/filter";
-import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
 import RoomListEntry from "../components/RoomListEntry";
 import { RoomSlot } from "../models/RoomSlot";
+import Dialog from "react-native-dialog";
 
 export default function RoomsScreen({ navigation }: any) {
     const [data, setData] = React.useState([]);
+    const [notFilteredData, setNotFilteredData] = React.useState([]);
+
+    const [visible, setVisible] = React.useState(false);
+
+    const [campus, setCampus] = React.useState("All");
+    const [campuses, setCampuses] = React.useState<string[]>([]);
+
+    const [building, setBuilding] = React.useState("All");
+    const [buildings, setBuildings] = React.useState<string[]>([]);
+
+    React.useEffect(() => {
+        if (campus === "All" && building === "All") {
+            setData(notFilteredData);
+        } else if (campus !== "All" && building === "All") {
+            setData(
+                notFilteredData.filter(
+                    (room: RoomSlot) => room.room.campus === campus
+                )
+            );
+        } else if (campus === "All" && building !== "All") {
+            setData(
+                notFilteredData.filter(
+                    (room: RoomSlot) => room.room.building === building
+                )
+            );
+        } else {
+            setData(
+                notFilteredData.filter(
+                    (room: RoomSlot) =>
+                        room.room.campus === campus &&
+                        room.room.building === building
+                )
+            );
+        }
+    }, [campus, building]);
 
     const fetchData = async () => {
+        const c: string[] = ["All"];
+        const b: string[] = ["All"];
+
         const response = await fetch(
             "https://europe-west1-unibz-room-finder.cloudfunctions.net/roomsTimeSlots"
         );
@@ -29,9 +66,18 @@ export default function RoomsScreen({ navigation }: any) {
         da.forEach((room) => {
             room.room.id =
                 room.room.campus + "_" + room.room.building + room.room.name;
+            if (!c.includes(room.room.campus)) {
+                c.push(room.room.campus);
+            }
+            if (!b.includes(room.room.building) && room.room.building !== "") {
+                b.push(room.room.building);
+            }
         });
 
         setData(data.data);
+        setNotFilteredData(data.data);
+        setCampuses(c);
+        setBuildings(b);
     };
 
     React.useEffect(() => {
@@ -50,9 +96,102 @@ export default function RoomsScreen({ navigation }: any) {
                         <MenuIcon height={30} width={30} color="#2B363F" />
                     </Pressable>
                     <Text style={styles.title}>Rooms</Text>
-                    <Pressable>
+                    <Pressable onPress={() => setVisible(true)}>
                         <FilterIcon height={30} width={30} color="#2B363F" />
                     </Pressable>
+                    <Dialog.Container
+                        visible={visible}
+                        contentStyle={{
+                            borderRadius: 20,
+                        }}
+                        onBackdropPress={() => setVisible(false)}
+                    >
+                        <Dialog.Title style={styles.filterTitle}>
+                            Filter
+                        </Dialog.Title>
+                        <Dialog.Description
+                            style={{
+                                flexDirection: "row",
+                                width: "80%",
+                                flexWrap: "wrap",
+                            }}
+                        >
+                            <View>
+                                <Text style={styles.filterCampusText}>
+                                    Campus
+                                </Text>
+                                <View style={styles.filterCampus}>
+                                    {campuses.map((ca) => (
+                                        <Pressable
+                                            key={ca}
+                                            onPress={() => {
+                                                setCampus(ca);
+                                            }}
+                                            style={[
+                                                styles.category,
+                                                {
+                                                    borderColor:
+                                                        ca === campus
+                                                            ? "#007BE2"
+                                                            : "#E5E5E5",
+                                                },
+                                            ]}
+                                        >
+                                            <Text
+                                                style={[
+                                                    styles.filterCampusText,
+                                                    {
+                                                        color:
+                                                            ca === campus
+                                                                ? "#007BE2"
+                                                                : "#E5E5E5",
+                                                    },
+                                                ]}
+                                            >
+                                                {ca}
+                                            </Text>
+                                        </Pressable>
+                                    ))}
+                                </View>
+                                <Text style={styles.filterCampusText}>
+                                    Building
+                                </Text>
+                                <View style={styles.filterCampus}>
+                                    {buildings.map((bu) => (
+                                        <Pressable
+                                            key={bu}
+                                            onPress={() => {
+                                                setBuilding(bu);
+                                            }}
+                                            style={[
+                                                styles.category,
+                                                {
+                                                    borderColor:
+                                                        bu === building
+                                                            ? "#007BE2"
+                                                            : "#E5E5E5",
+                                                },
+                                            ]}
+                                        >
+                                            <Text
+                                                style={[
+                                                    styles.filterCampusText,
+                                                    {
+                                                        color:
+                                                            bu === building
+                                                                ? "#007BE2"
+                                                                : "#E5E5E5",
+                                                    },
+                                                ]}
+                                            >
+                                                {bu}
+                                            </Text>
+                                        </Pressable>
+                                    ))}
+                                </View>
+                            </View>
+                        </Dialog.Description>
+                    </Dialog.Container>
                 </View>
                 <FlatList
                     renderItem={({ item }) => (
@@ -102,5 +241,26 @@ export const styles = StyleSheet.create({
         marginBottom: 5,
         borderRadius: 10,
         boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.5)",
+    },
+    filterTitle: {
+        fontFamily: "Poppins_700Bold",
+        fontSize: 20,
+    },
+    filterCampus: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        marginLeft: 10,
+    },
+    filterCampusText: {
+        fontFamily: "Poppins_400Regular",
+        fontSize: 15,
+        margin: 5,
+    },
+    category: {
+        margin: 3,
+        borderRadius: 15,
+        borderWidth: 2,
+        padding: 5,
+        paddingHorizontal: 10,
     },
 });
