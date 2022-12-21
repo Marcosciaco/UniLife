@@ -55,6 +55,7 @@ export default function RoomListEntry({
                         {getHour(actual.end) === "1:00"
                             ? "Closing"
                             : getHour(actual.end)}
+                        {!available ? " - " + actual.description : ""}
                     </Text>
                 </View>
                 {available ? (
@@ -105,15 +106,6 @@ export const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: "#FF4438",
     },
-    description: {
-        color: "#2B363F",
-        fontFamily: "Poppins_500Medium",
-        width: "80%",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-    },
-
     rowContainer: {
         display: "flex",
         flexDirection: "row",
@@ -136,11 +128,11 @@ export const styles = StyleSheet.create({
         borderRightWidth: 1,
         borderRightColor: "#2B363F",
         borderRightStyle: "solid",
-        minWidth: "15%",
+        minWidth: "10%",
         textAlign: "center",
     },
     slotTime: {
-        maxWidth: "50%",
+        maxWidth: "65%",
         fontSize: 20,
         fontFamily: "Poppins_600SemiBold",
         textAlign: "center",
