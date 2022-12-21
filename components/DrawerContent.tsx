@@ -12,19 +12,6 @@ export function CustomDrawerContent({ ...props }: any) {
     const [user, setUser] = React.useState<any>(null);
     const navigation = useNavigation();
 
-    const filteredProps = {
-        ...props,
-        state: {
-            ...props.state,
-            routeNames: props.state.routeNames.filter((routeName: string) => {
-                routeName !== "Login";
-            }),
-            routes: props.state.routes.filter(
-                (route: any) => route.name !== "Login"
-            ),
-        },
-    };
-
     React.useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
@@ -41,7 +28,7 @@ export function CustomDrawerContent({ ...props }: any) {
 
     return (
         <View style={styles.container}>
-            <DrawerContentScrollView {...filteredProps}>
+            <DrawerContentScrollView {...props}>
                 <View style={styles.header}>
                     <View>
                         <Image
@@ -63,7 +50,7 @@ export function CustomDrawerContent({ ...props }: any) {
                     </View>
                 </View>
                 <View style={styles.drawerContent}>
-                    <DrawerItemList {...filteredProps} />
+                    <DrawerItemList {...props} />
                 </View>
             </DrawerContentScrollView>
         </View>

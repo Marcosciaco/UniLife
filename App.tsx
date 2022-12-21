@@ -39,11 +39,14 @@ const Drawer = createDrawerNavigator();
 
 export default function App() {
     const [user, setUser] = React.useState<User>();
+    const [logged, setLogged] = React.useState<boolean>(false);
 
     React.useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
                 setUser(user);
+                setLogged(true);
+                console.log("User logged in");
             }
         });
     }, []);
@@ -68,7 +71,7 @@ export default function App() {
         <NavigationContainer>
             <Drawer.Navigator
                 drawerContent={(props) => <CustomDrawerContent {...props} />}
-                initialRouteName={user ? "Home" : "Login"}
+                initialRouteName={logged ? "Home" : "Login"}
                 screenOptions={{
                     headerShown: false,
                     drawerLabelStyle: {
@@ -156,7 +159,9 @@ export default function App() {
                     name="Login"
                     component={LoginScreen}
                     options={{
-                        drawerLabel: () => null,
+                        drawerIcon: ({ color }) => (
+                            <PinIcon color={color} height={20} width={20} />
+                        ),
                     }}
                 />
             </Drawer.Navigator>
