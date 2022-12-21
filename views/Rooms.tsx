@@ -23,6 +23,8 @@ export default function RoomsScreen({ navigation }: any) {
     const [campus, setCampus] = React.useState("All");
     const [campuses, setCampuses] = React.useState<string[]>([]);
 
+    const [available, setAvailable] = React.useState(true);
+
     const [building, setBuilding] = React.useState("All");
     const [buildings, setBuildings] = React.useState<string[]>([]);
 
@@ -112,11 +114,45 @@ export default function RoomsScreen({ navigation }: any) {
                         <Dialog.Description
                             style={{
                                 flexDirection: "row",
-                                width: "80%",
                                 flexWrap: "wrap",
                             }}
                         >
                             <View>
+                                <Text style={styles.filterCampusText}>
+                                    Only available Rooms?
+                                </Text>
+                                <View style={styles.filterCampus}>
+                                    <Pressable
+                                        style={[
+                                            styles.category,
+                                            {
+                                                borderColor: available
+                                                    ? "#007BE2"
+                                                    : "#E5E5E5",
+                                            },
+                                        ]}
+                                        onPress={() => setAvailable(true)}
+                                    >
+                                        <Text style={styles.filterCampusText}>
+                                            Yes
+                                        </Text>
+                                    </Pressable>
+                                    <Pressable
+                                        style={[
+                                            styles.category,
+                                            {
+                                                borderColor: !available
+                                                    ? "#007BE2"
+                                                    : "#E5E5E5",
+                                            },
+                                        ]}
+                                        onPress={() => setAvailable(false)}
+                                    >
+                                        <Text style={styles.filterCampusText}>
+                                            No
+                                        </Text>
+                                    </Pressable>
+                                </View>
                                 <Text style={styles.filterCampusText}>
                                     Campus
                                 </Text>
@@ -250,6 +286,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: "wrap",
         marginLeft: 10,
+        width: 300,
     },
     filterCampusText: {
         fontFamily: "Poppins_400Regular",
@@ -262,5 +299,8 @@ export const styles = StyleSheet.create({
         borderWidth: 2,
         padding: 5,
         paddingHorizontal: 10,
+        width: 60,
+        alignItems: "center",
+        justifyContent: "center",
     },
 });
