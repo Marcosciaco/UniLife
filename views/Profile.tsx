@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { auth } from "../utils/Firebase";
 import LogoIcon from "../assets/icons/logo";
+import MenuIcon from "../assets/icons/menu";
 
 export function FollowButton(props: any) {
     const { onPress } = props;
@@ -52,19 +53,20 @@ export default function ProfileScreen({ navigation }: any) {
                             navigation.openDrawer();
                         }}
                     >
-                        <LogoIcon color={"#2B363F"} height={30} width={30} />
+                        <MenuIcon color={"#F3F8FF"} height={30} width={30} />
                     </Pressable>
-                    <LogoIcon color={"#2B363F"} width={40} height={40} />
+                    <LogoIcon color={"#F3F8FF"} width={40} height={40} />
                 </View>
-                {/* <Image source={imgProfile} style={styles.image}></Image> */}
-                <View>
-                    <Text style={styles.title}>
-                        {auth.currentUser?.displayName}
-                    </Text>
+                <View style={styles.dataContainer}>
+                    <View style={styles.profileHeader}>
+                        <Text style={styles.title}>
+                            {auth.currentUser?.displayName}
+                        </Text>
+                        <FollowButton onPress={() => null} />
+                    </View>
                     <Text style={styles.subtitle}>
                         Bolzano Italy / Computer Science 3rd year
                     </Text>
-                    <FollowButton onPress={() => null} />
                 </View>
             </ImageBackground>
         </View>
@@ -94,16 +96,19 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 10,
-        height: 50,
         margin: 20,
+        padding: 5,
         elevation: 3,
+        borderColor: "#007BE2",
+        borderWidth: 1,
+        width: 90,
         backgroundColor: "#2B363F",
         fontFamily: "Poppins_400Regular",
     },
     text: {
-        fontSize: 24,
+        fontSize: 15,
         fontFamily: "Poppins_400Regular",
-        color: "#AECFFF",
+        color: "#007BE2",
     },
     title: {
         fontFamily: "Poppins_400Regular",
@@ -120,5 +125,17 @@ export const styles = StyleSheet.create({
     logo: {
         flex: 1,
         justifyContent: "space-between",
+    },
+    dataContainer: {
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        backgroundColor: "#2B363F",
+        padding: 20,
+    },
+    profileHeader: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
     },
 });
