@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     View,
     Text,
@@ -6,6 +6,8 @@ import {
     Dimensions,
     StatusBar,
     Pressable,
+    Image,
+    ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { User } from "../models/User";
@@ -24,10 +26,12 @@ export default function AllUsersScreen({ navigation }: any) {
     const Users = () => {
         return (
             <View>
-                {users.map((user) => {
+                {users.map((user: any) => {
                     return (
-                        <View key={user.uid}>
-                            <Text>{user.email}</Text>
+                        <View style={styles.userContainer} key={user.uid}>
+                            <Image style={styles.imageContainer} source={{uri: user.photoURL}} />
+                            <Text style={styles.text}>{user.displayName}</Text>
+                            <FollowButton onPress={() => null} />
                         </View>
                     );
                 })}
@@ -37,10 +41,29 @@ export default function AllUsersScreen({ navigation }: any) {
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
-            <View style={styles.container}>
-                <Users></Users>
-            </View>
+            <ScrollView>
+                <View style={styles.container}>
+                    <Users></Users>
+                </View>
+            </ScrollView>
         </SafeAreaView>
+    );
+}
+
+export function FollowButton(props: any) {
+    const { onPress } = props;
+    const [following, setFollowing] = useState<boolean>(false);
+
+    const buttonText = following ? "Unfollow" : "Follow";
+
+    const toggle = () => {
+        onPress();
+        setFollowing(!following);
+    };
+    return (
+        <Pressable style={styles.button} onPress={toggle}>
+            <Text style={styles.text}>{buttonText}</Text>
+        </Pressable>
     );
 }
 
@@ -50,44 +73,10 @@ export const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignItems: "center",
     },
-    title: {
-        fontSize: 30,
-        fontWeight: "bold",
-        marginBottom: 10,
-    },
-    calendar: {
-        width: width - 40,
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: "#E5E5E5",
-        marginTop: 20,
-    },
     safeAreaView: {
         backgroundColor: "#FBFDFF",
         paddingTop: StatusBar.currentHeight,
         flexGrow: 1,
-    },
-    buttonText: {
-        fontSize: 20,
-        lineHeight: 30,
-        marginTop: 2,
-        fontFamily: "Poppins_300Light",
-        color: "#2B363F",
-        textAlign: "center",
-        flex: 1,
-        marginRight: 20,
-    },
-    button: {
-        display: "flex",
-        flexDirection: "row",
-        backgroundColor: "#F3F8FF",
-        margin: 20,
-        marginBottom: 0,
-        borderRadius: 15,
-        height: 50,
-        width: width - 40,
-        justifyContent: "space-between",
-        alignItems: "center",
     },
     iconContainer: {
         backgroundColor: "#F3F8FF",
@@ -104,5 +93,40 @@ export const styles = StyleSheet.create({
         borderRadius: 15,
         margin: 20,
         marginBottom: 0,
+    },
+    userContainer: {
+        width: width - 20,
+        padding: 5,
+        flexDirection: "row",
+        borderRadius: 15,
+        marginTop: 10,
+        alignItems: "center",
+        backgroundColor: "#dfeeff",
+    },
+    imageContainer: {
+        width: 75,
+        height: 75,
+        borderWidth: 2,
+        borderColor: "#7b9fd1",
+        borderRadius: 15,
+        margin: 3,
+        marginRight: 10,
+    },
+    text: {
+        fontSize: 15,
+        fontFamily: "Poppins_400Regular",
+        color: "#636364",
+    },
+    button: {
+        alignItems: "center",
+        marginLeft: "auto",
+        width: 80,
+        borderRadius: 10,
+        margin: 15,
+        padding: 5,
+        borderColor: "#7b9fd1",
+        borderWidth: 1,
+        backgroundColor: "#fff",
+        fontFamily: "Poppins_400Regular",
     },
 });
