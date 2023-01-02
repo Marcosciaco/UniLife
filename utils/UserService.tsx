@@ -94,22 +94,12 @@ export function logout(navigation: any): void {
         isOnline: false,
     }).then(() => {
         auth.signOut();
-        navigation.navigate("Login");
+        navigation.navigrate("Login");
     });
 }
 
 export function getCurrentUser() {
     return getDoc(doc(db, "users", getUserEmail() || ""));
-}
-
-export function followUser(email: string): void {
-    getDoc(doc(db, "users", email)).then((resp) => {
-        if (resp.exists()) {
-            updateDoc(doc(db, "users", email), {
-                followers: resp.data()?.followers + ";" + getUserEmail(),
-            });
-        }
-    });
 }
 
 export async function getAllUsers(): Promise<User[]> {
@@ -121,4 +111,94 @@ export async function getAllUsers(): Promise<User[]> {
     });
 
     return users;
+}
+
+export function askFollowUser(email: string): void {
+    getDoc(doc(db, "users", email)).then((resp) => {
+        if (resp.exists()) {
+            updateDoc(doc(db, "users", email), {
+                followRequests: resp.data()?.followers + getUserEmail() + ";",
+            });
+        }
+    });
+}
+
+export function getFollowRequests(): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+        getDoc(doc(db, "users", getUserEmail())).then((resp) => {
+            if (resp.exists()) {
+                resolve(resp.data()?.followRequests.split(";"));
+            }
+        });
+    });
+}
+
+export function getFollowers(): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+        getDoc(doc(db, "users", getUserEmail())).then((resp) => {
+            if (resp.exists()) {
+                resolve(resp.data()?.followers.split(";"));
+            }
+        });
+    });
+}
+
+export function getFollowing(): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+        getDoc(doc(db, "users", getUserEmail())).then((resp) => {
+            if (resp.exists()) {
+                resolve(resp.data()?.following.split(";"));
+            }
+        });
+    });
+}
+
+export function acceptFollowRequest(email: string): void {
+    getDoc(doc(db, "users", getUserEmail())).then((resp) => {
+        if (resp.exists()) {
+            updateDoc(doc(db, "users", getUserEmail()), {
+                followers: resp.data()?.followers + email + ";",
+            });
+        }
+    });
+}
+
+export function declineFollowRequest(email: string): void {
+    getDoc(doc(db, "users", getUserEmail())).then((resp) => {
+        if (resp.exists()) {
+            updateDoc(doc(db, "users", getUserEmail()), {
+                followers: resp.data()?.followers.replace(email + ";", ""),
+            });
+        }
+    });
+}
+
+export function unfollowUser(email: string): void {
+    getDoc(doc(db, "users", getUserEmail())).then((resp) => {
+        if (resp.exists()) {
+            updateDoc(doc(db, "users", getUserEmail()), {
+                followers: resp.data()?.followers.replace(email + ";", ""),
+            });
+        }
+    });
+}
+
+export function getFollowersOfUser(email: string): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+        getDoc(doc(db, "users", email)).then((resp) => {
+            if (resp.exists()) {
+                resolve(resp.data()?.followers.split(";"));
+            }
+        });
+    });
+}
+
+export function getUsernameByEmail(email: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        getDoc(doc(db, "users", email)).then((resp) => {
+            if (resp.exists()) {
+                resolve(resp.data()?.displayName);
+            }
+        });
+    });
 }

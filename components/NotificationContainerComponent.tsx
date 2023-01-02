@@ -1,9 +1,20 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
+import { getFollowRequests, getUsernameByEmail } from "../utils/UserService";
 import { InviteNotification } from "./InviteNotification";
 
 export default function NotificationContainer() {
+    const [requests, setRequests] = React.useState<any[]>([]);
+
+    React.useEffect(() => {
+        getFollowRequests().then((requests) => {
+            console.log(requests);
+
+            setRequests(requests);
+        });
+    }, []);
+
     return (
         <Animated.View
             entering={FadeInLeft.delay(400).duration(400)}
@@ -11,10 +22,17 @@ export default function NotificationContainer() {
         >
             <View>
                 <Text style={styles.notificationTitle}>Notifications</Text>
-                <InviteNotification
-                    person="Marco"
-                    type="drink"
-                ></InviteNotification>
+                <View>
+                    {requests
+                        .filter((request) => request != "")
+                        .map((request) => (
+                            <InviteNotification
+                                email={request}
+                                type="follow"
+                                key={request.uid}
+                            />
+                        ))}
+                </View>
             </View>
         </Animated.View>
     );

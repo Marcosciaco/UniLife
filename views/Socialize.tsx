@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     View,
     Text,
@@ -8,18 +8,64 @@ import {
     Pressable,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
-import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddIcon from "../assets/icons/add";
-import CalendarIcon from "../assets/icons/calendar";
 
 const { width } = Dimensions.get("window");
 
 export default function SocializeScreen({ navigation }: any) {
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
+    const [markedDates, setMarkedDates] = React.useState({});
+
+    useEffect(() => {
+        console.log(selectedDate);
+    }, [selectedDate]);
+
     return (
         <SafeAreaView style={styles.safeAreaView}>
             <View style={styles.container}>
                 <View>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>Upcoming Events</Text>
+                        <Pressable>
+                            <View style={styles.iconContainer}>
+                                <AddIcon
+                                    height={20}
+                                    width={20}
+                                    color="#2B363F"
+                                ></AddIcon>
+                            </View>
+                        </Pressable>
+                    </View>
+                    <View>
+                        <Calendar
+                            theme={{
+                                backgroundColor: "#ffffff",
+                                calendarBackground: "#ffffff",
+                                todayTextColor: "#57B9BB",
+                                dayTextColor: "#222222",
+                                textDisabledColor: "#d9e1e8",
+                                monthTextColor: "#57B9BB",
+                                arrowColor: "#57B9BB",
+                                textDayFontWeight: "300",
+                                textMonthFontWeight: "bold",
+                                textDayHeaderFontWeight: "500",
+                                textDayFontSize: 16,
+                                textMonthFontSize: 18,
+                                selectedDayBackgroundColor: "#57B9BB",
+                                selectedDayTextColor: "white",
+                                textDayHeaderFontSize: 8,
+                            }}
+                            markedDates={{}}
+                            onDayPress={(day) => {
+                                setSelectedDate(new Date(day.dateString));
+                            }}
+                            style={styles.calendar}
+                        />
+                    </View>
+                </View>
+
+                {/* <View>
                     <Pressable style={styles.button}>
                         <View style={styles.iconContainer}>
                             <AddIcon
@@ -41,24 +87,9 @@ export default function SocializeScreen({ navigation }: any) {
                         <Text style={styles.buttonText}>Manage Events</Text>
                     </Pressable>
                 </View>
-                <Calendar
-                    markingType="multi-period"
-                    markedDates={{
-                        "2022-11-14": {
-                            periods: [
-                                {
-                                    startingDay: true,
-                                    endingDay: true,
-                                    color: "#007BE2",
-                                },
-                            ],
-                        },
-                    }}
-                    style={styles.calendar}
-                />
                 <ScrollView>
                     <View style={styles.event}></View>
-                </ScrollView>
+                </ScrollView> */}
             </View>
         </SafeAreaView>
     );
@@ -66,9 +97,15 @@ export default function SocializeScreen({ navigation }: any) {
 
 export const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        padding: 10,
         backgroundColor: "#fff",
         alignItems: "center",
+    },
+    header: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        flexDirection: "row",
     },
     title: {
         fontSize: 30,
@@ -84,7 +121,6 @@ export const styles = StyleSheet.create({
     },
     safeAreaView: {
         backgroundColor: "#FBFDFF",
-        paddingTop: StatusBar.currentHeight,
         flexGrow: 1,
     },
     buttonText: {
@@ -101,8 +137,8 @@ export const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         backgroundColor: "#F3F8FF",
-        margin: 20,
         marginBottom: 0,
+        padding: 10,
         borderRadius: 15,
         height: 50,
         width: width - 40,

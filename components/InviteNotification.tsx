@@ -7,36 +7,49 @@ import {
     StyleSheet,
 } from "react-native";
 import MailIcon from "../assets/icons/mail";
+import {
+    acceptFollowRequest,
+    declineFollowRequest,
+    getUsernameByEmail,
+} from "../utils/UserService";
 
-export function confirmInvitation() {
-    return Alert.alert("Do you want to accept the invitation?", "", [
+export function confirmInvitation(mail: string) {
+    return Alert.alert("Do you want to accept " + mail + "'s invitation?", "", [
         {
             text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
+            onPress: () => declineFollowRequest(mail),
             style: "cancel",
         },
-        { text: "OK", onPress: () => console.log("OK Pressed") },
+        { text: "OK", onPress: () => acceptFollowRequest(mail) },
     ]);
 }
 
 export function InviteNotification({
-    person,
+    email,
     type,
 }: {
-    person: string;
+    email: string;
     type: string;
 }) {
+    const [username, setUsername] = React.useState<string>("");
+
+    React.useEffect(() => {
+        getUsernameByEmail(email).then((username) => {
+            setUsername(username);
+        });
+    }, []);
+
     return (
         <TouchableHighlight
             onPress={() => {
-                confirmInvitation();
+                confirmInvitation(email);
             }}
             underlayColor="#F3F8FF"
         >
             <View style={styles.container}>
                 <MailIcon color={"#2B363F"} height={30} width={30}></MailIcon>
                 <Text style={styles.inviteText}>Invite by </Text>
-                <Text style={styles.inviteName}>{person}</Text>
+                <Text style={styles.inviteName}>{username}</Text>
                 <Text style={{ fontFamily: "Poppins_400Regular" }}>
                     {" "}
                     for a {type}.
