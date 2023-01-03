@@ -4,9 +4,6 @@ import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import WeatherAPIUtil, { WeatherTempImage } from "../utils/WeatherAPIUtil";
 import * as Location from "expo-location";
 import { LocationObject } from "expo-location";
-import GastronomyAPIUtil, {
-    GastronomyResponse,
-} from "../utils/GastronomyAPIUtil";
 import { CategoryCode } from "../models/CategoryCode";
 import HeaderRow from "../components/HomeHeaderComponent";
 import NotificationContainer from "../components/NotificationContainerComponent";
@@ -14,6 +11,10 @@ import RestaurantMapView from "../components/RestaurantMapViewComponent";
 import Animated, { FadeInLeft } from "react-native-reanimated";
 import { auth } from "../utils/Firebase";
 import { light, white } from "../utils/Theme";
+import {
+    GastronomyResponse,
+    getGastronomyLocales,
+} from "../utils/GastronomyAPIUtil";
 
 export default function HomeScreen({ navigation }: any) {
     const [weatherData, setWeatherData] = React.useState("");
@@ -56,7 +57,7 @@ export default function HomeScreen({ navigation }: any) {
 
     React.useEffect(() => {
         if (location) {
-            GastronomyAPIUtil.getGastronomyLocales(
+            getGastronomyLocales(
                 CategoryCode.CAFE,
                 location?.coords.latitude,
                 location?.coords.longitude,

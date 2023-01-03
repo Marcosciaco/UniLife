@@ -69,7 +69,6 @@ export default function AllUsersScreen({ navigation }: any) {
                 </TouchableHighlight>
                 <TextInput
                     onChangeText={(text) => {
-                        console.log(text);
                         setFiltered(
                             users.filter((user: User) =>
                                 user.displayName

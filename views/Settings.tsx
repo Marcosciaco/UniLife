@@ -29,8 +29,6 @@ export default function SettingsScreen() {
         const uploadUri =
             Platform.OS === "ios" ? uri.replace("file://", "") : uri;
 
-        console.log("uploadUri", uploadUri);
-
         const email = getUserEmail() || "";
         const storageRef = ref(storage, "images/" + filename);
 

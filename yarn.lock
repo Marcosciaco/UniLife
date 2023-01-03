@@ -2322,6 +2322,13 @@
   "resolved" "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz"
   "version" "15.7.5"
 
+"@types/react-native-modern-datepicker@^1.0.1":
+  "integrity" "sha512-sJXhq9p+J2rlRQrx2sxZRmK3gzlls7VEvZxjlTsfPfRq2OUhz3pbpT1e15DVWYRlUGvBBddjhKC638BcUX3+cg=="
+  "resolved" "https://registry.npmjs.org/@types/react-native-modern-datepicker/-/react-native-modern-datepicker-1.0.1.tgz"
+  "version" "1.0.1"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-native@~0.70.6":
   "integrity" "sha512-ynQ2jj0km9d7dbnyKqVdQ6Nti7VQ8SLTA/KKkkS5+FnvGyvij2AOo1/xnkBR/jnSNXuzrvGVzw2n0VWfppmfKw=="
   "resolved" "https://registry.npmjs.org/@types/react-native/-/react-native-0.70.6.tgz"
@@ -4821,6 +4828,11 @@
     "node-fetch" "^1.0.1"
     "whatwg-fetch" ">=0.10.0"
 
+"jalaali-js@^1.1.0":
+  "integrity" "sha512-io974va+Qyu+UfuVX3UIAgJlxLhAMx9Y8VMfh+IG00Js7hXQo1qNQuwSiSa0xxco0SVgx5HWNkaiCcV+aZ8WPw=="
+  "resolved" "https://registry.npmjs.org/jalaali-js/-/jalaali-js-1.2.6.tgz"
+  "version" "1.2.6"
+
 "jest-get-type@^26.3.0":
   "integrity" "sha512-TpfaviN1R2pQWkIihlfEanwOXK0zcxrKEE4MlU6Tn7keoXdN6/3gK/xl0yEh8DOunn5pOVGKf8hB4R9gVh04ig=="
   "resolved" "https://registry.npmjs.org/jest-get-type/-/jest-get-type-26.3.0.tgz"
@@ -5666,7 +5678,24 @@
   "resolved" "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   "version" "1.0.4"
 
-"moment@^2.24.0":
+"moment-jalaali@^0.9.2":
+  "integrity" "sha512-v8wXjQplvk5ez+sUqgsWIrafwIf1BEXXvzTYwsg1wHcqh27nSgKPCJ6FnZRrCz03MoNyB9N31L0oms+vE8Rq7g=="
+  "resolved" "https://registry.npmjs.org/moment-jalaali/-/moment-jalaali-0.9.6.tgz"
+  "version" "0.9.6"
+  dependencies:
+    "jalaali-js" "^1.1.0"
+    "moment" "^2.22.2"
+    "moment-timezone" "^0.5.21"
+    "rimraf" "^3.0.2"
+
+"moment-timezone@^0.5.21":
+  "integrity" "sha512-tWfmNkRYmBkPJz5mr9GVDn9vRlVZOTe6yqY92rFxiOdWXbjaR0+9LwQnZGGuNR63X456NqmEkbskte8tWL5ePg=="
+  "resolved" "https://registry.npmjs.org/moment-timezone/-/moment-timezone-0.5.40.tgz"
+  "version" "0.5.40"
+  dependencies:
+    "moment" ">= 2.9.0"
+
+"moment@^2.22.2", "moment@^2.24.0", "moment@>= 2.9.0":
   "integrity" "sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w=="
   "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.4.tgz"
   "version" "2.29.4"
@@ -6433,6 +6462,14 @@
   dependencies:
     "@types/geojson" "^7946.0.8"
 
+"react-native-modern-datepicker@^1.0.0-beta.91":
+  "integrity" "sha512-tyyS6iswwxn/CWIgk9j82X5/9gkgAQuI4fiWa+TEWjOo1WIhBr0x7914mtagrVuVgJCMRnHCopCIWL78afakHw=="
+  "resolved" "https://registry.npmjs.org/react-native-modern-datepicker/-/react-native-modern-datepicker-1.0.0-beta.91.tgz"
+  "version" "1.0.0-beta.91"
+  dependencies:
+    "moment-jalaali" "^0.9.2"
+    "prop-types" "^15.7.2"
+
 "react-native-multiple-select@^0.5.12":
   "integrity" "sha512-lFw0u798/2qHr4TwDdxMtReRtsNOCC2SWPzWHRGKE4XcBiUll0hHhke7iqQg4xJdfo46C/h69f1ZXphDOjZY3A=="
   "resolved" "https://registry.npmjs.org/react-native-multiple-select/-/react-native-multiple-select-0.5.12.tgz"
@@ -6465,6 +6502,11 @@
   dependencies:
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
+
+"react-native-select-dropdown@^3.2.1":
+  "integrity" "sha512-4kLmjm3z9JUzIw98oKdQYvk8XsxhNg5NfKN112m1oIufu+6w2HcPw438rVpXzrWntvs9ZLf8Za6ZQO6GqZHdzA=="
+  "resolved" "https://registry.npmjs.org/react-native-select-dropdown/-/react-native-select-dropdown-3.2.1.tgz"
+  "version" "3.2.1"
 
 "react-native-svg@13.4.0":
   "integrity" "sha512-B3TwK+H0+JuRhYPzF21AgqMt4fjhCwDZ9QUtwNstT5XcslJBXC0FoTkdZo8IEb1Sv4suSqhZwlAY6lwOv3tHag=="
@@ -6500,7 +6542,7 @@
     "postcss-value-parser" "^4.2.0"
     "styleq" "^0.1.2"
 
-"react-native@*", "react-native@>= 0.30.0", "react-native@>= 0.64.3", "react-native@>=0.63.0", "react-native@>0.57.0", "react-native@0.70.5":
+"react-native@*", "react-native@>= 0.30.0", "react-native@>= 0.64.3", "react-native@>=0.59", "react-native@>=0.63.0", "react-native@>0.57.0", "react-native@0.70.5":
   "integrity" "sha512-5NZM80LC3L+TIgQX/09yiyy48S73wMgpIgN5cCv3XTMR394+KpDI3rBZGH4aIgWWuwijz31YYVF5504+9n2Zfw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.70.5.tgz"
   "version" "0.70.5"

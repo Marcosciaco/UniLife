@@ -214,7 +214,6 @@ export function getProfileEvents(email: string): Promise<Event[]> {
         getDocs(query(collection(db, "events"))).then((resp) => {
             resp.forEach((doc) => {
                 const event = doc.data() as Event;
-                console.log(event);
                 if (event.creator === email) {
                     events.push(event);
                 }

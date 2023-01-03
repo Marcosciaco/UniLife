@@ -10,8 +10,6 @@ export default function NotificationContainer() {
 
     React.useEffect(() => {
         getFollowRequests().then((requests) => {
-            console.log(requests);
-
             setRequests(requests);
         });
     }, []);

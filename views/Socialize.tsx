@@ -1,20 +1,14 @@
 import React, { useEffect } from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    Dimensions,
-    StatusBar,
-    Pressable,
-} from "react-native";
+import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
 import { Calendar } from "react-native-calendars";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddIcon from "../assets/icons/add";
 import { auth } from "../utils/Firebase";
 import { createEvent, getProfileEvents } from "../utils/UserService";
 import Dialog from "react-native-dialog";
 import { Event } from "../models/Event";
+import DatePicker from "react-native-modern-datepicker";
 import {
     black,
     dark,
@@ -24,6 +18,12 @@ import {
     secondary,
     white,
 } from "../utils/Theme";
+import SelectDropdown from "react-native-select-dropdown";
+import { getGastronomyLocales } from "../utils/GastronomyAPIUtil";
+import { CategoryCode } from "../models/CategoryCode";
+import * as Location from "expo-location";
+import LessIcon from "../assets/icons/less";
+import MoreIcon from "../assets/icons/expand";
 
 const { width } = Dimensions.get("window");
 
@@ -32,12 +32,37 @@ export default function SocializeScreen({ navigation }: any) {
     const [markedDates, setMarkedDates] = React.useState({});
     const [events, setEvents] = React.useState<Event[]>([]);
     const [filteredEvents, setFilteredEvents] = React.useState<Event[]>([]);
+    const [restaurants, setRestaurants] = React.useState<any[]>([]);
 
     const [visible, setVisible] = React.useState(false);
     const [eventName, setEventName] = React.useState("");
     const [eventDescription, setEventDescription] = React.useState("");
     const [eventLocation, setEventLocation] = React.useState("");
     const [eventDate, setEventDate] = React.useState("");
+
+    React.useEffect(() => {
+        (async () => {
+            const { status } =
+                await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                return;
+            }
+
+            Location.getCurrentPositionAsync({}).then((location) => {
+                getGastronomyLocales(
+                    CategoryCode.CAFE,
+                    location.coords.latitude,
+                    location.coords.longitude,
+                    100000
+                ).then((data) => {
+                    const restaurants = data.map(
+                        (restaurant) => restaurant.Detail.de.Title
+                    );
+                    setRestaurants(restaurants);
+                });
+            });
+        })();
+    }, []);
 
     useEffect(() => {
         getProfileEvents(auth.currentUser?.email || "").then((data) => {
@@ -46,8 +71,6 @@ export default function SocializeScreen({ navigation }: any) {
 
             data.forEach((event: Event) => {
                 const date = new Date(event.date);
-                console.log(date.toISOString());
-
                 setMarkedDates((prev: any) => {
                     return {
                         ...prev,
@@ -76,30 +99,110 @@ export default function SocializeScreen({ navigation }: any) {
                                 ></AddIcon>
                             </View>
                         </Pressable>
-                        <Dialog.Container visible={visible}>
+                        <Dialog.Container
+                            visible={visible}
+                            contentStyle={{
+                                backgroundColor: light,
+                                borderRadius: 10,
+                                width: width - 20,
+                            }}
+                        >
                             <Dialog.Title>Add Event</Dialog.Title>
-                            <Dialog.Input
-                                label="Event Name"
-                                value={eventName}
-                                onChangeText={(text) => setEventName(text)}
-                            ></Dialog.Input>
-                            <Dialog.Input
-                                label="Event Description"
-                                value={eventDescription}
-                                onChangeText={(text) =>
-                                    setEventDescription(text)
-                                }
-                            ></Dialog.Input>
-                            <Dialog.Input
-                                label="Event Location"
-                                value={eventLocation}
-                                onChangeText={(text) => setEventLocation(text)}
-                            ></Dialog.Input>
-                            <Dialog.Input
-                                label="Event Date"
-                                value={eventDate}
-                                onChangeText={(text) => setEventDate(text)}
-                            ></Dialog.Input>
+                            <ScrollView>
+                                <View
+                                    style={{
+                                        margin: 10,
+                                    }}
+                                >
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Event Name"
+                                        value={eventName}
+                                        onChangeText={(text) =>
+                                            setEventName(text)
+                                        }
+                                    ></TextInput>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Event Description"
+                                        value={eventDescription}
+                                        onChangeText={(text) =>
+                                            setEventDescription(text)
+                                        }
+                                    ></TextInput>
+                                    <SelectDropdown
+                                        data={[...restaurants]}
+                                        defaultButtonText="Select Restaurant"
+                                        onSelect={(selectedItem, index) => {}}
+                                        buttonTextAfterSelection={(
+                                            selectedItem
+                                        ) => {
+                                            return selectedItem;
+                                        }}
+                                        rowTextForSelection={(item) => {
+                                            return item;
+                                        }}
+                                        onChangeSearchInputText={(text) => {}}
+                                        renderDropdownIcon={(isOpened) => {
+                                            if (isOpened) {
+                                                return (
+                                                    <LessIcon
+                                                        height={20}
+                                                        width={20}
+                                                        color={dark}
+                                                    />
+                                                );
+                                            } else {
+                                                return (
+                                                    <MoreIcon
+                                                        height={20}
+                                                        width={20}
+                                                        color={dark}
+                                                    />
+                                                );
+                                            }
+                                        }}
+                                        buttonStyle={{
+                                            borderRadius: 10,
+                                            marginBottom: 10,
+                                            width: width - 75,
+                                            height: 40,
+                                            backgroundColor: white,
+                                        }}
+                                        buttonTextStyle={{
+                                            color: dark,
+                                            fontSize: 16,
+                                            textAlign: "center",
+                                        }}
+                                        rowStyle={{
+                                            backgroundColor: white,
+                                            height: 40,
+                                        }}
+                                        rowTextStyle={{
+                                            color: dark,
+                                            fontSize: 16,
+                                            textAlign: "center",
+                                        }}
+                                    />
+                                    <DatePicker
+                                        options={{
+                                            backgroundColor: white,
+                                            textHeaderColor: primary,
+                                            textDefaultColor: dark,
+                                            selectedTextColor: light,
+                                            mainColor: primary,
+                                            textSecondaryColor: secondary,
+                                        }}
+                                        style={{
+                                            borderRadius: 10,
+                                        }}
+                                        minuteInterval={10}
+                                        onSelectedChange={(text: string) =>
+                                            setEventDate(text)
+                                        }
+                                    />
+                                </View>
+                            </ScrollView>
                             <Dialog.Button
                                 label="Cancel"
                                 onPress={() => setVisible(false)}
@@ -266,5 +369,12 @@ export const styles = StyleSheet.create({
         textAlign: "center",
         flex: 1,
         marginRight: 20,
+    },
+    input: {
+        height: 40,
+        marginBottom: 10,
+        backgroundColor: white,
+        borderRadius: 10,
+        padding: 10,
     },
 });
