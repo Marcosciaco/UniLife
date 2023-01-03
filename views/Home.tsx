@@ -18,6 +18,7 @@ export default function HomeScreen({ navigation }: any) {
     const [weatherData, setWeatherData] = React.useState("");
     const [location, setLocation] = useState<LocationObject>();
     const [restaurants, setRestaurants] = useState<GastronomyResponse[]>([]);
+    const [username, setUsername] = useState<string>("");
 
     React.useEffect(() => {
         auth.onAuthStateChanged((user) => {
@@ -25,6 +26,12 @@ export default function HomeScreen({ navigation }: any) {
                 navigation.navigate("Login" as never);
             }
         });
+    }, []);
+
+    React.useEffect(() => {
+        if (auth.currentUser?.displayName) {
+            setUsername(auth.currentUser?.displayName);
+        }
     }, []);
 
     React.useEffect(() => {
@@ -70,8 +77,7 @@ export default function HomeScreen({ navigation }: any) {
                     style={styles.weatherDescriptionContainer}
                 >
                     <Text style={styles.weatherDescriptionText}>
-                        Hi {auth.currentUser?.displayName} 👋{"\n"}It's a{" "}
-                        {weatherData} day
+                        Hi {username} 👋{"\n"}It's a {weatherData} day
                     </Text>
                 </Animated.View>
             </View>
