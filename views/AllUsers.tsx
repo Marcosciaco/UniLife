@@ -4,12 +4,16 @@ import {
     Text,
     StyleSheet,
     Dimensions,
-    StatusBar,
     Pressable,
     Image,
     ScrollView,
+    TouchableHighlight,
+    TouchableOpacity,
 } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import LogoIcon from "../assets/icons/logo";
+import MenuIcon from "../assets/icons/menu";
 import { User } from "../models/User";
 import { getAllUsers } from "../utils/UserService";
 
@@ -17,19 +21,24 @@ const { width } = Dimensions.get("window");
 
 export default function AllUsersScreen({ navigation }: any) {
     const [users, setUsers] = React.useState<User[]>([]);
+    const [filtered, setFiltered] = React.useState<User[]>([]);
     React.useEffect(() => {
         getAllUsers().then((users) => {
             setUsers(users);
+            setFiltered(users);
         });
     }, []);
 
     const Users = () => {
         return (
             <View>
-                {users.map((user: any) => {
+                {filtered.map((user: any) => {
                     return (
                         <View style={styles.userContainer} key={user.uid}>
-                            <Image style={styles.imageContainer} source={{uri: user.photoURL}} />
+                            <Image
+                                style={styles.imageContainer}
+                                source={{ uri: user.photoURL }}
+                            />
                             <Text style={styles.text}>{user.displayName}</Text>
                             <FollowButton onPress={() => null} />
                         </View>
@@ -41,6 +50,31 @@ export default function AllUsersScreen({ navigation }: any) {
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
+            <View style={styles.header}>
+                <TouchableHighlight
+                    underlayColor="#FBFDFF"
+                    onPress={() => {
+                        navigation.openDrawer();
+                    }}
+                >
+                    <MenuIcon color="#2B363F" height={30} width={30} />
+                </TouchableHighlight>
+                <TextInput
+                    onChangeText={(text) => {
+                        console.log(text);
+                        setFiltered(
+                            users.filter((user: User) =>
+                                user.displayName
+                                    ?.toLowerCase()
+                                    .includes(text.toLowerCase())
+                            )
+                        );
+                    }}
+                    placeholder="Search"
+                    style={styles.input}
+                ></TextInput>
+                <LogoIcon color="#2B363F" height={40} width={40} />
+            </View>
             <ScrollView>
                 <View style={styles.container}>
                     <Users></Users>
@@ -73,9 +107,25 @@ export const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignItems: "center",
     },
+    header: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingHorizontal: 20,
+    },
+    input: {
+        fontFamily: "Poppins_400Regular",
+        height: 40,
+        borderColor: "gray",
+        borderWidth: 1,
+        margin: 10,
+        borderRadius: 10,
+        paddingLeft: 10,
+        width: width - 120,
+    },
     safeAreaView: {
         backgroundColor: "#FBFDFF",
-        paddingTop: StatusBar.currentHeight,
         flexGrow: 1,
     },
     iconContainer: {
