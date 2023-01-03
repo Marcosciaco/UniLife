@@ -7,6 +7,7 @@ import React from "react";
 import { View, Image, Text, StyleSheet, Pressable } from "react-native";
 import LogoutIcon from "../assets/icons/logout";
 import { auth } from "../utils/Firebase";
+import { dark, secondary, white } from "../utils/Theme";
 
 export function CustomDrawerContent({ ...props }: any) {
     const [user, setUser] = React.useState<any>(null);
@@ -41,11 +42,7 @@ export function CustomDrawerContent({ ...props }: any) {
                     </View>
                     <View>
                         <Pressable onPress={logout} style={styles.logout}>
-                            <LogoutIcon
-                                height={20}
-                                width={20}
-                                color="#2B363F"
-                            />
+                            <LogoutIcon height={20} width={20} color={dark} />
                         </Pressable>
                     </View>
                 </View>
@@ -63,7 +60,7 @@ export const styles = StyleSheet.create({
     },
 
     header: {
-        backgroundColor: "#AECFFF",
+        backgroundColor: secondary,
         paddingTop: 10,
         paddingLeft: 10,
         display: "flex",
@@ -84,7 +81,7 @@ export const styles = StyleSheet.create({
     },
 
     profileName: {
-        color: "#fff",
+        color: dark,
         fontSize: 18,
         fontFamily: "Poppins_300Light",
         marginBottom: 5,
@@ -97,7 +94,7 @@ export const styles = StyleSheet.create({
     },
 
     logout: {
-        backgroundColor: "#fff",
+        backgroundColor: white,
         padding: 10,
         borderRadius: 10,
         margin: 10,

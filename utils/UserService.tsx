@@ -5,15 +5,19 @@ import {
     User as FirebaseUser,
 } from "firebase/auth";
 import {
+    addDoc,
     collection,
     doc,
     getDoc,
     getDocs,
+    query,
     setDoc,
     updateDoc,
+    where,
 } from "firebase/firestore";
 import { User } from "../models/User";
 import { auth, db } from "./Firebase";
+import { Event } from "../models/Event";
 
 export function register(
     email: string,
@@ -200,5 +204,42 @@ export function getUsernameByEmail(email: string): Promise<string> {
                 resolve(resp.data()?.displayName);
             }
         });
+    });
+}
+
+export function getProfileEvents(email: string): Promise<Event[]> {
+    return new Promise((resolve, reject) => {
+        const events: Event[] = [];
+
+        getDocs(query(collection(db, "events"))).then((resp) => {
+            resp.forEach((doc) => {
+                const event = doc.data() as Event;
+                console.log(event);
+                if (event.creator === email) {
+                    events.push(event);
+                }
+            });
+            resolve(events);
+        });
+    });
+}
+
+export function createEvent(
+    mail: string,
+    description: string,
+    location: string,
+    date: Date,
+    creator: string,
+    color: string
+): void {
+    addDoc(collection(db, "events"), {
+        id: Math.random().toString(36).substring(7),
+        name: mail,
+        description: description,
+        location: location,
+        date: date.getTime(),
+        creator: creator,
+        participants: [],
+        color,
     });
 }

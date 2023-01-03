@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
+import { white } from "../utils/Theme";
 import { getFollowRequests, getUsernameByEmail } from "../utils/UserService";
 import { InviteNotification } from "./InviteNotification";
 
@@ -41,7 +42,7 @@ export default function NotificationContainer() {
 export const styles = StyleSheet.create({
     container: {
         marginHorizontal: 20,
-        backgroundColor: "#F3F8FF",
+        backgroundColor: white,
         marginLeft: 20,
         marginRight: 20,
         marginTop: 20,

@@ -11,6 +11,7 @@ import { useState } from "react";
 import { auth } from "../utils/Firebase";
 import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
+import { dark, primary, secondary, white } from "../utils/Theme";
 
 export function FollowButton(props: any) {
     const { onPress } = props;
@@ -53,9 +54,9 @@ export default function ProfileScreen({ navigation }: any) {
                             navigation.openDrawer();
                         }}
                     >
-                        <MenuIcon color={"#F3F8FF"} height={30} width={30} />
+                        <MenuIcon color={white} height={30} width={30} />
                     </Pressable>
-                    <LogoIcon color={"#F3F8FF"} width={40} height={40} />
+                    <LogoIcon color={white} width={40} height={40} />
                 </View>
                 <View style={styles.dataContainer}>
                     <View style={styles.profileHeader}>
@@ -83,6 +84,7 @@ export const styles = StyleSheet.create({
     },
     header: {
         padding: 20,
+        paddingTop: 40,
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
@@ -90,7 +92,7 @@ export const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: white,
     },
     button: {
         alignItems: "center",
@@ -99,25 +101,25 @@ export const styles = StyleSheet.create({
         margin: 20,
         padding: 5,
         elevation: 3,
-        borderColor: "#007BE2",
+        borderColor: primary,
         borderWidth: 1,
         width: 90,
-        backgroundColor: "#2B363F",
+        backgroundColor: dark,
         fontFamily: "Poppins_400Regular",
     },
     text: {
         fontSize: 15,
         fontFamily: "Poppins_400Regular",
-        color: "#007BE2",
+        color: primary,
     },
     title: {
         fontFamily: "Poppins_400Regular",
-        color: "#AECFFF",
+        color: secondary,
         fontSize: 24,
         marginLeft: 20,
     },
     subtitle: {
-        color: "#F3F8FF",
+        color: white,
         fontSize: 13,
         fontFamily: "Poppins_400Regular",
         marginLeft: 20,
@@ -129,7 +131,7 @@ export const styles = StyleSheet.create({
     dataContainer: {
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        backgroundColor: "#2B363F",
+        backgroundColor: dark,
         padding: 20,
     },
     profileHeader: {

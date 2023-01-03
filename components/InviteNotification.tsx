@@ -7,6 +7,7 @@ import {
     StyleSheet,
 } from "react-native";
 import MailIcon from "../assets/icons/mail";
+import { dark, light, secondary } from "../utils/Theme";
 import {
     acceptFollowRequest,
     declineFollowRequest,
@@ -47,7 +48,7 @@ export function InviteNotification({
             underlayColor="#F3F8FF"
         >
             <View style={styles.container}>
-                <MailIcon color={"#2B363F"} height={30} width={30}></MailIcon>
+                <MailIcon color={dark} height={30} width={30}></MailIcon>
                 <Text style={styles.inviteText}>Invite by </Text>
                 <Text style={styles.inviteName}>{username}</Text>
                 <Text style={{ fontFamily: "Poppins_400Regular" }}>
@@ -61,7 +62,7 @@ export function InviteNotification({
 
 export const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#FBFDFF",
+        backgroundColor: light,
         borderRadius: 5,
         padding: 5,
         marginLeft: 10,
@@ -73,7 +74,7 @@ export const styles = StyleSheet.create({
     },
 
     inviteName: {
-        color: "#AECFFF",
+        color: secondary,
         fontFamily: "Poppins_600SemiBold",
     },
 

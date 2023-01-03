@@ -2,19 +2,20 @@ import React from "react";
 import { TouchableHighlight, View, StyleSheet } from "react-native";
 import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
+import { dark, white } from "../utils/Theme";
 
 export default function HeaderRow({ navigation }: any) {
     return (
         <View style={styles.container}>
             <TouchableHighlight
-                underlayColor={"#FBFDFF"}
+                underlayColor={white}
                 onPress={() => {
                     navigation.openDrawer();
                 }}
             >
-                <MenuIcon color={"#2B363F"} height={30} width={30}></MenuIcon>
+                <MenuIcon color={dark} height={30} width={30}></MenuIcon>
             </TouchableHighlight>
-            <LogoIcon color={"#2B363F"} width={40} height={40}></LogoIcon>
+            <LogoIcon color={dark} width={40} height={40}></LogoIcon>
         </View>
     );
 }

@@ -13,6 +13,7 @@ import NotificationContainer from "../components/NotificationContainerComponent"
 import RestaurantMapView from "../components/RestaurantMapViewComponent";
 import Animated, { FadeInLeft } from "react-native-reanimated";
 import { auth } from "../utils/Firebase";
+import { light, white } from "../utils/Theme";
 
 export default function HomeScreen({ navigation }: any) {
     const [weatherData, setWeatherData] = React.useState("");
@@ -99,7 +100,7 @@ export default function HomeScreen({ navigation }: any) {
 
 export const styles = StyleSheet.create({
     safeAreaView: {
-        backgroundColor: "#FBFDFF",
+        backgroundColor: light,
         paddingTop: StatusBar.currentHeight,
         flexGrow: 1,
     },
@@ -127,7 +128,7 @@ export const styles = StyleSheet.create({
         textAlign: "left",
         borderRadius: 15,
         textAlignVertical: "center",
-        backgroundColor: "#F3F8FF",
+        backgroundColor: white,
     },
 
     mapContainerRow: {
@@ -139,7 +140,7 @@ export const styles = StyleSheet.create({
     mapContainer: {
         flexGrow: 1,
         width: "100%",
-        backgroundColor: "#F3F8FF",
+        backgroundColor: white,
         borderRadius: 15,
         alignItems: "center",
         justifyContent: "center",

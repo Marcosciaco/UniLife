@@ -15,6 +15,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
 import { User } from "../models/User";
+import {
+    dark,
+    light,
+    primary,
+    secondary,
+    success,
+    white,
+} from "../utils/Theme";
 import { getAllUsers } from "../utils/UserService";
 
 const { width } = Dimensions.get("window");
@@ -52,12 +60,12 @@ export default function AllUsersScreen({ navigation }: any) {
         <SafeAreaView style={styles.safeAreaView}>
             <View style={styles.header}>
                 <TouchableHighlight
-                    underlayColor="#FBFDFF"
+                    underlayColor={white}
                     onPress={() => {
                         navigation.openDrawer();
                     }}
                 >
-                    <MenuIcon color="#2B363F" height={30} width={30} />
+                    <MenuIcon color={dark} height={30} width={30} />
                 </TouchableHighlight>
                 <TextInput
                     onChangeText={(text) => {
@@ -73,7 +81,7 @@ export default function AllUsersScreen({ navigation }: any) {
                     placeholder="Search"
                     style={styles.input}
                 ></TextInput>
-                <LogoIcon color="#2B363F" height={40} width={40} />
+                <LogoIcon color={dark} height={40} width={40} />
             </View>
             <ScrollView>
                 <View style={styles.container}>
@@ -104,7 +112,7 @@ export function FollowButton(props: any) {
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: light,
         alignItems: "center",
     },
     header: {
@@ -117,7 +125,7 @@ export const styles = StyleSheet.create({
     input: {
         fontFamily: "Poppins_400Regular",
         height: 40,
-        borderColor: "gray",
+        borderColor: dark,
         borderWidth: 1,
         margin: 10,
         borderRadius: 10,
@@ -125,11 +133,11 @@ export const styles = StyleSheet.create({
         width: width - 120,
     },
     safeAreaView: {
-        backgroundColor: "#FBFDFF",
+        backgroundColor: light,
         flexGrow: 1,
     },
     iconContainer: {
-        backgroundColor: "#F3F8FF",
+        backgroundColor: light,
         height: 50,
         width: 50,
         borderRadius: 15,
@@ -139,7 +147,7 @@ export const styles = StyleSheet.create({
     event: {
         height: 80,
         width: width - 40,
-        backgroundColor: "#F3F8FF",
+        backgroundColor: secondary,
         borderRadius: 15,
         margin: 20,
         marginBottom: 0,
@@ -151,13 +159,13 @@ export const styles = StyleSheet.create({
         borderRadius: 15,
         marginTop: 10,
         alignItems: "center",
-        backgroundColor: "#dfeeff",
+        backgroundColor: secondary,
     },
     imageContainer: {
         width: 75,
         height: 75,
         borderWidth: 2,
-        borderColor: "#7b9fd1",
+        borderColor: primary,
         borderRadius: 15,
         margin: 3,
         marginRight: 10,
@@ -165,7 +173,7 @@ export const styles = StyleSheet.create({
     text: {
         fontSize: 15,
         fontFamily: "Poppins_400Regular",
-        color: "#636364",
+        color: dark,
     },
     button: {
         alignItems: "center",
@@ -174,9 +182,9 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         margin: 15,
         padding: 5,
-        borderColor: "#7b9fd1",
-        borderWidth: 1,
-        backgroundColor: "#fff",
+        borderColor: primary,
+        borderWidth: 2,
+        backgroundColor: white,
         fontFamily: "Poppins_400Regular",
     },
 });

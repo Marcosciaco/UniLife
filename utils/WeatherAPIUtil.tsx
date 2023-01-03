@@ -1,6 +1,7 @@
 import React from "react";
 import { ImageBackground, View, Text } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
+import { white } from "./Theme";
 
 type WeatherResponse = {
     Id: number;
@@ -112,7 +113,7 @@ export function WeatherTempImage() {
                             height: 120,
                             textAlign: "center",
                             alignItems: "center",
-                            color: "#FFFFFF",
+                            color: white,
                             backgroundColor: "rgba(0, 0, 0, 0.1)",
                         }}
                     >

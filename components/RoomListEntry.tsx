@@ -2,6 +2,7 @@ import { RoomSlot } from "../models/RoomSlot";
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import Animated, { FadeInLeft } from "react-native-reanimated";
+import { dark, error, success, white } from "../utils/Theme";
 
 export default function RoomListEntry({
     room,
@@ -86,7 +87,7 @@ export const styles = StyleSheet.create({
     },
     container: {
         display: "flex",
-        backgroundColor: "white",
+        backgroundColor: white,
         alignItems: "center",
         width: "98%",
         height: 50,
@@ -100,13 +101,13 @@ export const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 5,
-        backgroundColor: "#38FF88",
+        backgroundColor: success,
     },
     notAvailable: {
         width: 40,
         height: 40,
         borderRadius: 5,
-        backgroundColor: "#FF4438",
+        backgroundColor: error,
     },
     rowContainer: {
         display: "flex",
@@ -119,7 +120,7 @@ export const styles = StyleSheet.create({
         padding: 5,
         marginBottom: 5,
         borderRadius: 10,
-        backgroundColor: "white",
+        backgroundColor: white,
         boxShadow: "0px 0px 5px rgba(56, 73, 86, 0.1)",
     },
     slotRoom: {
@@ -127,7 +128,7 @@ export const styles = StyleSheet.create({
         marginLeft: 5,
         borderRightWidth: 1,
         width: 80,
-        borderRightColor: "#2B363F",
+        borderRightColor: dark,
         borderRightStyle: "solid",
     },
     slotRoomText: {

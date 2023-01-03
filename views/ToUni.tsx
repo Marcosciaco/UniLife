@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { light } from "../utils/Theme";
 
 export default function ToUniScreen({ navigation }: any) {
     return (
@@ -12,7 +13,7 @@ export default function ToUniScreen({ navigation }: any) {
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: light,
         alignItems: "center",
         justifyContent: "center",
     },

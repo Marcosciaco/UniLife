@@ -13,6 +13,7 @@ import MenuIcon from "../assets/icons/menu";
 import RoomListEntry from "../components/RoomListEntry";
 import { RoomSlot } from "../models/RoomSlot";
 import Dialog from "react-native-dialog";
+import { dark, light, primary, white } from "../utils/Theme";
 
 export default function RoomsScreen({ navigation }: any) {
     const [data, setData] = React.useState([]);
@@ -95,11 +96,11 @@ export default function RoomsScreen({ navigation }: any) {
                             navigation.openDrawer();
                         }}
                     >
-                        <MenuIcon height={30} width={30} color="#2B363F" />
+                        <MenuIcon height={30} width={30} color={dark} />
                     </Pressable>
                     <Text style={styles.title}>Rooms</Text>
                     <Pressable onPress={() => setVisible(true)}>
-                        <FilterIcon height={30} width={30} color="#2B363F" />
+                        <FilterIcon height={30} width={30} color={dark} />
                     </Pressable>
                     <Dialog.Container
                         visible={visible}
@@ -127,8 +128,8 @@ export default function RoomsScreen({ navigation }: any) {
                                             styles.category,
                                             {
                                                 borderColor: available
-                                                    ? "#007BE2"
-                                                    : "#E5E5E5",
+                                                    ? primary
+                                                    : dark,
                                             },
                                         ]}
                                         onPress={() => setAvailable(true)}
@@ -142,8 +143,8 @@ export default function RoomsScreen({ navigation }: any) {
                                             styles.category,
                                             {
                                                 borderColor: !available
-                                                    ? "#007BE2"
-                                                    : "#E5E5E5",
+                                                    ? primary
+                                                    : dark,
                                             },
                                         ]}
                                         onPress={() => setAvailable(false)}
@@ -168,8 +169,8 @@ export default function RoomsScreen({ navigation }: any) {
                                                 {
                                                     borderColor:
                                                         ca === campus
-                                                            ? "#007BE2"
-                                                            : "#E5E5E5",
+                                                            ? primary
+                                                            : dark,
                                                 },
                                             ]}
                                         >
@@ -179,8 +180,8 @@ export default function RoomsScreen({ navigation }: any) {
                                                     {
                                                         color:
                                                             ca === campus
-                                                                ? "#007BE2"
-                                                                : "#E5E5E5",
+                                                                ? primary
+                                                                : dark,
                                                     },
                                                 ]}
                                             >
@@ -204,8 +205,8 @@ export default function RoomsScreen({ navigation }: any) {
                                                 {
                                                     borderColor:
                                                         bu === building
-                                                            ? "#007BE2"
-                                                            : "#E5E5E5",
+                                                            ? primary
+                                                            : dark,
                                                 },
                                             ]}
                                         >
@@ -215,8 +216,8 @@ export default function RoomsScreen({ navigation }: any) {
                                                     {
                                                         color:
                                                             bu === building
-                                                                ? "#007BE2"
-                                                                : "#E5E5E5",
+                                                                ? primary
+                                                                : dark,
                                                     },
                                                 ]}
                                             >
@@ -244,13 +245,12 @@ export default function RoomsScreen({ navigation }: any) {
 
 export const styles = StyleSheet.create({
     safeAreaView: {
-        backgroundColor: "#FBFDFF",
-        paddingTop: StatusBar.currentHeight,
+        backgroundColor: light,
         flexGrow: 1,
     },
     container: {
         flex: 1,
-        backgroundColor: "#FBFDFF",
+        backgroundColor: light,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -286,7 +286,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: "wrap",
         marginLeft: 10,
-        width: 300,
+        width: 350,
     },
     filterCampusText: {
         fontFamily: "Poppins_400Regular",

@@ -18,6 +18,7 @@ import Animated, {
 import CloseIcon from "../assets/icons/close";
 import LogoIcon from "../assets/icons/logo";
 import { login, register } from "../utils/UserService";
+import { black, dark, light, primary, success, white } from "../utils/Theme";
 
 const { height, width } = Dimensions.get("window");
 
@@ -112,7 +113,7 @@ export default function LoginScreen({ navigation }: any) {
                 style={[StyleSheet.absoluteFill, imageAnimatedStyle]}
             >
                 <View style={styles.logo}>
-                    <LogoIcon height={50} width={50} color="#2B363F"></LogoIcon>
+                    <LogoIcon height={50} width={50} color={dark}></LogoIcon>
                 </View>
                 <View style={styles.promoText}>
                     <Text style={styles.standardText}>Join the</Text>
@@ -141,7 +142,7 @@ export default function LoginScreen({ navigation }: any) {
                         <CloseIcon
                             height={20}
                             width={20}
-                            color="#2B363F"
+                            color={dark}
                         ></CloseIcon>
                     </Text>
                 </Animated.View>
@@ -177,7 +178,7 @@ export default function LoginScreen({ navigation }: any) {
                     {isRegistering && (
                         <TextInput
                             placeholder="Username"
-                            placeholderTextColor="black"
+                            placeholderTextColor={dark}
                             style={styles.textInput}
                             onChangeText={(text) => setDisplayName(text)}
                         />
@@ -185,7 +186,7 @@ export default function LoginScreen({ navigation }: any) {
                     {isRegistering && (
                         <TextInput
                             placeholder="Student-Id"
-                            placeholderTextColor="black"
+                            placeholderTextColor={dark}
                             style={styles.textInput}
                             onChangeText={(text) => setStudentId(text)}
                         />
@@ -193,13 +194,13 @@ export default function LoginScreen({ navigation }: any) {
                     <TextInput
                         onChangeText={(text) => setEmail(text)}
                         placeholder="E-Mail"
-                        placeholderTextColor="black"
+                        placeholderTextColor={dark}
                         style={styles.textInput}
                     />
                     <TextInput
                         onChangeText={(text) => setPassword(text)}
                         placeholder="Password"
-                        placeholderTextColor="black"
+                        placeholderTextColor={dark}
                         style={styles.textInput}
                     />
                     <Animated.View
@@ -234,7 +235,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "flex-end",
-        backgroundColor: "white",
+        backgroundColor: white,
     },
     logo: {
         position: "absolute",
@@ -251,17 +252,17 @@ const styles = StyleSheet.create({
     standardText: {
         fontSize: 30,
         fontFamily: "Poppins_300Light",
-        color: "#F3F8FF",
+        color: white,
     },
     highlightedText: {
         fontFamily: "Poppins_500Medium",
         fontSize: 30,
-        color: "#007BE2",
+        color: primary,
     },
     buttonContainer: {
         position: "absolute",
         bottom: 5,
-        backgroundColor: "#2B363F",
+        backgroundColor: black,
         margin: 10,
         height: 70,
         width: width - 20,
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
         height: 66,
         margin: 2,
         borderRadius: 18,
-        backgroundColor: "white",
+        backgroundColor: white,
     },
     registerButton: {
         alignItems: "center",
@@ -286,20 +287,20 @@ const styles = StyleSheet.create({
         height: 66,
         margin: 2,
         borderRadius: 18,
-        backgroundColor: "#2B363F",
+        backgroundColor: black,
     },
     loginButtonText: {
-        color: "#2B363F",
+        color: black,
         fontSize: 20,
         fontFamily: "Poppins_300Light",
     },
     registerButtonText: {
-        color: "white",
+        color: white,
         fontSize: 20,
         fontFamily: "Poppins_300Light",
     },
     button: {
-        backgroundColor: "rgba(243,248,255,2)",
+        backgroundColor: white,
         height: 45,
         alignItems: "center",
         justifyContent: "center",
@@ -310,7 +311,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         fontSize: 15,
-        color: "#F3F8FF",
+        color: white,
         letterSpacing: 0.5,
         fontFamily: "Poppins_400Regular",
     },
@@ -320,7 +321,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         height: 45,
-        backgroundColor: "#F3F8FF",
+        backgroundColor: light,
         marginHorizontal: 20,
         marginVertical: 10,
         borderRadius: 10,
@@ -334,7 +335,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginHorizontal: 20,
         marginVertical: 10,
-        backgroundColor: "#007BE2",
+        backgroundColor: primary,
     },
     formInputContainer: {
         marginBottom: 70,
@@ -346,7 +347,7 @@ const styles = StyleSheet.create({
         width: 40,
         justifyContent: "center",
         alignSelf: "center",
-        shadowColor: "#000",
+        shadowColor: light,
         ShadowOffset: {
             width: 0,
             height: 5,
@@ -354,7 +355,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.34,
         shadowRadius: 6.27,
         elevation: 1,
-        backgroundColor: "white",
+        backgroundColor: light,
         alignItems: "center",
         borderRadius: 20,
         top: -20,

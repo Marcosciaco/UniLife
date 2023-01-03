@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import MapView, { Callout, Marker, PROVIDER_DEFAULT } from "react-native-maps";
+import { white } from "../utils/Theme";
 
 export default function RestaurantMapView({ location, restaurants }: any) {
     return (
@@ -53,7 +54,7 @@ export const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#FBFDFF",
+        backgroundColor: white,
         borderRadius: 15,
         padding: 10,
     },
