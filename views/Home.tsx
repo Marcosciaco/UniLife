@@ -31,9 +31,11 @@ export default function HomeScreen({ navigation }: any) {
     }, []);
 
     React.useEffect(() => {
-        if (auth.currentUser?.displayName) {
-            setUsername(auth.currentUser?.displayName);
-        }
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                setUsername(user.displayName as string);
+            }
+        });
     }, []);
 
     React.useEffect(() => {
