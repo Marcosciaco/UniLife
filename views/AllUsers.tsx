@@ -1,28 +1,21 @@
 import React, { useState } from "react";
 import {
-    View,
-    Text,
-    StyleSheet,
     Dimensions,
-    Pressable,
     Image,
+    Pressable,
     ScrollView,
+    StyleSheet,
+    Text,
     TouchableHighlight,
-    TouchableOpacity,
+    View,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
+import UserEntry from "../components/AllUsers/UserEntry";
 import { User } from "../models/User";
-import {
-    dark,
-    light,
-    primary,
-    secondary,
-    success,
-    white,
-} from "../utils/Theme";
+import { dark, light, primary, secondary, white } from "../utils/Theme";
 import { followUser, getAllUsers } from "../utils/UserService";
 
 const { width } = Dimensions.get("window");
@@ -86,7 +79,9 @@ export default function AllUsersScreen({ navigation }: any) {
             </View>
             <ScrollView>
                 <View style={styles.container}>
-                    <Users></Users>
+                    {users.map((user: User) => {
+                        return <UserEntry user={user}></UserEntry>;
+                    })}
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -160,7 +155,7 @@ export const styles = StyleSheet.create({
         borderRadius: 15,
         marginTop: 10,
         alignItems: "center",
-        backgroundColor: secondary,
+        backgroundColor: white,
     },
     imageContainer: {
         width: 75,

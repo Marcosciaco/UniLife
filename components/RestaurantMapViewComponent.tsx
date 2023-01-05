@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import MapView, { Callout, Marker, PROVIDER_DEFAULT } from "react-native-maps";
+import { GastronomyResponse } from "../utils/GastronomyAPIUtil";
 import { white } from "../utils/Theme";
 
 export default function RestaurantMapView({ location, restaurants }: any) {
@@ -20,30 +21,38 @@ export default function RestaurantMapView({ location, restaurants }: any) {
                 borderRadius: 15,
             }}
         >
-            {restaurants.map((restaurant: any) => (
-                <Marker
-                    key={restaurant.Id}
-                    icon={require("../assets/icons/pin.png")}
-                    coordinate={{
-                        latitude: restaurant.GpsPoints.position.Latitude || 0,
-                        longitude: restaurant.GpsPoints.position.Longitude || 0,
-                    }}
-                    title={restaurant.Detail.de.Title}
-                >
-                    <Callout tooltip={true}>
-                        <View style={styles.tooltipContainer}>
-                            <Text
-                                style={{
-                                    fontFamily: "Poppins_400Regular",
-                                    textAlign: "center",
-                                }}
-                            >
-                                {restaurant.Shortname}
-                            </Text>
-                        </View>
-                    </Callout>
-                </Marker>
-            ))}
+            {restaurants.map((restaurant: GastronomyResponse) => {
+                let image = require("../assets/icons/pin.png");
+                if (
+                    restaurant.ImageGallery != null &&
+                    restaurant.ImageGallery.length > 0
+                ) {
+                    image = { uri: restaurant.ImageGallery[0].ImageUrl };
+                }
+
+                return (
+                    <Marker
+                        key={restaurant.Id}
+                        coordinate={{
+                            latitude:
+                                restaurant.GpsPoints.position.Latitude || 0,
+                            longitude:
+                                restaurant.GpsPoints.position.Longitude || 0,
+                        }}
+                        title={restaurant.Detail.de.Title}
+                        style={{ width: 30, height: 30 }}
+                    >
+                        <Image
+                            source={image}
+                            style={{
+                                width: 30,
+                                height: 30,
+                                borderRadius: 15,
+                            }}
+                        />
+                    </Marker>
+                );
+            })}
         </MapView>
     );
 }
