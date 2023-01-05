@@ -7,36 +7,72 @@ import {
     StyleSheet,
     Dimensions,
 } from "react-native";
+import FollowIcon from "../../assets/icons/follow";
+import UnfollowIcon from "../../assets/icons/unfollow";
+import { User } from "../../models/User";
+import { auth } from "../../utils/Firebase";
 import { light, dark, secondary, white, primary } from "../../utils/Theme";
-import { followUser } from "../../utils/UserService";
+import {
+    followUser,
+    getCurrentUser,
+    unfollowUser,
+} from "../../utils/UserService";
 
 const { width } = Dimensions.get("window");
 
-export default function UserEntry({ user }: any) {
+export default function UserEntry({ user }: { user: User }) {
     const [following, setFollowing] = useState<boolean>(false);
-    const [followers, setFollowers] = useState<any[]>([]);
 
     useEffect(() => {
-        setFollowers(user.followers);
+        getCurrentUser().then((currentUser) => {
+            if (currentUser != null) {
+                if (currentUser.following?.includes(user.email || "")) {
+                    setFollowing(true);
+                }
+            }
+        });
     }, []);
 
-    const buttonText = following ? "Unfollow" : "Follow";
-
     const toggle = () => {
-        followUser(user.email);
-        setFollowing(!following);
+        if (following && user.email != null) {
+            unfollowUser(user.email);
+            setFollowing(false);
+        } else {
+            if (user.email != null) {
+                followUser(user.email);
+                setFollowing(true);
+            }
+        }
     };
 
     return (
         <View style={styles.userContainer} key={user.uid}>
             <Image
                 style={styles.imageContainer}
-                source={{ uri: user.photoURL }}
+                source={{ uri: user.photoURL || "" }}
             />
             <Text style={styles.text}>{user.displayName}</Text>
-            <Pressable style={styles.button} onPress={() => toggle()}>
-                <Text style={styles.text}>{buttonText}</Text>
-            </Pressable>
+            <View
+                style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                    height: "100%",
+                }}
+            >
+                {user.email == auth.currentUser?.email ? (
+                    <></>
+                ) : (
+                    <Pressable style={styles.button} onPress={() => toggle()}>
+                        {following ? (
+                            <UnfollowIcon height={15} width={15} color={dark} />
+                        ) : (
+                            <FollowIcon height={15} width={15} color={dark} />
+                        )}
+                    </Pressable>
+                )}
+            </View>
         </View>
     );
 }
@@ -85,19 +121,19 @@ export const styles = StyleSheet.create({
         marginBottom: 0,
     },
     userContainer: {
-        width: width - 20,
         padding: 5,
+        display: "flex",
         flexDirection: "row",
+        width: width - 20,
+        justifyContent: "space-between",
         borderRadius: 15,
-        marginTop: 10,
+        marginBottom: 10,
         alignItems: "center",
         backgroundColor: white,
     },
     imageContainer: {
         width: 75,
         height: 75,
-        borderWidth: 2,
-        borderColor: primary,
         borderRadius: 15,
         margin: 3,
         marginRight: 10,
@@ -108,15 +144,12 @@ export const styles = StyleSheet.create({
         color: dark,
     },
     button: {
+        width: 30,
+        height: 30,
+        borderRadius: 30,
+        backgroundColor: light,
+        justifyContent: "center",
         alignItems: "center",
-        marginLeft: "auto",
-        width: 80,
-        borderRadius: 10,
-        margin: 15,
-        padding: 5,
-        borderColor: primary,
-        borderWidth: 2,
-        backgroundColor: white,
         fontFamily: "Poppins_400Regular",
     },
 });

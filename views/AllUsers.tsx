@@ -16,7 +16,7 @@ import MenuIcon from "../assets/icons/menu";
 import UserEntry from "../components/AllUsers/UserEntry";
 import { User } from "../models/User";
 import { dark, light, primary, secondary, white } from "../utils/Theme";
-import { followUser, getAllUsers } from "../utils/UserService";
+import { followUser, getAllUsers, getCurrentUser } from "../utils/UserService";
 
 const { width } = Dimensions.get("window");
 
@@ -29,27 +29,6 @@ export default function AllUsersScreen({ navigation }: any) {
             setFiltered(users);
         });
     }, []);
-
-    const Users = () => {
-        return (
-            <View>
-                {filtered.map((user: any) => {
-                    return (
-                        <View style={styles.userContainer} key={user.uid}>
-                            <Image
-                                style={styles.imageContainer}
-                                source={{ uri: user.photoURL }}
-                            />
-                            <Text style={styles.text}>{user.displayName}</Text>
-                            <FollowButton
-                                onPress={() => followUser(user.email)}
-                            />
-                        </View>
-                    );
-                })}
-            </View>
-        );
-    };
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
@@ -80,7 +59,9 @@ export default function AllUsersScreen({ navigation }: any) {
             <ScrollView>
                 <View style={styles.container}>
                     {users.map((user: User) => {
-                        return <UserEntry user={user}></UserEntry>;
+                        return (
+                            <UserEntry key={user.email} user={user}></UserEntry>
+                        );
                     })}
                 </View>
             </ScrollView>
@@ -156,15 +137,6 @@ export const styles = StyleSheet.create({
         marginTop: 10,
         alignItems: "center",
         backgroundColor: white,
-    },
-    imageContainer: {
-        width: 75,
-        height: 75,
-        borderWidth: 2,
-        borderColor: primary,
-        borderRadius: 15,
-        margin: 3,
-        marginRight: 10,
     },
     text: {
         fontSize: 15,

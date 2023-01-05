@@ -103,8 +103,14 @@ export function logout(navigation: any): void {
     });
 }
 
-export function getCurrentUser() {
-    return getDoc(doc(db, "users", getUserEmail() || ""));
+export function getCurrentUser(): Promise<User> {
+    return new Promise((resolve, reject) => {
+        getDoc(doc(db, "users", getUserEmail() || "")).then((resp) => {
+            if (resp.exists()) {
+                resolve(resp.data() as User);
+            }
+        });
+    });
 }
 
 export async function getAllUsers(): Promise<User[]> {

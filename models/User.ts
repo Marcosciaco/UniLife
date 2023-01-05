@@ -14,5 +14,6 @@ export type User = {
     tenantId: string | null;
     studentId: string;
     followers: string;
+    following: string;
     isOnline: boolean;
 };
