@@ -23,7 +23,7 @@ import {
     success,
     white,
 } from "../utils/Theme";
-import { getAllUsers } from "../utils/UserService";
+import { followUser, getAllUsers } from "../utils/UserService";
 
 const { width } = Dimensions.get("window");
 
@@ -48,7 +48,9 @@ export default function AllUsersScreen({ navigation }: any) {
                                 source={{ uri: user.photoURL }}
                             />
                             <Text style={styles.text}>{user.displayName}</Text>
-                            <FollowButton onPress={() => null} />
+                            <FollowButton
+                                onPress={() => followUser(user.email)}
+                            />
                         </View>
                     );
                 })}

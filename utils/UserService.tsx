@@ -117,23 +117,20 @@ export async function getAllUsers(): Promise<User[]> {
     return users;
 }
 
-export function askFollowUser(email: string): void {
+export function followUser(email: string): void {
     getDoc(doc(db, "users", email)).then((resp) => {
         if (resp.exists()) {
             updateDoc(doc(db, "users", email), {
-                followRequests: resp.data()?.followers + getUserEmail() + ";",
+                followers: resp.data()?.followers + getUserEmail() + ";",
             });
         }
     });
-}
-
-export function getFollowRequests(): Promise<string[]> {
-    return new Promise((resolve, reject) => {
-        getDoc(doc(db, "users", getUserEmail())).then((resp) => {
-            if (resp.exists()) {
-                resolve(resp.data()?.followRequests.split(";"));
-            }
-        });
+    getDoc(doc(db, "users", getUserEmail())).then((resp) => {
+        if (resp.exists()) {
+            updateDoc(doc(db, "users", getUserEmail()), {
+                following: resp.data()?.following + email + ";",
+            });
+        }
     });
 }
 
@@ -157,31 +154,20 @@ export function getFollowing(): Promise<string[]> {
     });
 }
 
-export function acceptFollowRequest(email: string): void {
-    getDoc(doc(db, "users", getUserEmail())).then((resp) => {
-        if (resp.exists()) {
-            updateDoc(doc(db, "users", getUserEmail()), {
-                followers: resp.data()?.followers + email + ";",
-            });
-        }
-    });
-}
-
-export function declineFollowRequest(email: string): void {
-    getDoc(doc(db, "users", getUserEmail())).then((resp) => {
-        if (resp.exists()) {
-            updateDoc(doc(db, "users", getUserEmail()), {
-                followers: resp.data()?.followers.replace(email + ";", ""),
-            });
-        }
-    });
-}
-
 export function unfollowUser(email: string): void {
+    getDoc(doc(db, "users", email)).then((resp) => {
+        if (resp.exists()) {
+            updateDoc(doc(db, "users", email), {
+                followers: resp
+                    .data()
+                    ?.followers.replace(getUserEmail() + ";", ""),
+            });
+        }
+    });
     getDoc(doc(db, "users", getUserEmail())).then((resp) => {
         if (resp.exists()) {
             updateDoc(doc(db, "users", getUserEmail()), {
-                followers: resp.data()?.followers.replace(email + ";", ""),
+                following: resp.data()?.following.replace(email + ";", ""),
             });
         }
     });
@@ -228,7 +214,7 @@ export function createEvent(
     description: string,
     location: string,
     date: Date,
-    creator: string,
+    partecipant: string[],
     color: string
 ): void {
     addDoc(collection(db, "events"), {
@@ -237,8 +223,8 @@ export function createEvent(
         description: description,
         location: location,
         date: date.getTime(),
-        creator: creator,
-        participants: [],
+        creator: auth.currentUser?.email,
+        participants: partecipant,
         color,
     });
 }

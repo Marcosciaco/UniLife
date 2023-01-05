@@ -2,17 +2,10 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
 import { white } from "../utils/Theme";
-import { getFollowRequests, getUsernameByEmail } from "../utils/UserService";
 import { InviteNotification } from "./InviteNotification";
 
 export default function NotificationContainer() {
     const [requests, setRequests] = React.useState<any[]>([]);
-
-    React.useEffect(() => {
-        getFollowRequests().then((requests) => {
-            setRequests(requests);
-        });
-    }, []);
 
     return (
         <Animated.View

@@ -8,20 +8,16 @@ import {
 } from "react-native";
 import MailIcon from "../assets/icons/mail";
 import { dark, light, secondary } from "../utils/Theme";
-import {
-    acceptFollowRequest,
-    declineFollowRequest,
-    getUsernameByEmail,
-} from "../utils/UserService";
+import { getUsernameByEmail } from "../utils/UserService";
 
 export function confirmInvitation(mail: string) {
     return Alert.alert("Do you want to accept " + mail + "'s invitation?", "", [
         {
             text: "Cancel",
-            onPress: () => declineFollowRequest(mail),
+            onPress: () => {},
             style: "cancel",
         },
-        { text: "OK", onPress: () => acceptFollowRequest(mail) },
+        { text: "OK", onPress: () => {} },
     ]);
 }
 
