@@ -8,6 +8,7 @@ import {
     addDoc,
     collection,
     doc,
+    Firestore,
     getDoc,
     getDocs,
     query,
@@ -196,7 +197,6 @@ export function getUsernameByEmail(email: string): Promise<string> {
 export function getProfileEvents(email: string): Promise<Event[]> {
     return new Promise((resolve, reject) => {
         const events: Event[] = [];
-
         getDocs(query(collection(db, "events"))).then((resp) => {
             resp.forEach((doc) => {
                 const event = doc.data() as Event;
@@ -224,7 +224,7 @@ export function createEvent(
         location: location,
         date: date.getTime(),
         creator: auth.currentUser?.email,
-        participants: partecipant,
+        partecipants: partecipant,
         color,
     });
 }

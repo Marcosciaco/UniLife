@@ -37,7 +37,7 @@ import ColorPicker from "../Inputs/ColorPicker";
 
 const { width } = Dimensions.get("window");
 
-export default function EventCreation() {
+export default function EventCreation({ onCreate }: { onCreate: Function }) {
     const [restaurants, setRestaurants] = React.useState<any[]>([]);
     const [users, setUsers] = React.useState<string[]>([]);
 
@@ -104,12 +104,14 @@ export default function EventCreation() {
                     ></TextInput>
                     <Select
                         data={[...restaurants]}
+                        label="Select Restaurant"
                         onChange={(text: string) => {
                             setEventLocation(text);
                         }}
                     />
                     <Select
                         data={[...users]}
+                        label="Select Friend"
                         onChange={(text: string) => {
                             setEventPartecipant(text);
                         }}
@@ -146,6 +148,7 @@ export default function EventCreation() {
                         [auth.currentUser?.email || "", eventPartecipant],
                         eventColor
                     );
+                    onCreate();
                 }}
             ></Dialog.Button>
         </View>

@@ -1,17 +1,17 @@
-import * as Location from "expo-location";
 import React, { useEffect } from "react";
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
+import { MarkedDates } from "react-native-calendars/src/types";
+import Dialog from "react-native-dialog";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddIcon from "../assets/icons/add";
+import CloseIcon from "../assets/icons/close";
 import MenuIcon from "../assets/icons/menu";
 import EventCreation from "../components/Socialize/EventCreationDialog";
 import EventDescription from "../components/Socialize/EventEntryDescription";
-import { CategoryCode } from "../models/CategoryCode";
 import { Event } from "../models/Event";
 import { auth } from "../utils/Firebase";
-import { getGastronomyLocales } from "../utils/GastronomyAPIUtil";
 import {
     black,
     dark,
@@ -21,35 +21,39 @@ import {
     secondary,
     white,
 } from "../utils/Theme";
-import Dialog from "react-native-dialog";
-import { getFollowing, getProfileEvents } from "../utils/UserService";
-import CloseIcon from "../assets/icons/close";
+import { getProfileEvents } from "../utils/UserService";
 
 const { width } = Dimensions.get("window");
 
+function getMarkedDates(events: Event[]): MarkedDates {
+    const markedDates: any = {};
+    events.forEach((event: Event) => {
+        const date = new Date(event.date);
+        markedDates[date.toISOString().split("T")[0]] = {
+            marked: true,
+            dotColor: event.color || error,
+        };
+    });
+    return markedDates;
+}
+
+function getEventsForDate({ onReturn }: { onReturn: Function }): void {
+    getProfileEvents(auth.currentUser?.email || "").then((data) => {
+        onReturn(data);
+    });
+}
+
 export default function SocializeScreen({ navigation }: any) {
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
-    const [markedDates, setMarkedDates] = React.useState({});
     const [filteredEvents, setFilteredEvents] = React.useState<Event[]>([]);
     const [visible, setVisible] = React.useState(false);
 
     useEffect(() => {
-        getProfileEvents(auth.currentUser?.email || "").then((data) => {
-            setFilteredEvents(data);
-            data.forEach((event: Event) => {
-                const date = new Date(event.date);
-                setMarkedDates((prev: any) => {
-                    return {
-                        ...prev,
-                        [date.toISOString().split("T")[0]]: {
-                            marked: true,
-                            dotColor: event.color || error,
-                        },
-                    };
-                });
-            });
+        getEventsForDate({
+            onReturn: (data: Event[]) => {
+                setFilteredEvents(data);
+            },
         });
-    }, [selectedDate]);
+    }, []);
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
@@ -108,7 +112,15 @@ export default function SocializeScreen({ navigation }: any) {
                                     />
                                 </Pressable>
                             </View>
-                            <EventCreation></EventCreation>
+                            <EventCreation
+                                onCreate={() => {
+                                    getEventsForDate({
+                                        onReturn: (data: Event[]) => {
+                                            setFilteredEvents(data);
+                                        },
+                                    });
+                                }}
+                            ></EventCreation>
                         </Dialog.Container>
                     </View>
                     <View>
@@ -126,14 +138,11 @@ export default function SocializeScreen({ navigation }: any) {
                                 textDayHeaderFontWeight: "500",
                                 textDayFontSize: 16,
                                 textMonthFontSize: 18,
-                                selectedDayBackgroundColor: primary,
-                                selectedDayTextColor: light,
+                                selectedDayBackgroundColor: white,
+                                selectedDayTextColor: dark,
                                 textDayHeaderFontSize: 8,
                             }}
-                            markedDates={markedDates}
-                            onDayPress={(day) => {
-                                setSelectedDate(new Date(day.dateString));
-                            }}
+                            markedDates={getMarkedDates(filteredEvents)}
                             style={styles.calendar}
                         />
                     </View>

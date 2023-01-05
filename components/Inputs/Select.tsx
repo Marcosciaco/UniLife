@@ -9,14 +9,16 @@ const { width } = Dimensions.get("window");
 export default function Select({
     onChange,
     data,
+    label,
 }: {
     onChange: Function;
     data: string[];
+    label: string;
 }) {
     return (
         <SelectDropdown
             data={[...data]}
-            defaultButtonText="Select Friend"
+            defaultButtonText={label}
             onSelect={(selectedItem) => {
                 onChange(selectedItem);
             }}
