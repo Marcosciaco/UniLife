@@ -1,3 +1,4 @@
+import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import React, { useEffect, useState } from "react";
 import {
     ImageBackground,
@@ -54,6 +55,7 @@ export default function ProfileScreen({ user }: { user: User }) {
 
     return (
         <View style={styles.container}>
+            <ExpoStatusBar backgroundColor="transparent" style="dark" />
             <ImageBackground
                 style={styles.backgroundImage}
                 source={imgProfile}

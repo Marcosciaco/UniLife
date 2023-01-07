@@ -1,3 +1,4 @@
+import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import React, { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Calendar } from "react-native-calendars";
@@ -63,6 +64,7 @@ export default function SocializeScreen({ navigation }: any) {
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
+            <ExpoStatusBar backgroundColor="transparent" style="dark" />
             <View style={styles.container}>
                 <View>
                     <View style={styles.header}>

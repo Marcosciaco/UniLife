@@ -1,3 +1,4 @@
+import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import React from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { FlatList, TextInput } from "react-native-gesture-handler";
@@ -21,6 +22,7 @@ export default function AllUsersScreen({ navigation }: any) {
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
+            <ExpoStatusBar backgroundColor="transparent" style="dark" />
             <View style={styles.header}>
                 <TouchableOpacity
                     onPress={() => {

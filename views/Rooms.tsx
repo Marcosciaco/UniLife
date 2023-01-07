@@ -1,10 +1,11 @@
+import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import React from "react";
 import {
     FlatList,
     StyleSheet,
     Text,
     TouchableOpacity,
-    View
+    View,
 } from "react-native";
 import Dialog from "react-native-dialog";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -88,6 +89,7 @@ export default function RoomsScreen({ navigation }: any) {
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
+            <ExpoStatusBar backgroundColor="transparent" style="dark" />
             <View style={styles.container}>
                 <View style={styles.header}>
                     <TouchableOpacity

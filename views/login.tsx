@@ -1,3 +1,4 @@
+import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import React, { useState } from "react";
 import {
     StyleSheet,
@@ -114,6 +115,7 @@ export default function LoginScreen({ navigation }: any) {
 
     return (
         <Animated.View style={styles.container}>
+            <ExpoStatusBar backgroundColor="transparent" style="dark" />
             <Animated.View
                 style={[StyleSheet.absoluteFill, imageAnimatedStyle]}
             >
@@ -203,33 +205,31 @@ export default function LoginScreen({ navigation }: any) {
                         style={styles.textInput}
                     />
                     <TextInput
+                        secureTextEntry={true}
                         onChangeText={(text) => setPassword(text)}
                         placeholder="Password"
                         placeholderTextColor={dark}
                         style={styles.textInput}
                     />
-                    <Animated.View
+                    <TouchableOpacity
                         style={[styles.formButton, formButtonAnimatedStyle]}
+                        onPress={
+                            isRegistering
+                                ? () =>
+                                      register(
+                                          email,
+                                          password,
+                                          studentId,
+                                          navigation,
+                                          displayName
+                                      )
+                                : () => login(email, password, navigation)
+                        }
                     >
-                        <TouchableOpacity
-                            onPress={
-                                isRegistering
-                                    ? () =>
-                                          register(
-                                              email,
-                                              password,
-                                              studentId,
-                                              navigation,
-                                              displayName
-                                          )
-                                    : () => login(email, password, navigation)
-                            }
-                        >
-                            <Text style={styles.buttonText}>
-                                {isRegistering ? "Register" : "Login"}
-                            </Text>
-                        </TouchableOpacity>
-                    </Animated.View>
+                        <Text style={styles.buttonText}>
+                            {isRegistering ? "Register" : "Login"}
+                        </Text>
+                    </TouchableOpacity>
                 </Animated.View>
             </View>
         </Animated.View>

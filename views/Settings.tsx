@@ -1,4 +1,6 @@
 import * as ImagePicker from "expo-image-picker";
+import * as Location from "expo-location";
+import { LocationObject } from "expo-location";
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import { updatePassword, updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
@@ -14,7 +16,6 @@ import {
     View,
 } from "react-native";
 import { Switch } from "react-native-gesture-handler";
-import Toast from "react-native-root-toast";
 import { SafeAreaView } from "react-native-safe-area-context";
 import EditIcon from "../assets/icons/edit";
 import LogoIcon from "../assets/icons/logo";
@@ -30,7 +31,11 @@ import {
     white,
     width,
 } from "../utils/Theme";
-import { getCurrentUser, getUserEmail } from "../utils/UserService";
+import {
+    getCurrentUser,
+    getUserEmail,
+    updateUserLocation,
+} from "../utils/UserService";
 
 export default function SettingsScreen({ navigation }: any) {
     const [imgProfile, setImgProfile] = useState<any>({
@@ -41,6 +46,7 @@ export default function SettingsScreen({ navigation }: any) {
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [isTracking, setIsTracking] = useState<boolean>(false);
+    const [location, setLocation] = useState<LocationObject>();
 
     React.useEffect(() => {
         getCurrentUser().then((user) => {
@@ -53,16 +59,30 @@ export default function SettingsScreen({ navigation }: any) {
         });
     }, []);
 
+    React.useEffect(() => {
+        (async () => {
+            const { status } =
+                await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                return;
+            }
+
+            const location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+            updateUserLocation(auth.currentUser?.email as string, location);
+        })();
+    }, []);
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4, 3],
             quality: 1,
         });
 
         if (!result.canceled && imgProfile.uri != result.assets[0].uri) {
             setImgProfile({ uri: result.assets[0].uri });
+            uploadImage();
         }
     };
 
@@ -81,23 +101,33 @@ export default function SettingsScreen({ navigation }: any) {
         const uploadTask = uploadBytesResumable(storageRef, blob);
 
         uploadTask.then((response) => {
-            getDownloadURL(response.ref).then((downloadURL) => {
-                setImgProfile({ uri: downloadURL });
-                updateDoc(doc(db, "users", email), {
-                    photoURL: downloadURL,
-                });
-                if (auth.currentUser) {
-                    updateProfile(auth.currentUser, {
+            getDownloadURL(response.ref)
+                .then((downloadURL) => {
+                    setImgProfile({ uri: downloadURL });
+                    updateDoc(doc(db, "users", email), {
                         photoURL: downloadURL,
-                    });
-                }
-            });
+                    })
+                        .then(() => {})
+                        .catch((error) => {
+                            showToast(error.message, error);
+                        });
+                    if (auth.currentUser) {
+                        updateProfile(auth.currentUser, {
+                            photoURL: downloadURL,
+                        });
+                    }
+                })
+                .then(() => {
+                    showToast("Image updated", success);
+                })
+                .catch((error) => {
+                    showToast(error.message, error);
+                });
         });
     };
 
     const saveHandler = () => {
         showToast("Saved", success);
-        // uploadImage();
         if (password != "") {
             if (auth.currentUser) {
                 updatePassword(auth.currentUser, password).then(() => {});
@@ -119,7 +149,7 @@ export default function SettingsScreen({ navigation }: any) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ExpoStatusBar style="dark" />
+            <ExpoStatusBar backgroundColor="transparent" style="dark" />
             <View style={styles.header}>
                 <TouchableOpacity
                     onPress={() => {
@@ -130,7 +160,6 @@ export default function SettingsScreen({ navigation }: any) {
                 </TouchableOpacity>
                 <LogoIcon color={dark} height={40} width={40} />
             </View>
-
             <View style={styles.imageContainer}>
                 <Image source={imgProfile} style={styles.profilePicture} />
                 <TouchableOpacity
