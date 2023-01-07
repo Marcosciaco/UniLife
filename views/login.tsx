@@ -28,7 +28,7 @@ import {
 } from "../utils/Theme";
 import { login, register } from "../utils/UserService";
 
-export default function LoginScreen({ navigation }: any) {
+export default function LoginScreen({ navigation }: any): JSX.Element {
     const imagePosition = useSharedValue(1);
     const formButtonScale = useSharedValue(1);
     const [isRegistering, setIsRegistering] = useState(false);

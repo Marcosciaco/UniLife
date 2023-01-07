@@ -15,7 +15,7 @@ import RoomListEntry from "../components/RoomListEntry";
 import { RoomSlot } from "../models/RoomSlot";
 import { dark, light, primary, width } from "../utils/Theme";
 
-export default function RoomsScreen({ navigation }: any) {
+export default function RoomsScreen({ navigation }: any): JSX.Element {
     const [data, setData] = React.useState([]);
     const [notFilteredData, setNotFilteredData] = React.useState([]);
 

@@ -1,6 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
-import { LocationObject } from "expo-location";
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import { updatePassword, updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
@@ -37,7 +36,7 @@ import {
     updateUserLocation,
 } from "../utils/UserService";
 
-export default function SettingsScreen({ navigation }: any) {
+export default function SettingsScreen({ navigation }: any): JSX.Element {
     const [imgProfile, setImgProfile] = useState<any>({
         uri: "https://picsum.photos/1920/1080",
     });
@@ -46,7 +45,6 @@ export default function SettingsScreen({ navigation }: any) {
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [isTracking, setIsTracking] = useState<boolean>(false);
-    const [location, setLocation] = useState<LocationObject>();
 
     React.useEffect(() => {
         getCurrentUser().then((user) => {
@@ -68,7 +66,6 @@ export default function SettingsScreen({ navigation }: any) {
             }
 
             const location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
             updateUserLocation(auth.currentUser?.email as string, location);
         })();
     }, []);
@@ -196,20 +193,12 @@ export default function SettingsScreen({ navigation }: any) {
                     value={password}
                     onChangeText={(text) => setPassword(text)}
                 />
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        width: width - 20,
-                        padding: 0,
-                    }}
-                >
+                <View style={styles.locationContainer}>
                     <Text style={styles.label}>Location tracking</Text>
                     <Switch
                         trackColor={{ false: dark, true: secondary }}
                         thumbColor={isTracking ? primary : light}
-                        ios_backgroundColor="#3e3e3e"
+                        ios_backgroundColor={light}
                         onValueChange={(enabled) => {
                             setIsTracking(enabled);
                         }}
@@ -244,13 +233,6 @@ export const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.34,
-        shadowRadius: 6.27,
     },
     profilePicture: {
         width: 150,
@@ -297,7 +279,7 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         marginTop: -20,
         marginRight: -150,
-        elevation: 3,
+        elevation: 10,
     },
     label: {
         fontFamily: "Poppins_400Regular",
@@ -307,5 +289,12 @@ export const styles = StyleSheet.create({
     rowLabel: {
         marginTop: 5,
         marginLeft: 5,
+    },
+    locationContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: width - 20,
+        padding: 0,
     },
 });

@@ -5,19 +5,18 @@ import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
 import HeaderRow from "../components/HomeHeaderComponent";
+import showToast from "../components/Inputs/Toast";
 import NotificationContainer from "../components/NotificationContainerComponent";
 import RestaurantMapView from "../components/RestaurantMapViewComponent";
 import { CategoryCode } from "../models/CategoryCode";
+import { GastronomyResponse } from "../models/GastronomyResponse";
 import { auth } from "../utils/Firebase";
-import {
-    GastronomyResponse,
-    getGastronomyLocales,
-} from "../utils/GastronomyAPIUtil";
+import { getGastronomyLocales } from "../utils/GastronomyAPIUtil";
 import { light, white } from "../utils/Theme";
 import { updateUserLocation } from "../utils/UserService";
 import WeatherAPIUtil, { WeatherTempImage } from "../utils/WeatherAPIUtil";
 
-export default function HomeScreen({ navigation }: any) {
+export default function HomeScreen({ navigation }: any): JSX.Element {
     const [weatherData, setWeatherData] = React.useState("");
     const [location, setLocation] = useState<LocationObject>();
     const [restaurants, setRestaurants] = useState<GastronomyResponse[]>([]);
@@ -45,7 +44,7 @@ export default function HomeScreen({ navigation }: any) {
                 setWeatherData(data.WeatherDesc);
             })
             .catch((error) => {
-                console.log(error);
+                showToast("Error while fetching weather data", error);
             });
     }, []);
 
@@ -75,7 +74,7 @@ export default function HomeScreen({ navigation }: any) {
                     setRestaurants(data);
                 })
                 .catch((error) => {
-                    console.log(error);
+                    showToast("Error while fetching restaurants", error);
                 });
         }
     }, [location]);
@@ -117,7 +116,6 @@ export const styles = StyleSheet.create({
         paddingTop: 20,
         flexGrow: 1,
     },
-
     weatherRowContainer: {
         display: "flex",
         flexDirection: "row",
@@ -127,13 +125,11 @@ export const styles = StyleSheet.create({
         marginRight: 20,
         overflow: "hidden",
     },
-
     weatherDescriptionContainer: {
         height: 120,
         marginLeft: 20,
         flex: 1,
     },
-
     weatherDescriptionText: {
         fontFamily: "Poppins_600SemiBold",
         height: 120,
@@ -143,13 +139,11 @@ export const styles = StyleSheet.create({
         textAlignVertical: "center",
         backgroundColor: white,
     },
-
     mapContainerRow: {
         overflow: "hidden",
         padding: 20,
         flexGrow: 1,
     },
-
     mapContainer: {
         flexGrow: 1,
         width: "100%",

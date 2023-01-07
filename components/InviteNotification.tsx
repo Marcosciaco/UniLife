@@ -27,7 +27,7 @@ export function InviteNotification({
 }: {
     email: string;
     type: string;
-}) {
+}): JSX.Element {
     const [username, setUsername] = React.useState<string>("");
 
     React.useEffect(() => {
@@ -68,16 +68,10 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
     },
-
     inviteName: {
         color: secondary,
         fontFamily: "Poppins_600SemiBold",
     },
-
-    inviteType: {
-        fontFamily: "Poppins_400Regular",
-    },
-
     inviteText: {
         paddingLeft: 10,
         fontFamily: "Poppins_400Regular",

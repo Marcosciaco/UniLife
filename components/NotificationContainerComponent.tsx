@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
 import { white } from "../utils/Theme";
 import { InviteNotification } from "./InviteNotification";
 
-export default function NotificationContainer() {
+export default function NotificationContainer(): JSX.Element {
     const [requests, setRequests] = React.useState<any[]>([]);
 
     return (
@@ -37,11 +37,10 @@ export const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         marginTop: 20,
-        height: "25%",
         borderRadius: 15,
         overflow: "hidden",
+        height: "20%",
     },
-
     notificationTitle: {
         fontFamily: "Poppins_600SemiBold",
         fontSize: 15,

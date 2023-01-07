@@ -1,12 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { dark, height, light, white, width } from "../../utils/Theme";
+import { StyleSheet, Text, View } from "react-native";
 import { Event } from "../../models/Event";
-import Dialog from "react-native-dialog";
-import { getUserEmail, getUsernameByEmail } from "../../utils/UserService";
 import { formatDate } from "../../utils/DateUtil";
+import { dark, light, white, width } from "../../utils/Theme";
+import { getUsernameByEmail } from "../../utils/UserService";
 
-export default function EventDetails({ event }: { event: Event }) {
+export default function EventDetails({ event }: { event: Event }): JSX.Element {
     return (
         <View style={styles.container}>
             <View style={styles.eventHeader}>

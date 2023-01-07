@@ -4,7 +4,7 @@ import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
 import { dark } from "../utils/Theme";
 
-export default function HeaderRow({ navigation }: any) {
+export default function HeaderRow({ navigation }: any): JSX.Element {
     return (
         <View style={styles.container}>
             <TouchableOpacity

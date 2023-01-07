@@ -14,13 +14,16 @@ import {
     secondary,
     success,
     white,
-    width,
 } from "../../utils/Theme";
 import { createEvent, getFollowing } from "../../utils/UserService";
 import ColorPicker from "../Inputs/ColorPicker";
 import Select from "../Inputs/Select";
 
-export default function EventCreation({ onCreate }: { onCreate: Function }) {
+export default function EventCreation({
+    onCreate,
+}: {
+    onCreate: Function;
+}): JSX.Element {
     const [restaurants, setRestaurants] = React.useState<any[]>([]);
     const [users, setUsers] = React.useState<string[]>([]);
 
@@ -100,17 +103,8 @@ export default function EventCreation({ onCreate }: { onCreate: Function }) {
                         }}
                     />
                     <DatePicker
-                        options={{
-                            backgroundColor: white,
-                            textHeaderColor: primary,
-                            textDefaultColor: dark,
-                            selectedTextColor: light,
-                            mainColor: primary,
-                            textSecondaryColor: secondary,
-                        }}
-                        style={{
-                            borderRadius: 10,
-                        }}
+                        options={styles.datePickerOptions}
+                        style={styles.datePicker}
                         minuteInterval={10}
                         onSelectedChange={(text: string) => setEventDate(text)}
                     />
@@ -139,66 +133,22 @@ export default function EventCreation({ onCreate }: { onCreate: Function }) {
 }
 
 export const styles = StyleSheet.create({
-    container: {
-        padding: 10,
-        backgroundColor: light,
-        alignItems: "center",
-    },
-    header: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        flexDirection: "row",
-    },
-    title: {
-        fontSize: 30,
-        fontWeight: "bold",
-        marginBottom: 10,
-    },
-    calendar: {
-        width: width - 20,
-        borderRadius: 10,
-        marginTop: 20,
-    },
-    safeAreaView: {
-        backgroundColor: "#FBFDFF",
-        flexGrow: 1,
-    },
-    buttonText: {
-        fontSize: 20,
-        lineHeight: 30,
-        marginTop: 2,
-        fontFamily: "Poppins_300Light",
-        color: "#2B363F",
-        textAlign: "center",
-        flex: 1,
-        marginRight: 20,
-    },
-    button: {
-        display: "flex",
-        flexDirection: "row",
-        backgroundColor: "#F3F8FF",
-        marginBottom: 0,
-        padding: 10,
-        borderRadius: 15,
-        height: 50,
-        width: width - 40,
-        justifyContent: "space-between",
-        alignItems: "center",
-    },
-    iconContainer: {
-        backgroundColor: "#F3F8FF",
-        height: 50,
-        width: 50,
-        borderRadius: 15,
-        justifyContent: "center",
-        alignItems: "center",
-    },
     input: {
         height: 40,
         marginBottom: 10,
         backgroundColor: white,
         borderRadius: 10,
         padding: 10,
+    },
+    datePickerOptions: {
+        backgroundColor: white,
+        textHeaderColor: primary,
+        textDefaultColor: dark,
+        selectedTextColor: light,
+        mainColor: primary,
+        textSecondaryColor: secondary,
+    },
+    datePicker: {
+        borderRadius: 10,
     },
 });

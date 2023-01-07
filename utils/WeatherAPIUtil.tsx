@@ -1,34 +1,10 @@
 import React from "react";
-import { ImageBackground, View, Text } from "react-native";
+import { ImageBackground, View, Text, StyleSheet } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
+import { WeatherImage } from "../models/WeatherImage";
+import { WeatherResponse } from "../models/WeatherResponse";
+import { WeatherStationData } from "../models/WeatherStationData";
 import { white } from "./Theme";
-
-type WeatherResponse = {
-    Id: number;
-    date: string;
-    evolutiontitle: string;
-    evolution: string;
-    language: string;
-    Stationdata: WeatherStationData[];
-};
-
-type WeatherStationData = {
-    date: string;
-    Id: number;
-    CityName: string;
-    WeatherCode: string;
-    WeatherDesc: string;
-    WeatherImgUrl: string;
-    MinTemp: number;
-    MaxTemp: number;
-};
-
-enum WeatherImage {
-    Sunny = require("../assets/weather/Sunny.jpg"),
-    Cloudy = require("../assets/weather/Cloudy.jpg"),
-    Rainy = require("../assets/weather/Rainy.jpg"),
-    Snowy = require("../assets/weather/Snowy.jpg"),
-}
 
 export default class WeatherAPIUtil {
     static async getWeatherforecast(): Promise<WeatherStationData> {
@@ -83,40 +59,11 @@ export function WeatherTempImage() {
         <Animated.View entering={FadeInLeft.duration(400)}>
             <ImageBackground
                 source={img}
-                style={{
-                    width: 120,
-                    height: 120,
-                    elevation: 1,
-                    borderRadius: 15,
-                    overflow: "hidden",
-                }}
+                style={styles.weatherImage}
                 imageStyle={{ borderRadius: 15 }}
             >
-                <View
-                    style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                >
-                    <Text
-                        style={{
-                            fontFamily: "Poppins_200ExtraLight",
-                            fontStyle: "normal",
-                            fontSize: 55,
-                            lineHeight: 120,
-                            width: 120,
-                            height: 120,
-                            textAlign: "center",
-                            alignItems: "center",
-                            color: white,
-                            backgroundColor: "rgba(0, 0, 0, 0.1)",
-                        }}
-                    >
+                <View style={styles.temperatureContainer}>
+                    <Text style={styles.temperature}>
                         {weatherData?.MaxTemp}°
                     </Text>
                 </View>
@@ -124,3 +71,34 @@ export function WeatherTempImage() {
         </Animated.View>
     );
 }
+
+export const styles = StyleSheet.create({
+    weatherImage: {
+        width: 120,
+        height: 120,
+        elevation: 1,
+        borderRadius: 15,
+        overflow: "hidden",
+    },
+    temperatureContainer: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    temperature: {
+        fontFamily: "Poppins_200ExtraLight",
+        fontStyle: "normal",
+        fontSize: 55,
+        lineHeight: 120,
+        width: 120,
+        height: 120,
+        textAlign: "center",
+        alignItems: "center",
+        color: white,
+        backgroundColor: "rgba(0, 0, 0, 0.1)",
+    },
+});

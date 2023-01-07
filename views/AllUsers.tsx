@@ -1,6 +1,6 @@
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import React from "react";
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { FlatList, TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LogoIcon from "../assets/icons/logo";
@@ -10,9 +10,10 @@ import { User } from "../models/User";
 import { dark, light, primary, white, width } from "../utils/Theme";
 import { getAllUsers } from "../utils/UserService";
 
-export default function AllUsersScreen({ navigation }: any) {
+export default function AllUsersScreen({ navigation }: any): JSX.Element {
     const [users, setUsers] = React.useState<User[]>([]);
     const [filtered, setFiltered] = React.useState<User[]>([]);
+
     React.useEffect(() => {
         getAllUsers().then((users) => {
             setUsers(users);
@@ -86,22 +87,5 @@ export const styles = StyleSheet.create({
     safeAreaView: {
         backgroundColor: light,
         flexGrow: 1,
-    },
-    text: {
-        fontSize: 15,
-        fontFamily: "Poppins_400Regular",
-        color: dark,
-    },
-    button: {
-        alignItems: "center",
-        marginLeft: "auto",
-        width: 80,
-        borderRadius: 10,
-        margin: 15,
-        padding: 5,
-        borderColor: primary,
-        borderWidth: 2,
-        backgroundColor: white,
-        fontFamily: "Poppins_400Regular",
     },
 });

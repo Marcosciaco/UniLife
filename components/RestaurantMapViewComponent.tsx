@@ -1,10 +1,13 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
-import { GastronomyResponse } from "../utils/GastronomyAPIUtil";
+import { GastronomyResponse } from "../models/GastronomyResponse";
 import { white } from "../utils/Theme";
 
-export default function RestaurantMapView({ location, restaurants }: any) {
+export default function RestaurantMapView({
+    location,
+    restaurants,
+}: any): JSX.Element {
     return (
         <MapView
             region={{
@@ -15,11 +18,7 @@ export default function RestaurantMapView({ location, restaurants }: any) {
             }}
             mapType="satellite"
             provider={PROVIDER_DEFAULT}
-            style={{
-                flexGrow: 1,
-                width: "100%",
-                borderRadius: 15,
-            }}
+            style={styles.map}
         >
             {restaurants.map((restaurant: GastronomyResponse) => {
                 let image = require("../assets/icons/pin.png");
@@ -40,16 +39,9 @@ export default function RestaurantMapView({ location, restaurants }: any) {
                                 restaurant.GpsPoints.position.Longitude || 0,
                         }}
                         title={restaurant.Detail.de.Title}
-                        style={{ width: 30, height: 30 }}
+                        style={styles.marker}
                     >
-                        <Image
-                            source={image}
-                            style={{
-                                width: 30,
-                                height: 30,
-                                borderRadius: 15,
-                            }}
-                        />
+                        <Image source={image} style={styles.marker} />
                     </Marker>
                 );
             })}
@@ -66,5 +58,15 @@ export const styles = StyleSheet.create({
         backgroundColor: white,
         borderRadius: 15,
         padding: 10,
+    },
+    map: {
+        flexGrow: 1,
+        width: "100%",
+        borderRadius: 15,
+    },
+    marker: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
     },
 });

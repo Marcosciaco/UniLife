@@ -32,7 +32,7 @@ import { RootSiblingParent } from "react-native-root-siblings";
 
 const Drawer = createDrawerNavigator();
 
-export default function App() {
+export default function App(): JSX.Element | null {
     const [fontsLoaded] = useFonts({
         Poppins_900Black,
         Poppins_800ExtraBold,

@@ -14,7 +14,7 @@ import { auth } from "../utils/Firebase";
 import { dark, light, primary, secondary, white } from "../utils/Theme";
 import { followUser, getCurrentUser, unfollowUser } from "../utils/UserService";
 
-export default function ProfileScreen({ user }: { user: User }) {
+export default function ProfileScreen({ user }: { user: User }): JSX.Element {
     const imgProfile = {
         uri: user.photoURL || "https://picsum.photos/1920/1080",
     };
@@ -56,11 +56,7 @@ export default function ProfileScreen({ user }: { user: User }) {
     return (
         <View style={styles.container}>
             <ExpoStatusBar backgroundColor="transparent" style="dark" />
-            <ImageBackground
-                style={styles.backgroundImage}
-                source={imgProfile}
-                resizeMode="cover"
-            >
+            <ImageBackground style={styles.backgroundImage} source={imgProfile}>
                 <View></View>
                 <View style={styles.dataContainer}>
                     <View style={styles.profileHeader}>
@@ -111,24 +107,6 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: white,
     },
-    button: {
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 10,
-        margin: 20,
-        padding: 5,
-        elevation: 3,
-        borderColor: primary,
-        borderWidth: 1,
-        width: 90,
-        backgroundColor: dark,
-        fontFamily: "Poppins_400Regular",
-    },
-    text: {
-        fontSize: 15,
-        fontFamily: "Poppins_400Regular",
-        color: primary,
-    },
     title: {
         fontFamily: "Poppins_400Regular",
         color: secondary,
@@ -144,6 +122,7 @@ export const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
         justifyContent: "space-between",
+        marginTop: -25,
     },
     dataContainer: {
         borderTopLeftRadius: 10,

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Dialog from "react-native-dialog";
 import Animated, { FadeInLeft } from "react-native-reanimated";
-import CloseIcon from "../../assets/icons/close";
 import FollowIcon from "../../assets/icons/follow";
 import UnfollowIcon from "../../assets/icons/unfollow";
 import { User } from "../../models/User";
@@ -21,7 +20,7 @@ export default function UserEntry({
 }: {
     user: User;
     delay: number;
-}) {
+}): JSX.Element {
     const [following, setFollowing] = useState<boolean>(false);
     const [dialogVisible, setDialogVisible] = useState<boolean>(false);
 
@@ -86,27 +85,9 @@ export default function UserEntry({
                     </View>
                     <Dialog.Container
                         visible={dialogVisible}
-                        contentStyle={{
-                            backgroundColor: light,
-                            borderRadius: 10,
-                            margin: 0,
-                            padding: 0,
-                            height: height - 80,
-                        }}
+                        contentStyle={styles.userDetailContainer}
                         onBackdropPress={() => setDialogVisible(false)}
                     >
-                        <View style={styles.dialogHeader}>
-                            <TouchableOpacity
-                                style={styles.closeButton}
-                                onPress={() => setDialogVisible(false)}
-                            >
-                                <CloseIcon
-                                    height={25}
-                                    width={25}
-                                    color={dark}
-                                />
-                            </TouchableOpacity>
-                        </View>
                         <ProfileScreen user={user}></ProfileScreen>
                     </Dialog.Container>
                 </TouchableOpacity>
@@ -120,13 +101,6 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: light,
         alignItems: "center",
-    },
-    header: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        paddingHorizontal: 20,
     },
     userContainer: {
         padding: 5,
@@ -167,23 +141,11 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         height: "100%",
     },
-    dialogHeader: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        backgroundColor: dark,
-        height: 50,
-        width: width - 40,
-        marginTop: -25,
-        elevation: 5,
-    },
-    closeButton: {
-        width: 30,
-        height: 30,
-        borderRadius: 30,
+    userDetailContainer: {
         backgroundColor: light,
-        justifyContent: "center",
-        alignItems: "center",
-        margin: 10,
+        borderRadius: 10,
+        margin: 0,
+        padding: 0,
+        height: height - 80,
     },
 });

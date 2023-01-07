@@ -10,7 +10,7 @@ export default function RoomListEntry({
 }: {
     room: RoomSlot;
     delay: number;
-}) {
+}): JSX.Element {
     const [available, setAvailable] = React.useState(false);
     const [actual, setActual] = React.useState(room.freeSlots[0]);
 
@@ -71,7 +71,7 @@ export default function RoomListEntry({
     );
 }
 
-function getHour(date: string) {
+function getHour(date: string): string {
     const d = new Date(date);
     const minutes = String(d.getMinutes()).padStart(2, "0").padEnd(2, "0");
     return d.getHours() + ":" + minutes;

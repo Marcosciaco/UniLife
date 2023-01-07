@@ -8,7 +8,7 @@ export default function ColorPickerEntry({
     onPress: Function;
     color: string;
     selected: boolean;
-}) {
+}): JSX.Element {
     return (
         <TouchableOpacity
             style={{

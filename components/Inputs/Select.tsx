@@ -12,7 +12,7 @@ export default function Select({
     onChange: Function;
     data: string[];
     label: string;
-}) {
+}): JSX.Element {
     return (
         <SelectDropdown
             data={[...data]}

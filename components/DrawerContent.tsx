@@ -9,7 +9,7 @@ import LogoutIcon from "../assets/icons/logout";
 import { auth } from "../utils/Firebase";
 import { dark, secondary, white } from "../utils/Theme";
 
-export function CustomDrawerContent({ ...props }: any) {
+export function CustomDrawerContent({ ...props }: any): JSX.Element {
     const [user, setUser] = React.useState<any>(null);
     const navigation = useNavigation();
 
@@ -61,7 +61,6 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-
     header: {
         backgroundColor: secondary,
         paddingTop: 10,
@@ -71,31 +70,26 @@ export const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "flex-end",
     },
-
     profilePicBackground: {
         padding: 20,
     },
-
     profilePic: {
         height: 80,
         width: 80,
         borderRadius: 40,
         marginBottom: 10,
     },
-
     profileName: {
         color: dark,
         fontSize: 18,
         fontFamily: "Poppins_300Light",
         marginBottom: 5,
     },
-
     drawerContent: {
         flex: 1,
         paddingTop: 10,
         height: "100%",
     },
-
     logout: {
         backgroundColor: white,
         padding: 10,

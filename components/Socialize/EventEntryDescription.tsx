@@ -14,7 +14,7 @@ export default function EventDescription({
 }: {
     event: Event;
     delay: number;
-}) {
+}): JSX.Element {
     const [partecipants, setPartecipants] = useState<string[]>([]);
     const [visible, setVisible] = useState(false);
 
@@ -38,11 +38,7 @@ export default function EventDescription({
             <TouchableOpacity onPress={() => setVisible(true)}>
                 <Dialog.Container
                     visible={visible}
-                    contentStyle={{
-                        backgroundColor: light,
-                        borderRadius: 10,
-                        width: width - 20,
-                    }}
+                    contentStyle={styles.dialogContent}
                     onBackdropPress={() => setVisible(false)}
                 >
                     <EventDetails event={event}></EventDetails>
@@ -125,5 +121,10 @@ export const styles = StyleSheet.create({
         fontFamily: "Poppins_600SemiBold",
         fontSize: 15,
         color: dark,
+    },
+    dialogContent: {
+        backgroundColor: light,
+        borderRadius: 10,
+        width: width - 20,
     },
 });
