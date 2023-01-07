@@ -4,7 +4,7 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    View,
+    View
 } from "react-native";
 import Dialog from "react-native-dialog";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -236,6 +236,11 @@ export default function RoomsScreen({ navigation }: any) {
                     data={data}
                     keyExtractor={(item: RoomSlot) => item.room.id}
                     style={styles.scroll}
+                    ListEmptyComponent={() => (
+                        <Text style={styles.noRoomsText}>
+                            There are no rooms to show
+                        </Text>
+                    )}
                 ></FlatList>
             </View>
         </SafeAreaView>
@@ -261,8 +266,7 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
     },
     scroll: {
-        flex: 1,
-        width: "100%",
+        width: width,
     },
     header: {
         display: "flex",
@@ -300,5 +304,12 @@ export const styles = StyleSheet.create({
         width: 60,
         alignItems: "center",
         justifyContent: "center",
+    },
+    noRoomsText: {
+        fontFamily: "Poppins_400Regular",
+        fontSize: 20,
+        color: dark,
+        textAlign: "center",
+        marginTop: "70%",
     },
 });
