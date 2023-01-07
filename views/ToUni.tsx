@@ -14,10 +14,9 @@ export default function ToUniScreen({ navigation }: { navigation: any }) {
     const [users, setUsers] = React.useState<User[]>([]);
 
     React.useEffect(() => {
-        (async () => {
-            const users = await getAllUsers();
+        getAllUsers().then((users) => {
             setUsers(users);
-        })();
+        });
     }, []);
 
     React.useEffect(() => {
@@ -79,32 +78,36 @@ export default function ToUniScreen({ navigation }: { navigation: any }) {
                     longitudeDelta: 0.02,
                 }}
             >
-                {users.map((user) => {
-                    let image = require("../assets/icons/pin.png");
-                    if (user.photoURL) {
-                        image = { uri: user.photoURL };
-                    }
-                    return (
-                        <Marker
-                            key={user.email}
-                            coordinate={{
-                                latitude: user.location?.coords.latitude || 0,
-                                longitude: user.location?.coords.longitude || 0,
-                            }}
-                        >
-                            <Image
-                                source={image}
-                                style={{
-                                    width: 30,
-                                    height: 30,
-                                    borderRadius: 15,
-                                    borderWidth: 2,
-                                    borderColor: primary,
+                {users
+                    .filter((u) => u.locationTracking)
+                    .map((user) => {
+                        let image = require("../assets/icons/pin.png");
+                        if (user.photoURL) {
+                            image = { uri: user.photoURL };
+                        }
+                        return (
+                            <Marker
+                                key={user.email}
+                                coordinate={{
+                                    latitude:
+                                        user.location?.coords.latitude || 0,
+                                    longitude:
+                                        user.location?.coords.longitude || 0,
                                 }}
-                            />
-                        </Marker>
-                    );
-                })}
+                            >
+                                <Image
+                                    source={image}
+                                    style={{
+                                        width: 30,
+                                        height: 30,
+                                        borderRadius: 15,
+                                        borderWidth: 2,
+                                        borderColor: primary,
+                                    }}
+                                />
+                            </Marker>
+                        );
+                    })}
                 <Marker
                     coordinate={{
                         latitude: 46.4984534,

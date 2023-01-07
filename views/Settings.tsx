@@ -13,13 +13,15 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { Switch } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import EditIcon from "../assets/icons/edit";
 import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
+import { User } from "../models/User";
 import { auth, db, storage } from "../utils/Firebase";
-import { dark, light, white } from "../utils/Theme";
-import { getUserEmail } from "../utils/UserService";
+import { dark, light, primary, secondary, white } from "../utils/Theme";
+import { getCurrentUser, getUserEmail } from "../utils/UserService";
 
 export default function SettingsScreen({ navigation }: any) {
     const [imgProfile, setImgProfile] = useState<any>({
@@ -29,17 +31,17 @@ export default function SettingsScreen({ navigation }: any) {
     const [name, setName] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [isTracking, setIsTracking] = useState<boolean>(false);
 
     React.useEffect(() => {
-        if (auth.currentUser?.photoURL) {
-            setImgProfile({ uri: auth.currentUser?.photoURL });
-        }
-        if (auth.currentUser?.displayName) {
-            setName(auth.currentUser?.displayName);
-        }
-        if (auth.currentUser?.phoneNumber) {
-            setPhoneNumber(auth.currentUser?.phoneNumber);
-        }
+        getCurrentUser().then((user) => {
+            if (user) {
+                setName(user.displayName || "");
+                setImgProfile({ uri: user.photoURL });
+                setPhoneNumber(user.phoneNumber || "");
+                setIsTracking(user.locationTracking || false);
+            }
+        });
     }, []);
 
     const pickImage = async () => {
@@ -50,7 +52,7 @@ export default function SettingsScreen({ navigation }: any) {
             quality: 1,
         });
 
-        if (!result.canceled) {
+        if (!result.canceled && imgProfile.uri != result.assets[0].uri) {
             setImgProfile({ uri: result.assets[0].uri });
         }
     };
@@ -82,15 +84,10 @@ export default function SettingsScreen({ navigation }: any) {
                 }
             });
         });
-
-        Alert.alert(
-            "Photo uploaded!",
-            "Your photo has been uploaded to Firebase Cloud Storage!"
-        );
     };
 
     const saveHandler = () => {
-        uploadImage();
+        // uploadImage();
         if (password != "") {
             if (auth.currentUser) {
                 updatePassword(auth.currentUser, password).then(() => {});
@@ -103,8 +100,11 @@ export default function SettingsScreen({ navigation }: any) {
                 });
             }
         }
-        if (phoneNumber != "") {
-        }
+        updateDoc(doc(db, "users", getUserEmail()), {
+            displayName: name,
+            phoneNumber: phoneNumber,
+            locationTracking: isTracking,
+        });
     };
 
     return (
@@ -135,19 +135,50 @@ export default function SettingsScreen({ navigation }: any) {
                     placeholderTextColor="black"
                     style={styles.textInput}
                     value={name}
+                    onChangeText={(text) => setName(text)}
                 />
                 <TextInput
                     placeholder="Phone Number"
                     placeholderTextColor="black"
                     style={styles.textInput}
                     value={phoneNumber}
+                    onChangeText={(text) => setPhoneNumber(text)}
                 />
                 <TextInput
                     placeholder="New Password"
                     placeholderTextColor="black"
                     style={styles.textInput}
                     value={password}
+                    onChangeText={(text) => setPassword(text)}
                 />
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "100%",
+                    }}
+                >
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "100%",
+                        }}
+                    >
+                        <Text>Location tracking</Text>
+                        <Switch
+                            trackColor={{ false: dark, true: secondary }}
+                            thumbColor={isTracking ? primary : light}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={(enabled) => {
+                                setIsTracking(enabled);
+                            }}
+                            value={isTracking}
+                        ></Switch>
+                    </View>
+                </View>
                 <TouchableOpacity
                     onPress={saveHandler}
                     style={styles.saveButton}

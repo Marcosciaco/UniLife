@@ -17,5 +17,6 @@ export type User = {
     followers: string;
     following: string;
     isOnline: boolean;
+    locationTracking: boolean;
     location: LocationObject;
 };
