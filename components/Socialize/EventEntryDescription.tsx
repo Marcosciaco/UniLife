@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
 import { Event } from "../../models/Event";
 import { formatDate } from "../../utils/DateUtil";
-import { dark, white, width } from "../../utils/Theme";
+import { dark, light, white, width } from "../../utils/Theme";
 import { getUsernameByEmail } from "../../utils/UserService";
+import Dialog from "react-native-dialog";
+import EventDetails from "./EventEntryDetailDialog";
 
 export default function EventDescription({
     event,
@@ -14,6 +16,7 @@ export default function EventDescription({
     delay: number;
 }) {
     const [partecipants, setPartecipants] = useState<string[]>([]);
+    const [visible, setVisible] = useState(false);
 
     React.useEffect(() => {
         setPartecipants([]);
@@ -32,35 +35,52 @@ export default function EventDescription({
             style={styles.event}
             entering={FadeInLeft.delay(delay)}
         >
-            <View style={styles.eventHeader}>
-                <Text style={styles.eventTitle}>{event.name}</Text>
-                <View
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
+            <TouchableOpacity onPress={() => setVisible(true)}>
+                <Dialog.Container
+                    visible={visible}
+                    contentStyle={{
+                        backgroundColor: light,
+                        borderRadius: 10,
+                        width: width - 20,
                     }}
+                    onBackdropPress={() => setVisible(false)}
                 >
-                    <Text style={styles.eventTextHighlight}>
-                        {event.location}
-                    </Text>
+                    <EventDetails event={event}></EventDetails>
+                </Dialog.Container>
+                <View style={styles.eventHeader}>
+                    <Text style={styles.eventTitle}>{event.name}</Text>
                     <View
                         style={{
-                            backgroundColor: event.color || "red",
-                            height: 10,
-                            width: 10,
-                            borderRadius: 15,
-                            marginRight: 10,
-                            marginLeft: 10,
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
                         }}
-                    ></View>
+                    >
+                        <Text style={styles.eventTextHighlight}>
+                            {event.location}
+                        </Text>
+                        <View
+                            style={{
+                                backgroundColor: event.color || "red",
+                                height: 10,
+                                width: 10,
+                                borderRadius: 15,
+                                marginRight: 10,
+                                marginLeft: 10,
+                            }}
+                        ></View>
+                    </View>
                 </View>
-            </View>
-            <View style={styles.eventDescription}>
-                <Text style={styles.eventText}>{formatDate(event.date)}</Text>
-                <Text style={styles.eventText}> with </Text>
-                <Text style={styles.eventTextHighlight}>{partecipants}</Text>
-            </View>
+                <View style={styles.eventDescription}>
+                    <Text style={styles.eventText}>
+                        {formatDate(event.date)}
+                    </Text>
+                    <Text style={styles.eventText}> with </Text>
+                    <Text style={styles.eventTextHighlight}>
+                        {partecipants}
+                    </Text>
+                </View>
+            </TouchableOpacity>
         </Animated.View>
     );
 }
