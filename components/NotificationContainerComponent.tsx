@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import Animated, { FadeInLeft } from "react-native-reanimated";
 import { Event } from "../models/Event";
 import { white } from "../utils/Theme";
@@ -22,17 +23,15 @@ export default function NotificationContainer(): JSX.Element {
         >
             <View>
                 <Text style={styles.notificationTitle}>Notifications</Text>
-                <View>
-                    {requests
-                        .filter((request) => getUserEmail() != request.creator)
-                        // .filter((request) => !request.inviteRead)
-                        .map((request) => (
-                            <InviteNotification
-                                event={request}
-                                key={new Date(request.date).getTime()}
-                            />
-                        ))}
-                </View>
+                <FlatList
+                    data={requests.filter(
+                        (request) => getUserEmail() != request.creator
+                    )}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item, index }) => (
+                        <InviteNotification event={item} delay={index * 100} />
+                    )}
+                ></FlatList>
             </View>
         </Animated.View>
     );
