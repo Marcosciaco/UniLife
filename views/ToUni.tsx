@@ -4,10 +4,11 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
-import { dark, height, primary, width } from "../utils/Theme";
+import { dark, height, light, primary, width } from "../utils/Theme";
 import { LocationObject } from "expo-location";
 import { User } from "../models/User";
 import { getAllUsers } from "../utils/UserService";
+import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 
 export default function ToUniScreen({ navigation }: { navigation: any }) {
     const [location, setLocation] = React.useState<LocationObject>();
@@ -34,6 +35,7 @@ export default function ToUniScreen({ navigation }: { navigation: any }) {
 
     return (
         <View style={styles.container}>
+            <ExpoStatusBar backgroundColor="transparent" style="light" />
             <TouchableOpacity
                 onPress={() => {
                     navigation.openDrawer();
@@ -50,7 +52,7 @@ export default function ToUniScreen({ navigation }: { navigation: any }) {
                     zIndex: 10,
                 }}
             >
-                <MenuIcon height={30} width={30} color={dark} />
+                <MenuIcon height={30} width={30} color={light} />
             </TouchableOpacity>
             <View
                 style={{
@@ -65,7 +67,7 @@ export default function ToUniScreen({ navigation }: { navigation: any }) {
                     zIndex: 10,
                 }}
             >
-                <LogoIcon height={30} width={30} color={dark} />
+                <LogoIcon height={30} width={30} color={light} />
             </View>
             <MapView
                 style={styles.map}
@@ -115,7 +117,7 @@ export default function ToUniScreen({ navigation }: { navigation: any }) {
                     }}
                 >
                     <Image
-                        source={require("../assets/icons/pin.png")}
+                        source={require("../assets/images/unibz_logo.png")}
                         style={{
                             width: 30,
                             height: 30,
@@ -139,6 +141,7 @@ const styles = StyleSheet.create({
     },
     map: {
         width: width,
-        height: height,
+        height: height + 80,
+        marginTop: -40,
     },
 });

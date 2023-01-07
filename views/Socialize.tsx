@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { MarkedDates } from "react-native-calendars/src/types";
 import Dialog from "react-native-dialog";
-import { ScrollView } from "react-native-gesture-handler";
+import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddIcon from "../assets/icons/add";
 import CloseIcon from "../assets/icons/close";
@@ -153,20 +153,18 @@ export default function SocializeScreen({ navigation }: any) {
                             style={styles.calendar}
                         />
                     </View>
-                    <ScrollView
+                    <FlatList
                         style={{
                             width: width - 40,
                             marginLeft: 20,
                             marginTop: 10,
                         }}
-                    >
-                        {filteredEvents.map((event: Event) => (
-                            <EventDescription
-                                key={event.id}
-                                event={event}
-                            ></EventDescription>
-                        ))}
-                    </ScrollView>
+                        renderItem={({ item }) => (
+                            <EventDescription event={item}></EventDescription>
+                        )}
+                        data={filteredEvents}
+                        keyExtractor={(item) => item.id}
+                    ></FlatList>
                 </View>
             </View>
         </SafeAreaView>

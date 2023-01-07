@@ -63,7 +63,7 @@ export default function EventDescription({ event }: { event: Event }) {
 export const styles = StyleSheet.create({
     event: {
         height: 80,
-        width: width - 20,
+        width: width - 40,
         backgroundColor: white,
         borderRadius: 15,
         marginTop: 10,
