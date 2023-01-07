@@ -50,7 +50,15 @@ export default function SocializeScreen({ navigation }: any) {
     useEffect(() => {
         getEventsForDate({
             onReturn: (data: Event[]) => {
-                setFilteredEvents(data);
+                
+                setFilteredEvents(
+                    data.filter((event: Event) => {
+                        const date = new Date(event.date);
+                        const today = new Date();
+
+                        return date.getTime() >= today.getTime();
+                    })
+                );
             },
         });
     }, []);
