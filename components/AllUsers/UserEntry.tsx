@@ -1,27 +1,18 @@
 import { useEffect, useState } from "react";
-import {
-    Dimensions,
-    Image,
-    Pressable,
-    StyleSheet,
-    Text,
-    View,
-} from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Dialog from "react-native-dialog";
 import CloseIcon from "../../assets/icons/close";
 import FollowIcon from "../../assets/icons/follow";
 import UnfollowIcon from "../../assets/icons/unfollow";
 import { User } from "../../models/User";
 import { auth } from "../../utils/Firebase";
-import { dark, light, white } from "../../utils/Theme";
+import { dark, height, light, white, width } from "../../utils/Theme";
 import {
     followUser,
     getCurrentUser,
     unfollowUser,
 } from "../../utils/UserService";
 import ProfileScreen from "../../views/Profile";
-
-const { width, height } = Dimensions.get("window");
 
 export default function UserEntry({ user }: { user: User }) {
     const [following, setFollowing] = useState<boolean>(false);

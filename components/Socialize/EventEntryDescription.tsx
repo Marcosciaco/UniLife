@@ -1,11 +1,8 @@
-import React from "react";
-import { useState } from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { Event } from "../../models/Event";
-import { dark, white } from "../../utils/Theme";
+import { dark, white, width } from "../../utils/Theme";
 import { getUsernameByEmail } from "../../utils/UserService";
-
-const { width } = Dimensions.get("window");
 
 export default function EventDescription({ event }: { event: Event }) {
     const d = new Date(event.date);

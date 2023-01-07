@@ -1,12 +1,6 @@
 import * as Location from "expo-location";
 import React from "react";
-import {
-    Dimensions,
-    ScrollView,
-    StyleSheet,
-    TextInput,
-    View,
-} from "react-native";
+import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 import Dialog from "react-native-dialog";
 import DatePicker from "react-native-modern-datepicker";
 import { CategoryCode } from "../../models/CategoryCode";
@@ -20,12 +14,11 @@ import {
     secondary,
     success,
     white,
+    width,
 } from "../../utils/Theme";
 import { createEvent, getFollowing } from "../../utils/UserService";
 import ColorPicker from "../Inputs/ColorPicker";
 import Select from "../Inputs/Select";
-
-const { width } = Dimensions.get("window");
 
 export default function EventCreation({ onCreate }: { onCreate: Function }) {
     const [restaurants, setRestaurants] = React.useState<any[]>([]);

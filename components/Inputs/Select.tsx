@@ -1,10 +1,8 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import MoreIcon from "../../assets/icons/expand";
 import LessIcon from "../../assets/icons/less";
-import { dark, white } from "../../utils/Theme";
-
-const { width } = Dimensions.get("window");
+import { dark, white, width } from "../../utils/Theme";
 
 export default function Select({
     onChange,
