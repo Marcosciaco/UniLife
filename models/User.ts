@@ -1,3 +1,4 @@
+import { LocationObject } from "expo-location";
 import { UserInfo } from "firebase/auth";
 
 export type User = {
@@ -16,4 +17,5 @@ export type User = {
     followers: string;
     following: string;
     isOnline: boolean;
+    location: LocationObject;
 };

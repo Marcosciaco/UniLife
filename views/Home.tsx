@@ -15,6 +15,8 @@ import {
     GastronomyResponse,
     getGastronomyLocales,
 } from "../utils/GastronomyAPIUtil";
+import { updateCurrentUser } from "firebase/auth";
+import { updateUserLocation } from "../utils/UserService";
 
 export default function HomeScreen({ navigation }: any) {
     const [weatherData, setWeatherData] = React.useState("");
@@ -54,6 +56,7 @@ export default function HomeScreen({ navigation }: any) {
 
             const location = await Location.getCurrentPositionAsync({});
             setLocation(location);
+            updateUserLocation(auth.currentUser?.email as string, location);
         })();
     }, []);
 

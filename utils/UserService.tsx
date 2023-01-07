@@ -19,6 +19,7 @@ import {
 import { User } from "../models/User";
 import { auth, db } from "./Firebase";
 import { Event } from "../models/Event";
+import { LocationObject } from "expo-location";
 
 export function register(
     email: string,
@@ -232,5 +233,14 @@ export function createEvent(
         creator: auth.currentUser?.email,
         partecipants: partecipant,
         color,
+    });
+}
+
+export function updateUserLocation(
+    email: string,
+    location: LocationObject
+): void {
+    updateDoc(doc(db, "users", email), {
+        location: location,
     });
 }
