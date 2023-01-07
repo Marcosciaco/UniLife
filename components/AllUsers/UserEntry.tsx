@@ -1,27 +1,31 @@
 import { useEffect, useState } from "react";
 import {
-    Pressable,
-    View,
-    Image,
-    Text,
-    StyleSheet,
     Dimensions,
+    Image,
+    Pressable,
+    StyleSheet,
+    Text,
+    View,
 } from "react-native";
+import DialogContainer from "react-native-dialog/lib/Container";
+import CloseIcon from "../../assets/icons/close";
 import FollowIcon from "../../assets/icons/follow";
 import UnfollowIcon from "../../assets/icons/unfollow";
 import { User } from "../../models/User";
 import { auth } from "../../utils/Firebase";
-import { light, dark, secondary, white, primary } from "../../utils/Theme";
+import { dark, light, white } from "../../utils/Theme";
 import {
     followUser,
     getCurrentUser,
     unfollowUser,
 } from "../../utils/UserService";
+import ProfileScreen from "../../views/Profile";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 export default function UserEntry({ user }: { user: User }) {
     const [following, setFollowing] = useState<boolean>(false);
+    const [dialogVisible, setDialogVisible] = useState<boolean>(false);
 
     useEffect(() => {
         getCurrentUser().then((currentUser) => {
@@ -46,34 +50,53 @@ export default function UserEntry({ user }: { user: User }) {
     };
 
     return (
-        <View style={styles.userContainer} key={user.uid}>
+        <Pressable
+            style={styles.userContainer}
+            key={user.uid}
+            onPress={() => setDialogVisible(true)}
+        >
             <Image
                 style={styles.imageContainer}
                 source={{ uri: user.photoURL || "" }}
             />
             <Text style={styles.text}>{user.displayName}</Text>
-            <View
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "flex-start",
-                    alignItems: "flex-start",
-                    height: "100%",
-                }}
-            >
+            <View style={styles.followButton}>
                 {user.email == auth.currentUser?.email ? (
                     <></>
                 ) : (
-                    <Pressable style={styles.button} onPress={() => toggle()}>
+                    <Pressable
+                        style={styles.buttonIcon}
+                        onPress={() => toggle()}
+                    >
                         {following ? (
-                            <UnfollowIcon height={15} width={15} color={dark} />
+                            <UnfollowIcon height={20} width={20} color={dark} />
                         ) : (
-                            <FollowIcon height={15} width={15} color={dark} />
+                            <FollowIcon height={20} width={20} color={dark} />
                         )}
                     </Pressable>
                 )}
             </View>
-        </View>
+            <DialogContainer
+                visible={dialogVisible}
+                contentStyle={{
+                    backgroundColor: light,
+                    borderRadius: 10,
+                    margin: 0,
+                    padding: 0,
+                    height: height - 80,
+                }}
+            >
+                <View style={styles.dialogHeader}>
+                    <Pressable
+                        style={styles.closeButton}
+                        onPress={() => setDialogVisible(false)}
+                    >
+                        <CloseIcon height={25} width={25} color={dark} />
+                    </Pressable>
+                </View>
+                <ProfileScreen user={user}></ProfileScreen>
+            </DialogContainer>
+        </Pressable>
     );
 }
 
@@ -89,36 +112,6 @@ export const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: 20,
-    },
-    input: {
-        fontFamily: "Poppins_400Regular",
-        height: 40,
-        borderColor: dark,
-        borderWidth: 1,
-        margin: 10,
-        borderRadius: 10,
-        paddingLeft: 10,
-        width: width - 120,
-    },
-    safeAreaView: {
-        backgroundColor: light,
-        flexGrow: 1,
-    },
-    iconContainer: {
-        backgroundColor: light,
-        height: 50,
-        width: 50,
-        borderRadius: 15,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    event: {
-        height: 80,
-        width: width - 40,
-        backgroundColor: secondary,
-        borderRadius: 15,
-        margin: 20,
-        marginBottom: 0,
     },
     userContainer: {
         padding: 5,
@@ -143,13 +136,39 @@ export const styles = StyleSheet.create({
         fontFamily: "Poppins_400Regular",
         color: dark,
     },
-    button: {
+    buttonIcon: {
+        width: 40,
+        height: 40,
+        borderRadius: 30,
+        backgroundColor: light,
+        justifyContent: "center",
+        alignItems: "center",
+        fontFamily: "Poppins_400Regular",
+    },
+    followButton: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+    },
+    dialogHeader: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        backgroundColor: dark,
+        height: 50,
+        width: width - 40,
+        marginTop: -25,
+        elevation: 5,
+    },
+    closeButton: {
         width: 30,
         height: 30,
         borderRadius: 30,
         backgroundColor: light,
         justifyContent: "center",
         alignItems: "center",
-        fontFamily: "Poppins_400Regular",
+        margin: 10,
     },
 });

@@ -1,73 +1,103 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
-    View,
-    Text,
-    StyleSheet,
     ImageBackground,
     Pressable,
-    Image,
+    StyleSheet,
+    Text,
+    View,
 } from "react-native";
-import { useState } from "react";
+import FollowIcon from "../assets/icons/follow";
+import UnfollowIcon from "../assets/icons/unfollow";
+import { User } from "../models/User";
 import { auth } from "../utils/Firebase";
-import LogoIcon from "../assets/icons/logo";
-import MenuIcon from "../assets/icons/menu";
-import { dark, primary, secondary, white } from "../utils/Theme";
+import { dark, light, primary, secondary, white } from "../utils/Theme";
+import { followUser, getCurrentUser, unfollowUser } from "../utils/UserService";
 
-export function FollowButton(props: any) {
-    const { onPress } = props;
-    const [following, setFollowing] = useState<boolean>(true);
-
-    const buttonText = following ? "Unfollow" : "Follow";
+export default function ProfileScreen({ user }: { user: User }) {
+    const imgProfile = {
+        uri: user.photoURL || "https://picsum.photos/1920/1080",
+    };
+    const [followers, setFollowers] = useState<number>(0);
+    const [following, setFollowing] = useState<number>(0);
+    const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
     const toggle = () => {
-        onPress();
-        setFollowing(!following);
-    };
-    return (
-        <Pressable style={styles.button} onPress={toggle}>
-            <Text style={styles.text}>{buttonText}</Text>
-        </Pressable>
-    );
-}
-
-export default function ProfileScreen({ navigation }: any) {
-    const [imgProfile, setImgProfile] = useState<any>({
-        uri: "https://picsum.photos/1920/1080",
-    });
-
-    React.useEffect(() => {
-        if (auth.currentUser?.photoURL) {
-            setImgProfile({ uri: auth.currentUser?.photoURL });
+        if (isFollowing && user.email != null) {
+            unfollowUser(user.email);
+            setIsFollowing(false);
+        } else {
+            if (user.email != null) {
+                followUser(user.email);
+                setIsFollowing(true);
+            }
         }
+    };
+
+    useEffect(() => {
+        getCurrentUser().then((currentUser) => {
+            if (currentUser != null) {
+                if (currentUser.following?.includes(user.email || "")) {
+                    setIsFollowing(true);
+                }
+            }
+        });
+    }, []);
+
+    useEffect(() => {
+        setFollowers(
+            user.followers?.split(";").filter((x) => x != "").length || 0
+        );
+        setFollowing(
+            user.following?.split(";").filter((x) => x != "").length || 0
+        );
     }, []);
 
     return (
         <View style={styles.container}>
             <ImageBackground
-                style={styles.logo}
+                style={styles.backgroundImage}
                 source={imgProfile}
                 resizeMode="cover"
             >
-                <View style={styles.header}>
-                    <Pressable
-                        onPress={() => {
-                            navigation.openDrawer();
-                        }}
-                    >
-                        <MenuIcon color={white} height={30} width={30} />
-                    </Pressable>
-                    <LogoIcon color={white} width={40} height={40} />
-                </View>
+                <View></View>
                 <View style={styles.dataContainer}>
                     <View style={styles.profileHeader}>
-                        <Text style={styles.title}>
-                            {auth.currentUser?.displayName}
-                        </Text>
-                        <FollowButton onPress={() => null} />
+                        <Text style={styles.title}>{user.displayName}</Text>
+                        <View style={styles.followButton}>
+                            {user.email == auth.currentUser?.email ? (
+                                <></>
+                            ) : (
+                                <Pressable
+                                    onPress={() => toggle()}
+                                    style={styles.followButton}
+                                >
+                                    {isFollowing ? (
+                                        <UnfollowIcon
+                                            height={20}
+                                            width={20}
+                                            color={dark}
+                                        />
+                                    ) : (
+                                        <FollowIcon
+                                            height={20}
+                                            width={20}
+                                            color={dark}
+                                        />
+                                    )}
+                                </Pressable>
+                            )}
+                        </View>
                     </View>
-                    <Text style={styles.subtitle}>
-                        Bolzano Italy / Computer Science 3rd year
-                    </Text>
+                    <View style={styles.descriptionRow}>
+                        <View style={styles.descriptionEntry}>
+                            <Text style={styles.subtitle}>Followers</Text>
+                            <Text style={styles.subtitle}>{followers}</Text>
+                        </View>
+                        <View style={styles.descriptionEntry}>
+                            <Text style={styles.subtitle}>Following</Text>
+                            <Text style={styles.subtitle}>{following}</Text>
+                        </View>
+                    </View>
                 </View>
             </ImageBackground>
         </View>
@@ -75,21 +105,6 @@ export default function ProfileScreen({ navigation }: any) {
 }
 
 export const styles = StyleSheet.create({
-    image: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        alignSelf: "center",
-        marginTop: 20,
-    },
-    header: {
-        padding: 20,
-        paddingTop: 40,
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-    },
     container: {
         flex: 1,
         backgroundColor: white,
@@ -124,13 +139,13 @@ export const styles = StyleSheet.create({
         fontFamily: "Poppins_400Regular",
         marginLeft: 20,
     },
-    logo: {
+    backgroundImage: {
         flex: 1,
         justifyContent: "space-between",
     },
     dataContainer: {
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
         backgroundColor: dark,
         padding: 20,
     },
@@ -139,5 +154,27 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+    },
+    descriptionRow: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginRight: 20,
+    },
+    descriptionEntry: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    followButton: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 20,
+        margin: 10,
+        backgroundColor: light,
     },
 });

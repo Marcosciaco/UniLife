@@ -1,37 +1,33 @@
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import HomeScreen from "./views/Home";
-import "react-native-gesture-handler";
 import {
-    useFonts,
-    Poppins_900Black,
-    Poppins_800ExtraBold,
-    Poppins_700Bold,
-    Poppins_600SemiBold,
-    Poppins_500Medium,
-    Poppins_400Regular,
-    Poppins_300Light,
-    Poppins_200ExtraLight,
     Poppins_100Thin,
+    Poppins_200ExtraLight,
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+    Poppins_800ExtraBold,
+    Poppins_900Black,
+    useFonts,
 } from "@expo-google-fonts/poppins";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { CustomDrawerContent } from "./components/DrawerContent";
-import MensaScreen from "./views/Mensa";
-import RoomsScreen from "./views/Rooms";
-import SocializeScreen from "./views/Socialize";
-import ToUniScreen from "./views/ToUni";
+import { NavigationContainer } from "@react-navigation/native";
+import React from "react";
+import "react-native-gesture-handler";
 import DoorIcon from "./assets/icons/door";
 import DrinkIcon from "./assets/icons/drink";
-import HomeIcon from "./assets/icons/home";
-import MensaIcon from "./assets/icons/mensa";
-import PinIcon from "./assets/icons/pin";
-import LoginScreen from "./views/Login";
-import ProfileScreen from "./views/Profile";
-import SettingsScreen from "./views/Settings";
-import AllUsersScreen from "./views/AllUsers";
 import GroupIcon from "./assets/icons/group";
+import HomeIcon from "./assets/icons/home";
+import PinIcon from "./assets/icons/pin";
 import SettingsIcon from "./assets/icons/settings";
-import PersonIcon from "./assets/icons/person";
+import { CustomDrawerContent } from "./components/DrawerContent";
+import AllUsersScreen from "./views/AllUsers";
+import HomeScreen from "./views/Home";
+import LoginScreen from "./views/Login";
+import RoomsScreen from "./views/Rooms";
+import SettingsScreen from "./views/Settings";
+import SocializeScreen from "./views/Socialize";
+import ToUniScreen from "./views/ToUni";
 
 const Drawer = createDrawerNavigator();
 
@@ -83,15 +79,6 @@ export default function App() {
                     }}
                 />
                 <Drawer.Screen
-                    name="Mensa"
-                    component={MensaScreen}
-                    options={{
-                        drawerIcon: ({ color }) => (
-                            <MensaIcon color={color} height={20} width={20} />
-                        ),
-                    }}
-                />
-                <Drawer.Screen
                     name="Socialize"
                     component={SocializeScreen}
                     options={{
@@ -110,16 +97,7 @@ export default function App() {
                     }}
                 />
                 <Drawer.Screen
-                    name="Profile"
-                    component={ProfileScreen}
-                    options={{
-                        drawerIcon: ({ color }) => (
-                            <PersonIcon color={color} height={20} width={20} />
-                        ),
-                    }}
-                />
-                <Drawer.Screen
-                    name="AllUsers"
+                    name="All Users"
                     component={AllUsersScreen}
                     options={{
                         drawerIcon: ({ color }) => (

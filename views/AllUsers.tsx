@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
     Dimensions,
-    Image,
     Pressable,
     ScrollView,
     StyleSheet,
@@ -16,7 +15,7 @@ import MenuIcon from "../assets/icons/menu";
 import UserEntry from "../components/AllUsers/UserEntry";
 import { User } from "../models/User";
 import { dark, light, primary, secondary, white } from "../utils/Theme";
-import { followUser, getAllUsers, getCurrentUser } from "../utils/UserService";
+import { getAllUsers } from "../utils/UserService";
 
 const { width } = Dimensions.get("window");
 
@@ -112,31 +111,6 @@ export const styles = StyleSheet.create({
     safeAreaView: {
         backgroundColor: light,
         flexGrow: 1,
-    },
-    iconContainer: {
-        backgroundColor: light,
-        height: 50,
-        width: 50,
-        borderRadius: 15,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    event: {
-        height: 80,
-        width: width - 40,
-        backgroundColor: secondary,
-        borderRadius: 15,
-        margin: 20,
-        marginBottom: 0,
-    },
-    userContainer: {
-        width: width - 20,
-        padding: 5,
-        flexDirection: "row",
-        borderRadius: 15,
-        marginTop: 10,
-        alignItems: "center",
-        backgroundColor: white,
     },
     text: {
         fontSize: 15,
