@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Animated, { FadeInLeft } from "react-native-reanimated";
 import { Event } from "../../models/Event";
+import { formatDate } from "../../utils/DateUtil";
 import { dark, white, width } from "../../utils/Theme";
 import { getUsernameByEmail } from "../../utils/UserService";
 
-export default function EventDescription({ event }: { event: Event }) {
-    const d = new Date(event.date);
+export default function EventDescription({
+    event,
+    delay,
+}: {
+    event: Event;
+    delay: number;
+}) {
     const [partecipants, setPartecipants] = useState<string[]>([]);
 
     React.useEffect(() => {
@@ -20,7 +27,11 @@ export default function EventDescription({ event }: { event: Event }) {
     }, []);
 
     return (
-        <View key={event.id} style={styles.event}>
+        <Animated.View
+            key={event.id}
+            style={styles.event}
+            entering={FadeInLeft.delay(delay)}
+        >
             <View style={styles.eventHeader}>
                 <Text style={styles.eventTitle}>{event.name}</Text>
                 <View
@@ -46,17 +57,11 @@ export default function EventDescription({ event }: { event: Event }) {
                 </View>
             </View>
             <View style={styles.eventDescription}>
-                <Text style={styles.eventTextHighlight}>
-                    {d.getDay() + 1}.{d.getMonth() + 1}.{d.getFullYear()}
-                </Text>
-                <Text style={styles.eventText}>-</Text>
-                <Text style={styles.eventTextHighlight}>
-                    {d.getHours()}:{d.getMinutes()}
-                </Text>
+                <Text style={styles.eventText}>{formatDate(event.date)}</Text>
                 <Text style={styles.eventText}> with </Text>
                 <Text style={styles.eventTextHighlight}>{partecipants}</Text>
             </View>
-        </View>
+        </Animated.View>
     );
 }
 

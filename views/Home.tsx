@@ -40,9 +40,13 @@ export default function HomeScreen({ navigation }: any) {
     }, []);
 
     React.useEffect(() => {
-        WeatherAPIUtil.getWeatherforecast().then((data) => {
-            setWeatherData(data.WeatherDesc);
-        });
+        WeatherAPIUtil.getWeatherforecast()
+            .then((data) => {
+                setWeatherData(data.WeatherDesc);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }, []);
 
     React.useEffect(() => {
@@ -66,9 +70,13 @@ export default function HomeScreen({ navigation }: any) {
                 location?.coords.latitude,
                 location?.coords.longitude,
                 10000
-            ).then((data) => {
-                setRestaurants(data);
-            });
+            )
+                .then((data) => {
+                    setRestaurants(data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
     }, [location]);
 

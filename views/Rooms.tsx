@@ -230,8 +230,8 @@ export default function RoomsScreen({ navigation }: any) {
                     </Dialog.Container>
                 </View>
                 <FlatList
-                    renderItem={({ item }) => (
-                        <RoomListEntry room={item} delay={0} />
+                    renderItem={({ item, index }) => (
+                        <RoomListEntry room={item} delay={index * 100} />
                     )}
                     data={data}
                     keyExtractor={(item: RoomSlot) => item.room.id}

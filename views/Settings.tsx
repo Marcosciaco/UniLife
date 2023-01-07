@@ -1,10 +1,10 @@
 import * as ImagePicker from "expo-image-picker";
+import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import { updatePassword, updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useState } from "react";
 import {
-    Alert,
     Image,
     Platform,
     StyleSheet,
@@ -18,9 +18,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import EditIcon from "../assets/icons/edit";
 import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
-import { User } from "../models/User";
 import { auth, db, storage } from "../utils/Firebase";
-import { dark, light, primary, secondary, white } from "../utils/Theme";
+import { dark, light, primary, secondary, white, width } from "../utils/Theme";
 import { getCurrentUser, getUserEmail } from "../utils/UserService";
 
 export default function SettingsScreen({ navigation }: any) {
@@ -109,6 +108,7 @@ export default function SettingsScreen({ navigation }: any) {
 
     return (
         <SafeAreaView style={styles.container}>
+            <ExpoStatusBar style="dark" />
             <View style={styles.header}>
                 <TouchableOpacity
                     onPress={() => {
@@ -130,6 +130,7 @@ export default function SettingsScreen({ navigation }: any) {
                 </TouchableOpacity>
             </View>
             <View style={styles.bottomContainer}>
+                <Text style={[styles.label, styles.rowLabel]}>Username</Text>
                 <TextInput
                     placeholder="Username"
                     placeholderTextColor="black"
@@ -137,6 +138,9 @@ export default function SettingsScreen({ navigation }: any) {
                     value={name}
                     onChangeText={(text) => setName(text)}
                 />
+                <Text style={[styles.label, styles.rowLabel]}>
+                    Phone Number
+                </Text>
                 <TextInput
                     placeholder="Phone Number"
                     placeholderTextColor="black"
@@ -144,6 +148,7 @@ export default function SettingsScreen({ navigation }: any) {
                     value={phoneNumber}
                     onChangeText={(text) => setPhoneNumber(text)}
                 />
+                <Text style={[styles.label, styles.rowLabel]}>Password</Text>
                 <TextInput
                     placeholder="New Password"
                     placeholderTextColor="black"
@@ -156,28 +161,20 @@ export default function SettingsScreen({ navigation }: any) {
                         flexDirection: "row",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        width: "100%",
+                        width: width - 20,
+                        padding: 0,
                     }}
                 >
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            width: "100%",
+                    <Text style={styles.label}>Location tracking</Text>
+                    <Switch
+                        trackColor={{ false: dark, true: secondary }}
+                        thumbColor={isTracking ? primary : light}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={(enabled) => {
+                            setIsTracking(enabled);
                         }}
-                    >
-                        <Text>Location tracking</Text>
-                        <Switch
-                            trackColor={{ false: dark, true: secondary }}
-                            thumbColor={isTracking ? primary : light}
-                            ios_backgroundColor="#3e3e3e"
-                            onValueChange={(enabled) => {
-                                setIsTracking(enabled);
-                            }}
-                            value={isTracking}
-                        ></Switch>
-                    </View>
+                        value={isTracking}
+                    ></Switch>
                 </View>
                 <TouchableOpacity
                     onPress={saveHandler}
@@ -261,5 +258,14 @@ export const styles = StyleSheet.create({
         marginTop: -20,
         marginRight: -150,
         elevation: 3,
+    },
+    label: {
+        fontFamily: "Poppins_400Regular",
+        fontSize: 16,
+        color: dark,
+    },
+    rowLabel: {
+        marginTop: 5,
+        marginLeft: 5,
     },
 });

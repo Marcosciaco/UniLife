@@ -159,8 +159,11 @@ export default function SocializeScreen({ navigation }: any) {
                             marginLeft: 20,
                             marginTop: 10,
                         }}
-                        renderItem={({ item }) => (
-                            <EventDescription event={item}></EventDescription>
+                        renderItem={({ item, index }) => (
+                            <EventDescription
+                                event={item}
+                                delay={index * 100}
+                            ></EventDescription>
                         )}
                         data={filteredEvents}
                         keyExtractor={(item) => item.id}

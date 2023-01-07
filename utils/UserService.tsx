@@ -242,5 +242,9 @@ export function updateUserLocation(
 ): void {
     updateDoc(doc(db, "users", email), {
         location: location,
-    });
+    })
+        .then(() => {})
+        .catch((error) => {
+            console.log(error);
+        });
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Dialog from "react-native-dialog";
+import Animated, { FadeInLeft } from "react-native-reanimated";
 import CloseIcon from "../../assets/icons/close";
 import FollowIcon from "../../assets/icons/follow";
 import UnfollowIcon from "../../assets/icons/unfollow";
@@ -14,7 +15,13 @@ import {
 } from "../../utils/UserService";
 import ProfileScreen from "../../views/Profile";
 
-export default function UserEntry({ user }: { user: User }) {
+export default function UserEntry({
+    user,
+    delay,
+}: {
+    user: User;
+    delay: number;
+}) {
     const [following, setFollowing] = useState<boolean>(false);
     const [dialogVisible, setDialogVisible] = useState<boolean>(false);
 
@@ -41,54 +48,70 @@ export default function UserEntry({ user }: { user: User }) {
     };
 
     return (
-        <TouchableOpacity
-            style={styles.userContainer}
-            key={user.uid}
-            onPress={() => setDialogVisible(true)}
-        >
-            <Image
-                style={styles.imageContainer}
-                source={{ uri: user.photoURL || "" }}
-            />
-            <Text style={styles.text}>{user.displayName}</Text>
-            <View style={styles.followButton}>
-                {user.email == auth.currentUser?.email ? (
-                    <></>
-                ) : (
-                    <TouchableOpacity
-                        style={styles.buttonIcon}
-                        onPress={() => toggle()}
-                    >
-                        {following ? (
-                            <UnfollowIcon height={20} width={20} color={dark} />
+        <Animated.View entering={FadeInLeft.delay(delay)}>
+            <View>
+                <TouchableOpacity
+                    style={styles.userContainer}
+                    key={user.uid}
+                    onPress={() => setDialogVisible(true)}
+                >
+                    <Image
+                        style={styles.imageContainer}
+                        source={{ uri: user.photoURL || "" }}
+                    />
+                    <Text style={styles.text}>{user.displayName}</Text>
+                    <View style={styles.followButton}>
+                        {user.email == auth.currentUser?.email ? (
+                            <></>
                         ) : (
-                            <FollowIcon height={20} width={20} color={dark} />
+                            <TouchableOpacity
+                                style={styles.buttonIcon}
+                                onPress={() => toggle()}
+                            >
+                                {following ? (
+                                    <UnfollowIcon
+                                        height={20}
+                                        width={20}
+                                        color={dark}
+                                    />
+                                ) : (
+                                    <FollowIcon
+                                        height={20}
+                                        width={20}
+                                        color={dark}
+                                    />
+                                )}
+                            </TouchableOpacity>
                         )}
-                    </TouchableOpacity>
-                )}
-            </View>
-            <Dialog.Container
-                visible={dialogVisible}
-                contentStyle={{
-                    backgroundColor: light,
-                    borderRadius: 10,
-                    margin: 0,
-                    padding: 0,
-                    height: height - 80,
-                }}
-                onBackdropPress={() => setDialogVisible(false)}
-            >
-                <View style={styles.dialogHeader}>
-                    <TouchableOpacity
-                        style={styles.closeButton}
-                        onPress={() => setDialogVisible(false)}
+                    </View>
+                    <Dialog.Container
+                        visible={dialogVisible}
+                        contentStyle={{
+                            backgroundColor: light,
+                            borderRadius: 10,
+                            margin: 0,
+                            padding: 0,
+                            height: height - 80,
+                        }}
+                        onBackdropPress={() => setDialogVisible(false)}
                     >
-                        <CloseIcon height={25} width={25} color={dark} />
-                    </TouchableOpacity>
-                </View>
-                <ProfileScreen user={user}></ProfileScreen>
-            </Dialog.Container>
-        </TouchableOpacity>
+                        <View style={styles.dialogHeader}>
+                            <TouchableOpacity
+                                style={styles.closeButton}
+                                onPress={() => setDialogVisible(false)}
+                            >
+                                <CloseIcon
+                                    height={25}
+                                    width={25}
+                                    color={dark}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <ProfileScreen user={user}></ProfileScreen>
+                    </Dialog.Container>
+                </TouchableOpacity>
+            </View>
+        </Animated.View>
     );
 }
 

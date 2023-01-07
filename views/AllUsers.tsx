@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { FlatList, TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
@@ -44,11 +44,18 @@ export default function AllUsersScreen({ navigation }: any) {
                 ></TextInput>
                 <LogoIcon color={dark} height={40} width={40} />
             </View>
-            <ScrollView style={styles.container}>
-                {filtered.map((user: User) => {
-                    return <UserEntry key={user.email} user={user}></UserEntry>;
-                })}
-            </ScrollView>
+            <FlatList
+                data={filtered}
+                style={styles.container}
+                renderItem={({ item, index }) => {
+                    return (
+                        <UserEntry user={item} delay={index * 100}></UserEntry>
+                    );
+                }}
+                keyExtractor={(user) => {
+                    return user.email || "";
+                }}
+            ></FlatList>
         </SafeAreaView>
     );
 }
