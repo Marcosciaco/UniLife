@@ -1,11 +1,19 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
+import { Event } from "../models/Event";
 import { white } from "../utils/Theme";
+import { getProfileEvents, getUserEmail } from "../utils/UserService";
 import { InviteNotification } from "./InviteNotification";
 
 export default function NotificationContainer(): JSX.Element {
-    const [requests, setRequests] = React.useState<any[]>([]);
+    const [requests, setRequests] = React.useState<Event[]>([]);
+
+    React.useEffect(() => {
+        getProfileEvents(getUserEmail()).then((data: Event[]) => {
+            setRequests(data);
+        });
+    }, []);
 
     return (
         <Animated.View
@@ -16,12 +24,12 @@ export default function NotificationContainer(): JSX.Element {
                 <Text style={styles.notificationTitle}>Notifications</Text>
                 <View>
                     {requests
-                        .filter((request) => request != "")
+                        .filter((request) => getUserEmail() != request.creator)
+                        // .filter((request) => !request.inviteRead)
                         .map((request) => (
                             <InviteNotification
-                                email={request}
-                                type="follow"
-                                key={request.uid}
+                                event={request}
+                                key={new Date(request.date).getTime()}
                             />
                         ))}
                 </View>

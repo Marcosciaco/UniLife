@@ -32,6 +32,7 @@ export default function EventDetails({ event }: { event: Event }): JSX.Element {
 
                         return (
                             <View
+                                key={p}
                                 style={{
                                     alignSelf: "flex-start",
                                 }}

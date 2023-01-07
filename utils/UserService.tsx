@@ -225,7 +225,7 @@ export function getProfileEvents(email: string): Promise<Event[]> {
         getDocs(query(collection(db, "events"))).then((resp) => {
             resp.forEach((doc) => {
                 const event = doc.data() as Event;
-                if (event.creator === email) {
+                if (event.partecipants.includes(email)) {
                     events.push(event);
                 }
             });
@@ -243,16 +243,21 @@ export function createEvent(
     color: string
 ): void {
     addDoc(collection(db, "events"), {
-        id: Math.random().toString(36).substring(7),
+        id: "",
         name: mail,
         description: description,
         location: location,
         date: date.getTime(),
         creator: auth.currentUser?.email,
         partecipants: partecipant,
-        color,
+        color: color,
+        inviteRead: false,
+        inviteDeclined: false,
     })
-        .then(() => {
+        .then((resp) => {
+            updateDoc(doc(db, "events", resp.id), {
+                id: resp.id,
+            });
             showToast("Event created successfully!", success);
         })
         .catch((error) => {
@@ -270,5 +275,29 @@ export function updateUserLocation(
         .then(() => {})
         .catch((error) => {
             showToast("Error updating user location.", error);
+        });
+}
+
+export function acceptInvite(event: Event): void {
+    updateDoc(doc(db, "events", event.id), {
+        inviteDeclined: false,
+        inviteRead: true,
+    })
+        .then(() => {
+            showToast("Invite accepted!", success);
+        })
+        .catch((error) => {
+            showToast("Error accepting invite. Please try again later.", error);
+        });
+}
+export function declineInvite(event: Event): void {
+    updateDoc(doc(db, "events", event.id), {
+        inviteDeclined: true,
+    })
+        .then(() => {
+            showToast("Invite declined!", success);
+        })
+        .catch((error) => {
+            showToast("Error declining invite. Please try again later.", error);
         });
 }

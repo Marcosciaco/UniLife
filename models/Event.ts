@@ -7,4 +7,6 @@ export type Event = {
     creator: string;
     partecipants: string[];
     color: string;
+    inviteRead: boolean;
+    inviteDeclined: boolean;
 };

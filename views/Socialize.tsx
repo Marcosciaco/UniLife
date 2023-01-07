@@ -100,6 +100,7 @@ export default function SocializeScreen({ navigation }: any): JSX.Element {
                                     flexDirection: "row",
                                     justifyContent: "space-between",
                                     alignItems: "center",
+                                    marginTop: -30,
                                 }}
                             >
                                 <Dialog.Title>Add Event</Dialog.Title>
