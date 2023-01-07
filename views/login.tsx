@@ -35,7 +35,7 @@ export default function LoginScreen({ navigation }: any) {
         const interpolation = interpolate(
             imagePosition.value,
             [0, 1],
-            [-height * 0.57, 0]
+            [-height * 0.65, 0]
         );
         return {
             transform: [
@@ -338,9 +338,8 @@ const styles = StyleSheet.create({
         backgroundColor: primary,
     },
     formInputContainer: {
-        marginBottom: 70,
         zIndex: -1,
-        justifyContent: "center",
+        marginBottom: 10,
     },
     closeButtonContainer: {
         height: 40,
