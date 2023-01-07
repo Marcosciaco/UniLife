@@ -21,7 +21,7 @@ export default function RestaurantMapView({
             style={styles.map}
         >
             {restaurants.map((restaurant: GastronomyResponse) => {
-                let image = require("../assets/icons/pin.png");
+                let image = require("../../assets/icons/pin.png");
                 if (
                     restaurant.ImageGallery != null &&
                     restaurant.ImageGallery.length > 0

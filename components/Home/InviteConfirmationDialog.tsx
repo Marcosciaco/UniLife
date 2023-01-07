@@ -1,9 +1,8 @@
 import React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
-import Animated, { FadeInLeft } from "react-native-reanimated";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Event } from "../../models/Event";
 import { formatDate } from "../../utils/DateUtil";
-import { dark, error, success, white, width } from "../../utils/Theme";
+import { dark, error, success, width } from "../../utils/Theme";
 import {
     acceptInvite,
     declineInvite,
