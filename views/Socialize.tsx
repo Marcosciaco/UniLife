@@ -50,7 +50,6 @@ export default function SocializeScreen({ navigation }: any) {
     useEffect(() => {
         getEventsForDate({
             onReturn: (data: Event[]) => {
-                
                 setFilteredEvents(
                     data.filter((event: Event) => {
                         const date = new Date(event.date);
@@ -92,6 +91,7 @@ export default function SocializeScreen({ navigation }: any) {
                                 borderRadius: 10,
                                 width: width - 20,
                             }}
+                            onBackdropPress={() => setVisible(false)}
                         >
                             <View
                                 style={{

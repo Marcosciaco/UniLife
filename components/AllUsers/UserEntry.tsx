@@ -7,7 +7,7 @@ import {
     Text,
     View,
 } from "react-native";
-import DialogContainer from "react-native-dialog/lib/Container";
+import Dialog from "react-native-dialog";
 import CloseIcon from "../../assets/icons/close";
 import FollowIcon from "../../assets/icons/follow";
 import UnfollowIcon from "../../assets/icons/unfollow";
@@ -76,7 +76,7 @@ export default function UserEntry({ user }: { user: User }) {
                     </Pressable>
                 )}
             </View>
-            <DialogContainer
+            <Dialog.Container
                 visible={dialogVisible}
                 contentStyle={{
                     backgroundColor: light,
@@ -85,6 +85,7 @@ export default function UserEntry({ user }: { user: User }) {
                     padding: 0,
                     height: height - 80,
                 }}
+                onBackdropPress={() => setDialogVisible(false)}
             >
                 <View style={styles.dialogHeader}>
                     <Pressable
@@ -95,7 +96,7 @@ export default function UserEntry({ user }: { user: User }) {
                     </Pressable>
                 </View>
                 <ProfileScreen user={user}></ProfileScreen>
-            </DialogContainer>
+            </Dialog.Container>
         </Pressable>
     );
 }

@@ -1,39 +1,29 @@
-import React, { useEffect } from "react";
+import * as Location from "expo-location";
+import React from "react";
 import {
+    Dimensions,
     ScrollView,
     StyleSheet,
-    View,
     TextInput,
-    Pressable,
-    Dimensions,
-    Text,
+    View,
 } from "react-native";
-import * as Location from "expo-location";
 import Dialog from "react-native-dialog";
-import SelectDropdown from "react-native-select-dropdown";
-import MoreIcon from "../../assets/icons/expand";
-import LessIcon from "../../assets/icons/less";
-import { auth } from "../../utils/Firebase";
 import DatePicker from "react-native-modern-datepicker";
+import { CategoryCode } from "../../models/CategoryCode";
+import { auth } from "../../utils/Firebase";
+import { getGastronomyLocales } from "../../utils/GastronomyAPIUtil";
 import {
     dark,
-    white,
-    primary,
-    light,
-    secondary,
     error,
+    light,
+    primary,
+    secondary,
     success,
+    white,
 } from "../../utils/Theme";
-import {
-    createEvent,
-    getFollowing,
-    getProfileEvents,
-} from "../../utils/UserService";
-import { CategoryCode } from "../../models/CategoryCode";
-import { getGastronomyLocales } from "../../utils/GastronomyAPIUtil";
-import Select from "../Inputs/Select";
-import ColorPickerEntry from "../Inputs/ColorPickerEntry";
+import { createEvent, getFollowing } from "../../utils/UserService";
 import ColorPicker from "../Inputs/ColorPicker";
+import Select from "../Inputs/Select";
 
 const { width } = Dimensions.get("window");
 
