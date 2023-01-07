@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-    Dimensions,
     Pressable,
     ScrollView,
     StyleSheet,
@@ -14,10 +13,8 @@ import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
 import UserEntry from "../components/AllUsers/UserEntry";
 import { User } from "../models/User";
-import { dark, light, primary, secondary, white } from "../utils/Theme";
+import { dark, light, primary, white, width } from "../utils/Theme";
 import { getAllUsers } from "../utils/UserService";
-
-const { width } = Dimensions.get("window");
 
 export default function AllUsersScreen({ navigation }: any) {
     const [users, setUsers] = React.useState<User[]>([]);
@@ -55,14 +52,10 @@ export default function AllUsersScreen({ navigation }: any) {
                 ></TextInput>
                 <LogoIcon color={dark} height={40} width={40} />
             </View>
-            <ScrollView>
-                <View style={styles.container}>
-                    {users.map((user: User) => {
-                        return (
-                            <UserEntry key={user.email} user={user}></UserEntry>
-                        );
-                    })}
-                </View>
+            <ScrollView style={styles.container}>
+                {filtered.map((user: User) => {
+                    return <UserEntry key={user.email} user={user}></UserEntry>;
+                })}
             </ScrollView>
         </SafeAreaView>
     );
@@ -87,26 +80,24 @@ export function FollowButton(props: any) {
 
 export const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: light,
-        alignItems: "center",
+        marginLeft: 10,
     },
     header: {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: 20,
+        padding: 20,
     },
     input: {
         fontFamily: "Poppins_400Regular",
         height: 40,
         borderColor: dark,
         borderWidth: 1,
-        margin: 10,
         borderRadius: 10,
         paddingLeft: 10,
-        width: width - 120,
+        width: width - 160,
     },
     safeAreaView: {
         backgroundColor: light,

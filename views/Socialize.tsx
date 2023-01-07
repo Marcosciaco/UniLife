@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { MarkedDates } from "react-native-calendars/src/types";
 import Dialog from "react-native-dialog";
@@ -20,10 +20,9 @@ import {
     primary,
     secondary,
     white,
+    width
 } from "../utils/Theme";
 import { getProfileEvents } from "../utils/UserService";
-
-const { width } = Dimensions.get("window");
 
 function getMarkedDates(events: Event[]): MarkedDates {
     const markedDates: any = {};
@@ -154,7 +153,13 @@ export default function SocializeScreen({ navigation }: any) {
                             style={styles.calendar}
                         />
                     </View>
-                    <ScrollView>
+                    <ScrollView
+                        style={{
+                            width: width - 40,
+                            marginLeft: 20,
+                            marginTop: 10,
+                        }}
+                    >
                         {filteredEvents.map((event: Event) => (
                             <EventDescription
                                 key={event.id}
@@ -170,23 +175,25 @@ export default function SocializeScreen({ navigation }: any) {
 
 export const styles = StyleSheet.create({
     container: {
-        padding: 10,
         backgroundColor: light,
         alignItems: "center",
     },
     header: {
         display: "flex",
+        width: width,
+        paddingHorizontal: 20,
         alignItems: "center",
         justifyContent: "space-between",
         flexDirection: "row",
+        marginTop: 10,
     },
     title: {
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: "bold",
-        marginBottom: 10,
     },
     calendar: {
-        width: width - 20,
+        width: width - 40,
+        marginLeft: 20,
         borderRadius: 10,
         marginTop: 20,
     },

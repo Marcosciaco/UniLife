@@ -1,19 +1,15 @@
 import React from "react";
 import {
-    View,
-    Text,
-    StyleSheet,
-    StatusBar,
     FlatList,
-    Pressable,
+    Pressable, StyleSheet, Text, View
 } from "react-native";
+import Dialog from "react-native-dialog";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FilterIcon from "../assets/icons/filter";
 import MenuIcon from "../assets/icons/menu";
 import RoomListEntry from "../components/RoomListEntry";
 import { RoomSlot } from "../models/RoomSlot";
-import Dialog from "react-native-dialog";
-import { dark, light, primary, white } from "../utils/Theme";
+import { dark, light, primary, width } from "../utils/Theme";
 
 export default function RoomsScreen({ navigation }: any) {
     const [data, setData] = React.useState([]);
@@ -249,14 +245,13 @@ export const styles = StyleSheet.create({
         flexGrow: 1,
     },
     container: {
-        flex: 1,
         backgroundColor: light,
         alignItems: "center",
         justifyContent: "center",
     },
     title: {
         fontFamily: "Poppins_700Bold",
-        fontSize: 30,
+        fontSize: 25,
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
         textAlign: "center",
@@ -271,9 +266,9 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        width: "90%",
+        width: width,
         height: 50,
-        padding: 5,
+        paddingHorizontal: 20,
         marginBottom: 5,
         borderRadius: 10,
         boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.5)",

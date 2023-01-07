@@ -1,26 +1,25 @@
 import React, { useState } from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    Dimensions,
-    TextInput,
-    Pressable,
-} from "react-native";
-import Svg, { Image, Ellipse, ClipPath } from "react-native-svg";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import Animated, {
-    useSharedValue,
-    useAnimatedStyle,
     interpolate,
-    withTiming,
+    useAnimatedStyle,
+    useSharedValue,
     withDelay,
+    withTiming,
 } from "react-native-reanimated";
+import Svg, { ClipPath, Ellipse, Image } from "react-native-svg";
 import CloseIcon from "../assets/icons/close";
 import LogoIcon from "../assets/icons/logo";
+import {
+    black,
+    dark,
+    height,
+    light,
+    primary,
+    white,
+    width,
+} from "../utils/Theme";
 import { login, register } from "../utils/UserService";
-import { black, dark, light, primary, success, white } from "../utils/Theme";
-
-const { height, width } = Dimensions.get("window");
 
 export default function LoginScreen({ navigation }: any) {
     const imagePosition = useSharedValue(1);

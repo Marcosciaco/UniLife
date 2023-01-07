@@ -104,7 +104,7 @@ export default function HomeScreen({ navigation }: any) {
 export const styles = StyleSheet.create({
     safeAreaView: {
         backgroundColor: light,
-        paddingTop: StatusBar.currentHeight,
+        paddingTop: 20,
         flexGrow: 1,
     },
 

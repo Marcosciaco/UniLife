@@ -1,29 +1,25 @@
-import React, { useState, useEffect } from "react";
-import {
-    Button,
-    Image,
-    View,
-    Platform,
-    Alert,
-    Text,
-    Pressable,
-    TextInput,
-    StyleSheet,
-    Dimensions,
-} from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { auth, db, storage } from "../utils/Firebase";
-import { doc, updateDoc } from "firebase/firestore";
-import { getUserEmail } from "../utils/UserService";
 import { updatePassword, updateProfile } from "firebase/auth";
-import LogoIcon from "../assets/icons/logo";
+import { doc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import React, { useState } from "react";
+import {
+    Alert,
+    Image,
+    Platform,
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { dark, light, white } from "../utils/Theme";
-import MenuIcon from "../assets/icons/menu";
 import EditIcon from "../assets/icons/edit";
-
-const { height, width } = Dimensions.get("window");
+import LogoIcon from "../assets/icons/logo";
+import MenuIcon from "../assets/icons/menu";
+import { auth, db, storage } from "../utils/Firebase";
+import { dark, light, white } from "../utils/Theme";
+import { getUserEmail } from "../utils/UserService";
 
 export default function SettingsScreen({ navigation }: any) {
     const [imgProfile, setImgProfile] = useState<any>({
@@ -172,7 +168,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        margin: 10,
+        padding: 20,
     },
     imageContainer: {
         display: "flex",
@@ -196,7 +192,8 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: white,
         padding: 10,
-        elevation: 3,
+        elevation: 10,
+        zIndex: 10,
     },
     saveButton: {
         alignItems: "center",
