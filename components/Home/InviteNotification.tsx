@@ -3,10 +3,10 @@ import { StyleSheet, Text, View } from "react-native";
 import Dialog from "react-native-dialog";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Animated, { FadeInLeft } from "react-native-reanimated";
-import MailIcon from "../assets/icons/mail";
-import { Event } from "../models/Event";
-import { dark, light, secondary } from "../utils/Theme";
-import { getUsernameByEmail } from "../utils/UserService";
+import MailIcon from "../../assets/icons/mail";
+import { Event } from "../../models/Event";
+import { dark, light, secondary } from "../../utils/Theme";
+import { getUsernameByEmail } from "../../utils/UserService";
 import InviteConfirmationDialog from "./InviteConfirmationDialog";
 
 export function InviteNotification({

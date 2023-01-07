@@ -20,7 +20,7 @@ import GroupIcon from "./assets/icons/group";
 import HomeIcon from "./assets/icons/home";
 import PinIcon from "./assets/icons/pin";
 import SettingsIcon from "./assets/icons/settings";
-import { CustomDrawerContent } from "./components/DrawerContent";
+import { CustomDrawerContent } from "./components/Navigation/DrawerContent";
 import AllUsersScreen from "./views/AllUsers";
 import HomeScreen from "./views/Home";
 import LoginScreen from "./views/Login";

@@ -11,7 +11,7 @@ import Dialog from "react-native-dialog";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FilterIcon from "../assets/icons/filter";
 import MenuIcon from "../assets/icons/menu";
-import RoomListEntry from "../components/RoomListEntry";
+import RoomListEntry from "../components/Rooms/RoomListEntry";
 import { RoomSlot } from "../models/RoomSlot";
 import { dark, light, primary, width } from "../utils/Theme";
 

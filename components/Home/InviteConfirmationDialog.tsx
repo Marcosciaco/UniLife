@@ -1,14 +1,14 @@
 import React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
-import { Event } from "../models/Event";
-import { formatDate } from "../utils/DateUtil";
-import { dark, error, success, white, width } from "../utils/Theme";
+import { Event } from "../../models/Event";
+import { formatDate } from "../../utils/DateUtil";
+import { dark, error, success, white, width } from "../../utils/Theme";
 import {
     acceptInvite,
     declineInvite,
     getUsernameByEmail,
-} from "../utils/UserService";
+} from "../../utils/UserService";
 
 export default function InviteConfirmationDialog({
     event,

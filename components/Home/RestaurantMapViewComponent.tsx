@@ -1,8 +1,8 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
-import { GastronomyResponse } from "../models/GastronomyResponse";
-import { white } from "../utils/Theme";
+import { GastronomyResponse } from "../../models/GastronomyResponse";
+import { white } from "../../utils/Theme";
 
 export default function RestaurantMapView({
     location,

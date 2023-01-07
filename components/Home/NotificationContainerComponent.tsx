@@ -2,9 +2,9 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import Animated, { FadeInLeft } from "react-native-reanimated";
-import { Event } from "../models/Event";
-import { white } from "../utils/Theme";
-import { getProfileEvents, getUserEmail } from "../utils/UserService";
+import { Event } from "../../models/Event";
+import { white } from "../../utils/Theme";
+import { getProfileEvents, getUserEmail } from "../../utils/UserService";
 import { InviteNotification } from "./InviteNotification";
 
 export default function NotificationContainer(): JSX.Element {

@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
-import { RoomSlot } from "../models/RoomSlot";
-import { dark, error, success, white } from "../utils/Theme";
+import { RoomSlot } from "../../models/RoomSlot";
+import { dark, error, success, white } from "../../utils/Theme";
 
 export default function RoomListEntry({
     room,

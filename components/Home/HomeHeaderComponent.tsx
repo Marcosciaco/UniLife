@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import LogoIcon from "../assets/icons/logo";
-import MenuIcon from "../assets/icons/menu";
-import { dark } from "../utils/Theme";
+import LogoIcon from "../../assets/icons/logo";
+import MenuIcon from "../../assets/icons/menu";
+import { dark } from "../../utils/Theme";
 
 export default function HeaderRow({ navigation }: any): JSX.Element {
     return (

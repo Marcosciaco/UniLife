@@ -5,9 +5,9 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
-import LogoutIcon from "../assets/icons/logout";
-import { auth } from "../utils/Firebase";
-import { dark, secondary, white } from "../utils/Theme";
+import LogoutIcon from "../../assets/icons/logout";
+import { auth } from "../../utils/Firebase";
+import { dark, secondary, white } from "../../utils/Theme";
 
 export function CustomDrawerContent({ ...props }: any): JSX.Element {
     const [user, setUser] = React.useState<any>(null);
