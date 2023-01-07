@@ -1,3 +1,4 @@
+import { LocationObject } from "expo-location";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -8,18 +9,17 @@ import {
     addDoc,
     collection,
     doc,
-    Firestore,
     getDoc,
     getDocs,
     query,
     setDoc,
     updateDoc,
-    where,
 } from "firebase/firestore";
+import showToast from "../components/Inputs/Toast";
+import { Event } from "../models/Event";
 import { User } from "../models/User";
 import { auth, db } from "./Firebase";
-import { Event } from "../models/Event";
-import { LocationObject } from "expo-location";
+import { success } from "./Theme";
 
 export function register(
     email: string,
@@ -37,9 +37,10 @@ export function register(
             }
             addUserToDB(user.user, studentId, displayName);
             navigation.navigate("Home");
+            showToast("Account created successfully!", success);
         })
         .catch((error) => {
-            console.log(error);
+            showToast("Error creating account. Please try again later.", error);
         });
 }
 
@@ -67,8 +68,6 @@ async function addUserToDB(
         studentId: studentId,
         followers: "",
         isOnline: true,
-    }).catch((error) => {
-        console.error("Error adding document: ", error);
     });
 }
 
@@ -77,17 +76,16 @@ export function login(email: string, password: string, navigation: any): void {
         .then((user) => {
             updateUserInDB(user.user);
             navigation.navigate("Home");
+            showToast("Logged in successfully!", success);
         })
         .catch((error) => {
-            console.log(error);
+            showToast("Error logging in. Please try again later.", error);
         });
 }
 
 async function updateUserInDB(user: FirebaseUser): Promise<void> {
     updateDoc(doc(db, "users", user.email || ""), {
         isOnline: true,
-    }).catch((error) => {
-        console.error("Error adding document: ", error);
     });
 }
 
@@ -98,10 +96,14 @@ export function isLoggedIn(): boolean {
 export function logout(navigation: any): void {
     updateDoc(doc(db, "users", getUserEmail() || ""), {
         isOnline: false,
-    }).then(() => {
-        auth.signOut();
-        navigation.navigrate("Login");
-    });
+    })
+        .then(() => {
+            auth.signOut();
+            navigation.navigrate("Login");
+        })
+        .catch((error) => {
+            showToast("Error logging out. Please try again later.", error);
+        });
 }
 
 export function getCurrentUser(): Promise<User> {
@@ -126,20 +128,28 @@ export async function getAllUsers(): Promise<User[]> {
 }
 
 export function followUser(email: string): void {
-    getDoc(doc(db, "users", email)).then((resp) => {
-        if (resp.exists()) {
-            updateDoc(doc(db, "users", email), {
-                followers: resp.data()?.followers + getUserEmail() + ";",
-            });
-        }
-    });
-    getDoc(doc(db, "users", getUserEmail())).then((resp) => {
-        if (resp.exists()) {
-            updateDoc(doc(db, "users", getUserEmail()), {
-                following: resp.data()?.following + email + ";",
-            });
-        }
-    });
+    getDoc(doc(db, "users", email))
+        .then((resp) => {
+            if (resp.exists()) {
+                updateDoc(doc(db, "users", email), {
+                    followers: resp.data()?.followers + getUserEmail() + ";",
+                });
+            }
+        })
+        .catch((error) => {
+            showToast("Error following user. Please try again later.", error);
+        });
+    getDoc(doc(db, "users", getUserEmail()))
+        .then((resp) => {
+            if (resp.exists()) {
+                updateDoc(doc(db, "users", getUserEmail()), {
+                    following: resp.data()?.following + email + ";",
+                });
+            }
+        })
+        .catch((error) => {
+            showToast("Error following user. Please try again later.", error);
+        });
 }
 
 export function getFollowers(): Promise<string[]> {
@@ -163,22 +173,30 @@ export function getFollowing(): Promise<string[]> {
 }
 
 export function unfollowUser(email: string): void {
-    getDoc(doc(db, "users", email)).then((resp) => {
-        if (resp.exists()) {
-            updateDoc(doc(db, "users", email), {
-                followers: resp
-                    .data()
-                    ?.followers.replace(getUserEmail() + ";", ""),
-            });
-        }
-    });
-    getDoc(doc(db, "users", getUserEmail())).then((resp) => {
-        if (resp.exists()) {
-            updateDoc(doc(db, "users", getUserEmail()), {
-                following: resp.data()?.following.replace(email + ";", ""),
-            });
-        }
-    });
+    getDoc(doc(db, "users", email))
+        .then((resp) => {
+            if (resp.exists()) {
+                updateDoc(doc(db, "users", email), {
+                    followers: resp
+                        .data()
+                        ?.followers.replace(getUserEmail() + ";", ""),
+                });
+            }
+        })
+        .catch((error) => {
+            showToast("Error unfollowing user. Please try again later.", error);
+        });
+    getDoc(doc(db, "users", getUserEmail()))
+        .then((resp) => {
+            if (resp.exists()) {
+                updateDoc(doc(db, "users", getUserEmail()), {
+                    following: resp.data()?.following.replace(email + ";", ""),
+                });
+            }
+        })
+        .catch((error) => {
+            showToast("Error unfollowing user. Please try again later.", error);
+        });
 }
 
 export function getFollowersOfUser(email: string): Promise<string[]> {
@@ -233,7 +251,13 @@ export function createEvent(
         creator: auth.currentUser?.email,
         partecipants: partecipant,
         color,
-    });
+    })
+        .then(() => {
+            showToast("Event created successfully!", success);
+        })
+        .catch((error) => {
+            showToast("Error creating event. Please try again later.", error);
+        });
 }
 
 export function updateUserLocation(
@@ -245,6 +269,6 @@ export function updateUserLocation(
     })
         .then(() => {})
         .catch((error) => {
-            console.log(error);
+            showToast("Error updating user location.", error);
         });
 }

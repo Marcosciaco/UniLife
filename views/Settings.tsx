@@ -14,12 +14,22 @@ import {
     View,
 } from "react-native";
 import { Switch } from "react-native-gesture-handler";
+import Toast from "react-native-root-toast";
 import { SafeAreaView } from "react-native-safe-area-context";
 import EditIcon from "../assets/icons/edit";
 import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
+import showToast from "../components/Inputs/Toast";
 import { auth, db, storage } from "../utils/Firebase";
-import { dark, light, primary, secondary, white, width } from "../utils/Theme";
+import {
+    dark,
+    light,
+    primary,
+    secondary,
+    success,
+    white,
+    width,
+} from "../utils/Theme";
 import { getCurrentUser, getUserEmail } from "../utils/UserService";
 
 export default function SettingsScreen({ navigation }: any) {
@@ -86,6 +96,7 @@ export default function SettingsScreen({ navigation }: any) {
     };
 
     const saveHandler = () => {
+        showToast("Saved", success);
         // uploadImage();
         if (password != "") {
             if (auth.currentUser) {
