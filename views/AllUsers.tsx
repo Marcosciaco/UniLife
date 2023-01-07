@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import {
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableHighlight,
-    View,
-} from "react-native";
+import React from "react";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LogoIcon from "../assets/icons/logo";
@@ -29,14 +22,13 @@ export default function AllUsersScreen({ navigation }: any) {
     return (
         <SafeAreaView style={styles.safeAreaView}>
             <View style={styles.header}>
-                <TouchableHighlight
-                    underlayColor={white}
+                <TouchableOpacity
                     onPress={() => {
                         navigation.openDrawer();
                     }}
                 >
                     <MenuIcon color={dark} height={30} width={30} />
-                </TouchableHighlight>
+                </TouchableOpacity>
                 <TextInput
                     onChangeText={(text) => {
                         setFiltered(
@@ -58,23 +50,6 @@ export default function AllUsersScreen({ navigation }: any) {
                 })}
             </ScrollView>
         </SafeAreaView>
-    );
-}
-
-export function FollowButton(props: any) {
-    const { onPress } = props;
-    const [following, setFollowing] = useState<boolean>(false);
-
-    const buttonText = following ? "Unfollow" : "Follow";
-
-    const toggle = () => {
-        onPress();
-        setFollowing(!following);
-    };
-    return (
-        <Pressable style={styles.button} onPress={toggle}>
-            <Text style={styles.text}>{buttonText}</Text>
-        </Pressable>
     );
 }
 

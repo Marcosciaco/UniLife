@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import Animated, {
     interpolate,
     useAnimatedStyle,
@@ -151,20 +157,20 @@ export default function LoginScreen({ navigation }: any) {
                     style={[styles.bottomContainer, buttonsAnimatedStyle]}
                 >
                     <View style={styles.buttonContainer}>
-                        <Pressable
+                        <TouchableOpacity
                             onPress={registerHandler}
                             style={styles.registerButton}
                         >
                             <Text style={styles.registerButtonText}>
                                 Register
                             </Text>
-                        </Pressable>
-                        <Pressable
+                        </TouchableOpacity>
+                        <TouchableOpacity
                             onPress={loginHandler}
                             style={styles.loginButton}
                         >
                             <Text style={styles.loginButtonText}>Login</Text>
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
                 </Animated.View>
                 <Animated.View
@@ -205,7 +211,7 @@ export default function LoginScreen({ navigation }: any) {
                     <Animated.View
                         style={[styles.formButton, formButtonAnimatedStyle]}
                     >
-                        <Pressable
+                        <TouchableOpacity
                             onPress={
                                 isRegistering
                                     ? () =>
@@ -222,7 +228,7 @@ export default function LoginScreen({ navigation }: any) {
                             <Text style={styles.buttonText}>
                                 {isRegistering ? "Register" : "Login"}
                             </Text>
-                        </Pressable>
+                        </TouchableOpacity>
                     </Animated.View>
                 </Animated.View>
             </View>

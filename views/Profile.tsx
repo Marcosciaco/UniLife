@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
     ImageBackground,
-    Pressable,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View,
 } from "react-native";
 import FollowIcon from "../assets/icons/follow";
@@ -67,7 +67,7 @@ export default function ProfileScreen({ user }: { user: User }) {
                             {user.email == auth.currentUser?.email ? (
                                 <></>
                             ) : (
-                                <Pressable
+                                <TouchableOpacity
                                     onPress={() => toggle()}
                                     style={styles.followButton}
                                 >
@@ -84,7 +84,7 @@ export default function ProfileScreen({ user }: { user: User }) {
                                             color={dark}
                                         />
                                     )}
-                                </Pressable>
+                                </TouchableOpacity>
                             )}
                         </View>
                     </View>

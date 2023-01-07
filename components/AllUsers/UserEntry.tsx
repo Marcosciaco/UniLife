@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Dialog from "react-native-dialog";
 import CloseIcon from "../../assets/icons/close";
 import FollowIcon from "../../assets/icons/follow";
@@ -41,7 +41,7 @@ export default function UserEntry({ user }: { user: User }) {
     };
 
     return (
-        <Pressable
+        <TouchableOpacity
             style={styles.userContainer}
             key={user.uid}
             onPress={() => setDialogVisible(true)}
@@ -55,7 +55,7 @@ export default function UserEntry({ user }: { user: User }) {
                 {user.email == auth.currentUser?.email ? (
                     <></>
                 ) : (
-                    <Pressable
+                    <TouchableOpacity
                         style={styles.buttonIcon}
                         onPress={() => toggle()}
                     >
@@ -64,7 +64,7 @@ export default function UserEntry({ user }: { user: User }) {
                         ) : (
                             <FollowIcon height={20} width={20} color={dark} />
                         )}
-                    </Pressable>
+                    </TouchableOpacity>
                 )}
             </View>
             <Dialog.Container
@@ -79,16 +79,16 @@ export default function UserEntry({ user }: { user: User }) {
                 onBackdropPress={() => setDialogVisible(false)}
             >
                 <View style={styles.dialogHeader}>
-                    <Pressable
+                    <TouchableOpacity
                         style={styles.closeButton}
                         onPress={() => setDialogVisible(false)}
                     >
                         <CloseIcon height={25} width={25} color={dark} />
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
                 <ProfileScreen user={user}></ProfileScreen>
             </Dialog.Container>
-        </Pressable>
+        </TouchableOpacity>
     );
 }
 

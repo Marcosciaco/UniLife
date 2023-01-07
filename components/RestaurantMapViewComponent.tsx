@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
-import MapView, { Callout, Marker, PROVIDER_DEFAULT } from "react-native-maps";
+import { Image, StyleSheet } from "react-native";
+import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import { GastronomyResponse } from "../utils/GastronomyAPIUtil";
 import { white } from "../utils/Theme";
 

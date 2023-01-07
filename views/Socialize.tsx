@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { MarkedDates } from "react-native-calendars/src/types";
 import Dialog from "react-native-dialog";
@@ -20,7 +20,7 @@ import {
     primary,
     secondary,
     white,
-    width
+    width,
 } from "../utils/Theme";
 import { getProfileEvents } from "../utils/UserService";
 
@@ -66,15 +66,15 @@ export default function SocializeScreen({ navigation }: any) {
             <View style={styles.container}>
                 <View>
                     <View style={styles.header}>
-                        <Pressable
+                        <TouchableOpacity
                             onPress={() => {
                                 navigation.openDrawer();
                             }}
                         >
                             <MenuIcon color={dark} height={30} width={30} />
-                        </Pressable>
+                        </TouchableOpacity>
                         <Text style={styles.title}>Events</Text>
-                        <Pressable onPress={() => setVisible(true)}>
+                        <TouchableOpacity onPress={() => setVisible(true)}>
                             <View style={styles.iconContainer}>
                                 <AddIcon
                                     height={20}
@@ -82,7 +82,7 @@ export default function SocializeScreen({ navigation }: any) {
                                     color={dark}
                                 ></AddIcon>
                             </View>
-                        </Pressable>
+                        </TouchableOpacity>
                         <Dialog.Container
                             visible={visible}
                             contentStyle={{
@@ -101,7 +101,7 @@ export default function SocializeScreen({ navigation }: any) {
                                 }}
                             >
                                 <Dialog.Title>Add Event</Dialog.Title>
-                                <Pressable
+                                <TouchableOpacity
                                     style={{
                                         backgroundColor: white,
                                         borderRadius: 20,
@@ -117,7 +117,7 @@ export default function SocializeScreen({ navigation }: any) {
                                         width={20}
                                         color={dark}
                                     />
-                                </Pressable>
+                                </TouchableOpacity>
                             </View>
                             <EventCreation
                                 onCreate={() => {

@@ -1,22 +1,21 @@
-import React, { useState } from "react";
-import { View, Text, SafeAreaView, StatusBar, StyleSheet } from "react-native";
-import { StatusBar as ExpoStatusBar } from "expo-status-bar";
-import WeatherAPIUtil, { WeatherTempImage } from "../utils/WeatherAPIUtil";
 import * as Location from "expo-location";
 import { LocationObject } from "expo-location";
-import { CategoryCode } from "../models/CategoryCode";
+import { StatusBar as ExpoStatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import Animated, { FadeInLeft } from "react-native-reanimated";
 import HeaderRow from "../components/HomeHeaderComponent";
 import NotificationContainer from "../components/NotificationContainerComponent";
 import RestaurantMapView from "../components/RestaurantMapViewComponent";
-import Animated, { FadeInLeft } from "react-native-reanimated";
+import { CategoryCode } from "../models/CategoryCode";
 import { auth } from "../utils/Firebase";
-import { light, white } from "../utils/Theme";
 import {
     GastronomyResponse,
     getGastronomyLocales,
 } from "../utils/GastronomyAPIUtil";
-import { updateCurrentUser } from "firebase/auth";
+import { light, white } from "../utils/Theme";
 import { updateUserLocation } from "../utils/UserService";
+import WeatherAPIUtil, { WeatherTempImage } from "../utils/WeatherAPIUtil";
 
 export default function HomeScreen({ navigation }: any) {
     const [weatherData, setWeatherData] = React.useState("");

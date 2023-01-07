@@ -1,7 +1,7 @@
-import { RoomSlot } from "../models/RoomSlot";
-import { Text, View, StyleSheet, Pressable } from "react-native";
 import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
+import { RoomSlot } from "../models/RoomSlot";
 import { dark, error, success, white } from "../utils/Theme";
 
 export default function RoomListEntry({
@@ -40,7 +40,7 @@ export default function RoomListEntry({
 
     return (
         <Animated.View entering={FadeInLeft.delay(delay)} style={styles.row}>
-            <Pressable style={styles.rowContainer}>
+            <TouchableOpacity style={styles.rowContainer}>
                 <View style={styles.slotRoom}>
                     <Text style={styles.slotRoomText}>
                         {room.room.campus} {room.room.building} {room.room.name}
@@ -66,7 +66,7 @@ export default function RoomListEntry({
                 ) : (
                     <View style={styles.notAvailable}></View>
                 )}
-            </Pressable>
+            </TouchableOpacity>
         </Animated.View>
     );
 }

@@ -7,10 +7,10 @@ import {
     Alert,
     Image,
     Platform,
-    Pressable,
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,7 +29,6 @@ export default function SettingsScreen({ navigation }: any) {
     const [name, setName] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [confirmPassword, setConfirmPassword] = useState<string>("");
 
     React.useEffect(() => {
         if (auth.currentUser?.photoURL) {
@@ -111,24 +110,24 @@ export default function SettingsScreen({ navigation }: any) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Pressable
+                <TouchableOpacity
                     onPress={() => {
                         navigation.openDrawer();
                     }}
                 >
                     <MenuIcon color={dark} height={30} width={30} />
-                </Pressable>
+                </TouchableOpacity>
                 <LogoIcon color={dark} height={40} width={40} />
             </View>
 
             <View style={styles.imageContainer}>
                 <Image source={imgProfile} style={styles.profilePicture} />
-                <Pressable
+                <TouchableOpacity
                     style={styles.profileChangeButton}
                     onPress={() => pickImage()}
                 >
                     <EditIcon color={dark} height={20} width={20} />
-                </Pressable>
+                </TouchableOpacity>
             </View>
             <View style={styles.bottomContainer}>
                 <TextInput
@@ -149,9 +148,12 @@ export default function SettingsScreen({ navigation }: any) {
                     style={styles.textInput}
                     value={password}
                 />
-                <Pressable onPress={saveHandler} style={styles.saveButton}>
+                <TouchableOpacity
+                    onPress={saveHandler}
+                    style={styles.saveButton}
+                >
                     <Text style={styles.saveButtonText}>Save</Text>
-                </Pressable>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     );

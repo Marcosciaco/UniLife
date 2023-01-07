@@ -1,7 +1,10 @@
 import React from "react";
 import {
     FlatList,
-    Pressable, StyleSheet, Text, View
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import Dialog from "react-native-dialog";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -87,17 +90,17 @@ export default function RoomsScreen({ navigation }: any) {
         <SafeAreaView style={styles.safeAreaView}>
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Pressable
+                    <TouchableOpacity
                         onPress={() => {
                             navigation.openDrawer();
                         }}
                     >
                         <MenuIcon height={30} width={30} color={dark} />
-                    </Pressable>
+                    </TouchableOpacity>
                     <Text style={styles.title}>Rooms</Text>
-                    <Pressable onPress={() => setVisible(true)}>
+                    <TouchableOpacity onPress={() => setVisible(true)}>
                         <FilterIcon height={30} width={30} color={dark} />
-                    </Pressable>
+                    </TouchableOpacity>
                     <Dialog.Container
                         visible={visible}
                         contentStyle={{
@@ -119,7 +122,7 @@ export default function RoomsScreen({ navigation }: any) {
                                     Only available Rooms?
                                 </Text>
                                 <View style={styles.filterCampus}>
-                                    <Pressable
+                                    <TouchableOpacity
                                         style={[
                                             styles.category,
                                             {
@@ -133,8 +136,8 @@ export default function RoomsScreen({ navigation }: any) {
                                         <Text style={styles.filterCampusText}>
                                             Yes
                                         </Text>
-                                    </Pressable>
-                                    <Pressable
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
                                         style={[
                                             styles.category,
                                             {
@@ -148,14 +151,14 @@ export default function RoomsScreen({ navigation }: any) {
                                         <Text style={styles.filterCampusText}>
                                             No
                                         </Text>
-                                    </Pressable>
+                                    </TouchableOpacity>
                                 </View>
                                 <Text style={styles.filterCampusText}>
                                     Campus
                                 </Text>
                                 <View style={styles.filterCampus}>
                                     {campuses.map((ca) => (
-                                        <Pressable
+                                        <TouchableOpacity
                                             key={ca}
                                             onPress={() => {
                                                 setCampus(ca);
@@ -183,7 +186,7 @@ export default function RoomsScreen({ navigation }: any) {
                                             >
                                                 {ca}
                                             </Text>
-                                        </Pressable>
+                                        </TouchableOpacity>
                                     ))}
                                 </View>
                                 <Text style={styles.filterCampusText}>
@@ -191,7 +194,7 @@ export default function RoomsScreen({ navigation }: any) {
                                 </Text>
                                 <View style={styles.filterCampus}>
                                     {buildings.map((bu) => (
-                                        <Pressable
+                                        <TouchableOpacity
                                             key={bu}
                                             onPress={() => {
                                                 setBuilding(bu);
@@ -219,7 +222,7 @@ export default function RoomsScreen({ navigation }: any) {
                                             >
                                                 {bu}
                                             </Text>
-                                        </Pressable>
+                                        </TouchableOpacity>
                                     ))}
                                 </View>
                             </View>
