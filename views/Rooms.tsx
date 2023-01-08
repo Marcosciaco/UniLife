@@ -8,16 +8,28 @@ import {
     View,
 } from "react-native";
 import Dialog from "react-native-dialog";
+import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FilterIcon from "../assets/icons/filter";
 import MenuIcon from "../assets/icons/menu";
 import RoomListEntry from "../components/Rooms/RoomListEntry";
 import { RoomSlot } from "../models/RoomSlot";
-import { dark, light, primary, width } from "../utils/Theme";
+import { dark, height, light, primary, width } from "../utils/Theme";
 
 export default function RoomsScreen({ navigation }: any): JSX.Element {
     const [data, setData] = React.useState([]);
     const [notFilteredData, setNotFilteredData] = React.useState([]);
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const wait = (timeout: number | undefined) => {
+        return new Promise((resolve) => setTimeout(resolve, timeout));
+    };
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        fetchData();
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
 
     const [visible, setVisible] = React.useState(false);
 
@@ -89,162 +101,180 @@ export default function RoomsScreen({ navigation }: any): JSX.Element {
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
-            <ExpoStatusBar backgroundColor="transparent" style="dark" />
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.openDrawer();
-                        }}
-                    >
-                        <MenuIcon height={30} width={30} color={dark} />
-                    </TouchableOpacity>
-                    <Text style={styles.title}>Rooms</Text>
-                    <TouchableOpacity onPress={() => setVisible(true)}>
-                        <FilterIcon height={30} width={30} color={dark} />
-                    </TouchableOpacity>
-                    <Dialog.Container
-                        visible={visible}
-                        contentStyle={{
-                            borderRadius: 20,
-                        }}
-                        onBackdropPress={() => setVisible(false)}
-                    >
-                        <Dialog.Title style={styles.filterTitle}>
-                            Filter
-                        </Dialog.Title>
-                        <Dialog.Description
-                            style={{
-                                flexDirection: "row",
-                                flexWrap: "wrap",
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            >
+                <ExpoStatusBar backgroundColor="transparent" style="dark" />
+                <View style={styles.container}>
+                    <View style={styles.header}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                navigation.openDrawer();
                             }}
                         >
-                            <View>
-                                <Text style={styles.filterCampusText}>
-                                    Only available Rooms?
-                                </Text>
-                                <View style={styles.filterCampus}>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.category,
-                                            {
-                                                borderColor: available
-                                                    ? primary
-                                                    : dark,
-                                            },
-                                        ]}
-                                        onPress={() => setAvailable(true)}
-                                    >
-                                        <Text style={styles.filterCampusText}>
-                                            Yes
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.category,
-                                            {
-                                                borderColor: !available
-                                                    ? primary
-                                                    : dark,
-                                            },
-                                        ]}
-                                        onPress={() => setAvailable(false)}
-                                    >
-                                        <Text style={styles.filterCampusText}>
-                                            No
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <Text style={styles.filterCampusText}>
-                                    Campus
-                                </Text>
-                                <View style={styles.filterCampus}>
-                                    {campuses.map((ca) => (
+                            <MenuIcon height={30} width={30} color={dark} />
+                        </TouchableOpacity>
+                        <Text style={styles.title}>Rooms</Text>
+                        <TouchableOpacity onPress={() => setVisible(true)}>
+                            <FilterIcon height={30} width={30} color={dark} />
+                        </TouchableOpacity>
+                        <Dialog.Container
+                            visible={visible}
+                            contentStyle={{
+                                borderRadius: 20,
+                            }}
+                            onBackdropPress={() => setVisible(false)}
+                        >
+                            <Dialog.Title style={styles.filterTitle}>
+                                Filter
+                            </Dialog.Title>
+                            <Dialog.Description
+                                style={{
+                                    flexDirection: "row",
+                                    flexWrap: "wrap",
+                                }}
+                            >
+                                <View>
+                                    <Text style={styles.filterCampusText}>
+                                        Only available Rooms?
+                                    </Text>
+                                    <View style={styles.filterCampus}>
                                         <TouchableOpacity
-                                            key={ca}
-                                            onPress={() => {
-                                                setCampus(ca);
-                                            }}
                                             style={[
                                                 styles.category,
                                                 {
-                                                    borderColor:
-                                                        ca === campus
-                                                            ? primary
-                                                            : dark,
+                                                    borderColor: available
+                                                        ? primary
+                                                        : dark,
                                                 },
                                             ]}
+                                            onPress={() => setAvailable(true)}
                                         >
                                             <Text
+                                                style={styles.filterCampusText}
+                                            >
+                                                Yes
+                                            </Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.category,
+                                                {
+                                                    borderColor: !available
+                                                        ? primary
+                                                        : dark,
+                                                },
+                                            ]}
+                                            onPress={() => setAvailable(false)}
+                                        >
+                                            <Text
+                                                style={styles.filterCampusText}
+                                            >
+                                                No
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <Text style={styles.filterCampusText}>
+                                        Campus
+                                    </Text>
+                                    <View style={styles.filterCampus}>
+                                        {campuses.map((ca) => (
+                                            <TouchableOpacity
+                                                key={ca}
+                                                onPress={() => {
+                                                    setCampus(ca);
+                                                }}
                                                 style={[
-                                                    styles.filterCampusText,
+                                                    styles.category,
                                                     {
-                                                        color:
+                                                        borderColor:
                                                             ca === campus
                                                                 ? primary
                                                                 : dark,
                                                     },
                                                 ]}
                                             >
-                                                {ca}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    ))}
-                                </View>
-                                <Text style={styles.filterCampusText}>
-                                    Building
-                                </Text>
-                                <View style={styles.filterCampus}>
-                                    {buildings.map((bu) => (
-                                        <TouchableOpacity
-                                            key={bu}
-                                            onPress={() => {
-                                                setBuilding(bu);
-                                            }}
-                                            style={[
-                                                styles.category,
-                                                {
-                                                    borderColor:
-                                                        bu === building
-                                                            ? primary
-                                                            : dark,
-                                                },
-                                            ]}
-                                        >
-                                            <Text
+                                                <Text
+                                                    style={[
+                                                        styles.filterCampusText,
+                                                        {
+                                                            color:
+                                                                ca === campus
+                                                                    ? primary
+                                                                    : dark,
+                                                        },
+                                                    ]}
+                                                >
+                                                    {ca}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </View>
+                                    <Text style={styles.filterCampusText}>
+                                        Building
+                                    </Text>
+                                    <View style={styles.filterCampus}>
+                                        {buildings.map((bu) => (
+                                            <TouchableOpacity
+                                                key={bu}
+                                                onPress={() => {
+                                                    setBuilding(bu);
+                                                }}
                                                 style={[
-                                                    styles.filterCampusText,
+                                                    styles.category,
                                                     {
-                                                        color:
+                                                        borderColor:
                                                             bu === building
                                                                 ? primary
                                                                 : dark,
                                                     },
                                                 ]}
                                             >
-                                                {bu}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    ))}
+                                                <Text
+                                                    style={[
+                                                        styles.filterCampusText,
+                                                        {
+                                                            color:
+                                                                bu === building
+                                                                    ? primary
+                                                                    : dark,
+                                                        },
+                                                    ]}
+                                                >
+                                                    {bu}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </View>
                                 </View>
-                            </View>
-                        </Dialog.Description>
-                    </Dialog.Container>
+                            </Dialog.Description>
+                        </Dialog.Container>
+                    </View>
+                    <ScrollView style={styles.scroll}>
+                        {data.map((room: RoomSlot, index: number) => {
+                            return room.freeSlots.length === 0 &&
+                                room.reservedSlots.length === 0 ? (
+                                <View>
+                                    <Text style={styles.noRoomsText}>
+                                        There are no rooms to show
+                                    </Text>
+                                </View>
+                            ) : (
+                                <RoomListEntry
+                                    room={room}
+                                    delay={index * 100}
+                                    key={room.room.id}
+                                />
+                            );
+                        })}
+                    </ScrollView>
                 </View>
-                <FlatList
-                    renderItem={({ item, index }) => (
-                        <RoomListEntry room={item} delay={index * 100} />
-                    )}
-                    data={data}
-                    keyExtractor={(item: RoomSlot) => item.room.id}
-                    style={styles.scroll}
-                    ListEmptyComponent={() => (
-                        <Text style={styles.noRoomsText}>
-                            There are no rooms to show
-                        </Text>
-                    )}
-                ></FlatList>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -253,6 +283,8 @@ export const styles = StyleSheet.create({
     safeAreaView: {
         backgroundColor: light,
         flexGrow: 1,
+        height: height,
+        width: width,
     },
     container: {
         backgroundColor: light,
@@ -268,7 +300,7 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
     },
     scroll: {
-        width: width,
+        width: width - 20,
     },
     header: {
         display: "flex",

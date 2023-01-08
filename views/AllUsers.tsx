@@ -7,7 +7,7 @@ import LogoIcon from "../assets/icons/logo";
 import MenuIcon from "../assets/icons/menu";
 import UserEntry from "../components/AllUsers/UserEntry";
 import { User } from "../models/User";
-import { dark, light, primary, white, width } from "../utils/Theme";
+import { dark, light, width } from "../utils/Theme";
 import { getAllUsers } from "../utils/UserService";
 
 export default function AllUsersScreen({ navigation }: any): JSX.Element {

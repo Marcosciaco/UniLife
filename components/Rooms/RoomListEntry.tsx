@@ -2,7 +2,17 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
 import { RoomSlot } from "../../models/RoomSlot";
-import { dark, error, success, white } from "../../utils/Theme";
+import {
+    dark,
+    error,
+    height,
+    light,
+    success,
+    white,
+    width,
+} from "../../utils/Theme";
+import Dialog from "react-native-dialog";
+import RoomDetailDialog from "./RoomDetailDialog";
 
 export default function RoomListEntry({
     room,
@@ -13,6 +23,7 @@ export default function RoomListEntry({
 }): JSX.Element {
     const [available, setAvailable] = React.useState(false);
     const [actual, setActual] = React.useState(room.freeSlots[0]);
+    const [dialogVisible, setDialogVisible] = React.useState(false);
 
     React.useEffect(() => {
         const now = new Date();
@@ -40,10 +51,14 @@ export default function RoomListEntry({
 
     return (
         <Animated.View entering={FadeInLeft.delay(delay)} style={styles.row}>
-            <TouchableOpacity style={styles.rowContainer}>
+            <TouchableOpacity
+                style={styles.rowContainer}
+                onPress={() => setDialogVisible(true)}
+            >
                 <View style={styles.slotRoom}>
                     <Text style={styles.slotRoomText}>
-                        {room.room.campus} {room.room.building} {room.room.name}
+                        {room.room.campus} {room.room.building}
+                        {room.room.name}
                     </Text>
                 </View>
                 <View style={styles.slotTime}>
@@ -67,6 +82,17 @@ export default function RoomListEntry({
                     <View style={styles.notAvailable}></View>
                 )}
             </TouchableOpacity>
+            <Dialog.Container
+                visible={dialogVisible}
+                onBackdropPress={() => setDialogVisible(false)}
+                contentStyle={{
+                    borderRadius: 10,
+                    width: width - 20,
+                    backgroundColor: light,
+                }}
+            >
+                <RoomDetailDialog room={room}></RoomDetailDialog>
+            </Dialog.Container>
         </Animated.View>
     );
 }

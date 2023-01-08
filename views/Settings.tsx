@@ -79,7 +79,6 @@ export default function SettingsScreen({ navigation }: any): JSX.Element {
 
         if (!result.canceled && imgProfile.uri != result.assets[0].uri) {
             setImgProfile({ uri: result.assets[0].uri });
-            uploadImage();
         }
     };
 
@@ -142,6 +141,7 @@ export default function SettingsScreen({ navigation }: any): JSX.Element {
             phoneNumber: phoneNumber,
             locationTracking: isTracking,
         });
+        uploadImage();
     };
 
     return (
