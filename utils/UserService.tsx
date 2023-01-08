@@ -130,7 +130,10 @@ export async function getAllUsers(): Promise<User[]> {
 export function followUser(email: string): void {
     getDoc(doc(db, "users", email))
         .then((resp) => {
-            if (resp.exists()) {
+            if (
+                resp.exists() &&
+                !resp.data()?.followers.split(";").includes(email)
+            ) {
                 updateDoc(doc(db, "users", email), {
                     followers: resp.data()?.followers + getUserEmail() + ";",
                 });

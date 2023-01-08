@@ -42,7 +42,7 @@ export default function ProfileScreen({ user }: { user: User }): JSX.Element {
                 }
             }
         });
-    }, []);
+    }, [user]);
 
     useEffect(() => {
         setFollowers(
@@ -51,7 +51,7 @@ export default function ProfileScreen({ user }: { user: User }): JSX.Element {
         setFollowing(
             user.following?.split(";").filter((x) => x != "").length || 0
         );
-    }, []);
+    }, [user]);
 
     return (
         <View style={styles.container}>
