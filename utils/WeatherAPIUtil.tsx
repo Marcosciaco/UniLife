@@ -37,6 +37,8 @@ export function getWeatherImage(weatherData: string) {
         return WeatherImage.Rainy;
     } else if (weatherData.includes("snow")) {
         return WeatherImage.Snowy;
+    } else if (weatherData.includes("dull")) {
+        return WeatherImage.Dull;
     } else {
         return WeatherImage.Sunny;
     }
