@@ -191,6 +191,7 @@ export default function SettingsScreen({ navigation }: any): JSX.Element {
                     placeholderTextColor="black"
                     style={styles.textInput}
                     value={password}
+                    secureTextEntry={true}
                     onChangeText={(text) => setPassword(text)}
                 />
                 <View style={styles.locationContainer}>
