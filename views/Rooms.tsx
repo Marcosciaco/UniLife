@@ -267,7 +267,7 @@ export default function RoomsScreen({ navigation }: any): JSX.Element {
                             ) : (
                                 <RoomListEntry
                                     room={room}
-                                    delay={index * 100}
+                                    delay={index * 10}
                                     key={room.room.id}
                                 />
                             );
