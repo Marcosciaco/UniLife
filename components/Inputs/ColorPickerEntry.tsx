@@ -1,4 +1,4 @@
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 
 export default function ColorPickerEntry({
     onPress,
@@ -11,17 +11,25 @@ export default function ColorPickerEntry({
 }): JSX.Element {
     return (
         <TouchableOpacity
-            style={{
-                backgroundColor: color,
-                width: 30,
-                height: 30,
-                borderRadius: 30,
-                borderWidth: 2,
-                borderColor: selected ? "#C4C4C4" : "transparent",
-            }}
+            style={[
+                styles.pressable,
+                {
+                    backgroundColor: color,
+                    borderColor: selected ? "#C4C4C4" : "transparent",
+                },
+            ]}
             onPress={() => {
                 onPress(color);
             }}
         ></TouchableOpacity>
     );
 }
+
+const styles = StyleSheet.create({
+    pressable: {
+        width: 30,
+        height: 30,
+        borderRadius: 30,
+        borderWidth: 2,
+    },
+});

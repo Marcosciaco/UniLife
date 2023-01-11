@@ -3,28 +3,42 @@ import {
     DrawerItemList,
 } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
+import { User as FirebaseUser } from "firebase/auth";
 import React from "react";
-import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import LogoutIcon from "../../assets/icons/logout";
+import { User } from "../../models/User";
 import { auth } from "../../utils/Firebase";
 import { dark, secondary, white } from "../../utils/Theme";
+import { getCurrentUser } from "../../utils/UserService";
+import showToast from "../Inputs/Toast";
 
 export function CustomDrawerContent({ ...props }: any): JSX.Element {
-    const [user, setUser] = React.useState<any>(null);
+    const [user, setUser] = React.useState<User>();
     const navigation = useNavigation();
 
     React.useEffect(() => {
-        auth.onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user: FirebaseUser | null) => {
             if (user) {
-                setUser(user);
+                getCurrentUser()
+                    .then((cUser) => {
+                        setUser(cUser);
+                    })
+                    .catch((error) => {
+                        showToast(error.message, error);
+                    });
             }
         });
     }, []);
 
-    const logout = () => {
-        auth.signOut().then(() => {
-            navigation.navigate("Login" as never);
-        });
+    const logout = (): void => {
+        auth.signOut()
+            .then(() => {
+                navigation.navigate("Login" as never);
+            })
+            .catch((error) => {
+                showToast(error.message, error);
+            });
     };
 
     return (
@@ -33,7 +47,7 @@ export function CustomDrawerContent({ ...props }: any): JSX.Element {
                 <View style={styles.header}>
                     <View>
                         <Image
-                            source={{ uri: user?.photoURL }}
+                            source={{ uri: user?.photoURL || "" }}
                             style={styles.profilePic}
                         />
                         <Text style={styles.profileName}>

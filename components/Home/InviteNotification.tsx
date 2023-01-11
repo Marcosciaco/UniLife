@@ -16,8 +16,8 @@ export function InviteNotification({
     event: Event;
     delay: number;
 }): JSX.Element {
-    const [username, setUsername] = React.useState<string>("");
-    const [visible, setVisible] = React.useState<boolean>(false);
+    const [username, setUsername] = React.useState<string>();
+    const [visible, setVisible] = React.useState<boolean>();
 
     React.useEffect(() => {
         getUsernameByEmail(event.creator).then((username) => {

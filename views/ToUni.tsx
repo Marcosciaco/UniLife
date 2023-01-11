@@ -89,8 +89,8 @@ export default function ToUniScreen({
                     })}
                 <Marker
                     coordinate={{
-                        latitude: 46.4984534,
-                        longitude: 11.3485215,
+                        latitude: 46.49808727424795,
+                        longitude: 11.350095502920437,
                     }}
                 >
                     <Image

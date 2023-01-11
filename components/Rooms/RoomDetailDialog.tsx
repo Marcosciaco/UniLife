@@ -20,6 +20,7 @@ export default function RoomDetailDialog({
     slots.sort((a, b) => {
         return a.start.localeCompare(b.start);
     });
+
     return (
         <View style={styles.content}>
             <Text style={styles.title}>

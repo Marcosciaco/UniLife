@@ -6,7 +6,7 @@ export async function getGastronomyLocales(
     latitude: number,
     longitude: number,
     radius: number
-) {
+): Promise<GastronomyResponse[]> {
     const response = await fetch(
         `https://tourism.opendatahub.bz.it/v1/ODHActivityPoi?pagenumber=1&pagesize=50&type=32&categorycodefilter=${code}&longitude=${longitude}&latitude=${latitude}&radius=${radius}&removenullvalues=false`
     );

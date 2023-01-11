@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 import Dialog from "react-native-dialog";
 import DatePicker from "react-native-modern-datepicker";
 import { CategoryCode } from "../../models/CategoryCode";
+import { GastronomyResponse } from "../../models/GastronomyResponse";
 import { auth } from "../../utils/Firebase";
 import { getGastronomyLocales } from "../../utils/GastronomyAPIUtil";
 import {
@@ -24,7 +25,7 @@ export default function EventCreation({
 }: {
     onCreate: Function;
 }): JSX.Element {
-    const [restaurants, setRestaurants] = React.useState<any[]>([]);
+    const [restaurants, setRestaurants] = React.useState<string[]>([]);
     const [users, setUsers] = React.useState<string[]>([]);
 
     const [eventName, setEventName] = React.useState("");

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
 import { RoomSlot } from "../../models/RoomSlot";
@@ -13,6 +13,7 @@ import {
 } from "../../utils/Theme";
 import Dialog from "react-native-dialog";
 import RoomDetailDialog from "./RoomDetailDialog";
+import { Slot } from "../../models/Slot";
 
 export default function RoomListEntry({
     room,
@@ -21,9 +22,9 @@ export default function RoomListEntry({
     room: RoomSlot;
     delay: number;
 }): JSX.Element {
-    const [available, setAvailable] = React.useState(false);
-    const [actual, setActual] = React.useState(room.freeSlots[0]);
-    const [dialogVisible, setDialogVisible] = React.useState(false);
+    const [available, setAvailable] = useState<boolean>(false);
+    const [actual, setActual] = useState<Slot>(room.freeSlots[0]);
+    const [dialogVisible, setDialogVisible] = useState<boolean>();
 
     React.useEffect(() => {
         const now = new Date();
@@ -85,11 +86,7 @@ export default function RoomListEntry({
             <Dialog.Container
                 visible={dialogVisible}
                 onBackdropPress={() => setDialogVisible(false)}
-                contentStyle={{
-                    borderRadius: 10,
-                    width: width - 20,
-                    backgroundColor: light,
-                }}
+                contentStyle={styles.slotDetailDialog}
             >
                 <RoomDetailDialog room={room}></RoomDetailDialog>
             </Dialog.Container>
@@ -171,5 +168,10 @@ export const styles = StyleSheet.create({
         textOverflow: "ellipsis",
         overflow: "hidden",
         whiteSpace: "nowrap",
+    },
+    slotDetailDialog: {
+        borderRadius: 10,
+        width: width - 20,
+        backgroundColor: light,
     },
 });

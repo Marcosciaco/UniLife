@@ -41,10 +41,10 @@ export default function SettingsScreen({ navigation }: any): JSX.Element {
         uri: "https://picsum.photos/1920/1080",
     });
 
-    const [name, setName] = useState<string>("");
-    const [phoneNumber, setPhoneNumber] = useState<string>("");
+    const [name, setName] = useState<string>();
+    const [phoneNumber, setPhoneNumber] = useState<string>();
     const [password, setPassword] = useState<string>("");
-    const [isTracking, setIsTracking] = useState<boolean>(false);
+    const [isTracking, setIsTracking] = useState<boolean>();
 
     React.useEffect(() => {
         getCurrentUser().then((user) => {

@@ -9,7 +9,7 @@ export default function ColorPicker({
     onChange: Function;
     colors: string[];
 }): JSX.Element {
-    const [selectedColor, setSelectedColor] = useState<string>("");
+    const [selectedColor, setSelectedColor] = useState<string>();
 
     return (
         <View style={styles.container}>

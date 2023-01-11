@@ -15,12 +15,9 @@ import { dark, light, primary, secondary, white } from "../utils/Theme";
 import { followUser, getCurrentUser, unfollowUser } from "../utils/UserService";
 
 export default function ProfileScreen({ user }: { user: User }): JSX.Element {
-    const imgProfile = {
-        uri: user.photoURL || "https://picsum.photos/1920/1080",
-    };
-    const [followers, setFollowers] = useState<number>(0);
-    const [following, setFollowing] = useState<number>(0);
-    const [isFollowing, setIsFollowing] = useState<boolean>(false);
+    const [followers, setFollowers] = useState<number>();
+    const [following, setFollowing] = useState<number>();
+    const [isFollowing, setIsFollowing] = useState<boolean>();
 
     const toggle = () => {
         if (isFollowing && user.email != null) {
@@ -56,7 +53,12 @@ export default function ProfileScreen({ user }: { user: User }): JSX.Element {
     return (
         <View style={styles.container}>
             <ExpoStatusBar backgroundColor="transparent" style="dark" />
-            <ImageBackground style={styles.backgroundImage} source={imgProfile}>
+            <ImageBackground
+                style={styles.backgroundImage}
+                source={{
+                    uri: user.photoURL || "https://picsum.photos/1920/1080",
+                }}
+            >
                 <View></View>
                 <View style={styles.dataContainer}>
                     <View style={styles.profileHeader}>

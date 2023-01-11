@@ -14,7 +14,7 @@ export default function InviteConfirmationDialog({
 }: {
     event: Event;
 }): JSX.Element {
-    const [username, setUsername] = React.useState<string>("");
+    const [username, setUsername] = React.useState<string>();
 
     React.useEffect(() => {
         getUsernameByEmail(event.creator).then((username) => {

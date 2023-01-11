@@ -16,7 +16,7 @@ export default function EventDescription({
     delay: number;
 }): JSX.Element {
     const [partecipants, setPartecipants] = useState<string[]>([]);
-    const [visible, setVisible] = useState(false);
+    const [visible, setVisible] = useState<boolean>();
 
     React.useEffect(() => {
         setPartecipants([]);

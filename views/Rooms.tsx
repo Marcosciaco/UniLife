@@ -1,5 +1,5 @@
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
-import React from "react";
+import React, { useState } from "react";
 import {
     FlatList,
     StyleSheet,
@@ -17,29 +17,24 @@ import { RoomSlot } from "../models/RoomSlot";
 import { dark, height, light, primary, width } from "../utils/Theme";
 
 export default function RoomsScreen({ navigation }: any): JSX.Element {
-    const [data, setData] = React.useState([]);
-    const [notFilteredData, setNotFilteredData] = React.useState([]);
-    const [refreshing, setRefreshing] = React.useState(false);
+    const [data, setData] = useState<RoomSlot[]>([]);
+    const [notFilteredData, setNotFilteredData] = useState<RoomSlot[]>([]);
 
-    const wait = (timeout: number | undefined) => {
-        return new Promise((resolve) => setTimeout(resolve, timeout));
-    };
+    const [refreshing, setRefreshing] = useState<boolean>(false);
+    const [visible, setVisible] = useState<boolean>(false);
+
+    const [campus, setCampus] = useState<string>("All");
+    const [campuses, setCampuses] = useState<string[]>([]);
+
+    const [available, setAvailable] = useState<boolean>();
+
+    const [building, setBuilding] = useState<string>("All");
+    const [buildings, setBuildings] = useState<string[]>([]);
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-        fetchData();
-        wait(2000).then(() => setRefreshing(false));
+        fetchData().then(() => setRefreshing(false));
     }, []);
-
-    const [visible, setVisible] = React.useState(false);
-
-    const [campus, setCampus] = React.useState("All");
-    const [campuses, setCampuses] = React.useState<string[]>([]);
-
-    const [available, setAvailable] = React.useState(true);
-
-    const [building, setBuilding] = React.useState("All");
-    const [buildings, setBuildings] = React.useState<string[]>([]);
 
     React.useEffect(() => {
         if (campus === "All" && building === "All") {

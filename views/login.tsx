@@ -7,14 +7,15 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import Animated, {
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue,
-    withDelay,
-    withTiming,
-} from "react-native-reanimated";
+import Animated, { useSharedValue } from "react-native-reanimated";
 import Svg, { ClipPath, Ellipse, Image } from "react-native-svg";
+import {
+    buttonsAnimatedStyle,
+    closeButtonContainerStyle,
+    formButtonAnimatedStyle,
+    imageAnimatedStyle,
+    formAnimatedStyle,
+} from "../assets/animations/Login";
 import CloseIcon from "../assets/icons/close";
 import LogoIcon from "../assets/icons/logo";
 import {
@@ -29,75 +30,14 @@ import {
 import { login, register } from "../utils/UserService";
 
 export default function LoginScreen({ navigation }: any): JSX.Element {
-    const imagePosition = useSharedValue(1);
-    const formButtonScale = useSharedValue(1);
-    const [isRegistering, setIsRegistering] = useState(false);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [studentId, setStudentId] = useState("");
-    const [displayName, setDisplayName] = useState("");
+    const imagePosition = useSharedValue<number>(1);
+    const formButtonScale = useSharedValue<number>(1);
+    const [isRegistering, setIsRegistering] = useState<boolean>();
 
-    const imageAnimatedStyle = useAnimatedStyle(() => {
-        const interpolation = interpolate(
-            imagePosition.value,
-            [0, 1],
-            [-height * 0.65, 0]
-        );
-        return {
-            transform: [
-                { translateY: withTiming(interpolation, { duration: 1000 }) },
-            ],
-        };
-    });
-
-    const buttonsAnimatedStyle = useAnimatedStyle(() => {
-        const interpolation = interpolate(
-            imagePosition.value,
-            [0, 1],
-            [500, 0]
-        );
-        return {
-            opacity: withTiming(imagePosition.value, { duration: 500 }),
-            transform: [
-                { translateY: withTiming(interpolation, { duration: 1000 }) },
-            ],
-        };
-    });
-
-    const closeButtonContainerStyle = useAnimatedStyle(() => {
-        const interpolation = interpolate(
-            imagePosition.value,
-            [0, 1],
-            [180, 360]
-        );
-        return {
-            opacity: withTiming(imagePosition.value === 1 ? 0 : 1, {
-                duration: 800,
-            }),
-            transform: [
-                {
-                    rotate: withTiming(interpolation + "deg", {
-                        duration: 1000,
-                    }),
-                },
-            ],
-        };
-    });
-
-    const formAnimatedStyle = useAnimatedStyle(() => {
-        return {
-            opacity:
-                imagePosition.value === 0
-                    ? withDelay(400, withTiming(1, { duration: 800 }))
-                    : withTiming(0, { duration: 300 }),
-        };
-    });
-
-    const formButtonAnimatedStyle = useAnimatedStyle(() => {
-        return {
-            transform: [{ scale: formButtonScale.value }],
-        };
-    });
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [studentId, setStudentId] = useState<string>("");
+    const [displayName, setDisplayName] = useState<string>("");
 
     const loginHandler = () => {
         imagePosition.value = 0;
@@ -117,7 +57,10 @@ export default function LoginScreen({ navigation }: any): JSX.Element {
         <Animated.View style={styles.container}>
             <ExpoStatusBar backgroundColor="transparent" style="dark" />
             <Animated.View
-                style={[StyleSheet.absoluteFill, imageAnimatedStyle]}
+                style={[
+                    StyleSheet.absoluteFill,
+                    imageAnimatedStyle(imagePosition),
+                ]}
             >
                 <View style={styles.logo}>
                     <LogoIcon height={50} width={50} color={dark}></LogoIcon>
@@ -142,7 +85,7 @@ export default function LoginScreen({ navigation }: any): JSX.Element {
                 <Animated.View
                     style={[
                         styles.closeButtonContainer,
-                        closeButtonContainerStyle,
+                        closeButtonContainerStyle(imagePosition),
                     ]}
                 >
                     <Text onPress={() => (imagePosition.value = 1)}>
@@ -156,7 +99,10 @@ export default function LoginScreen({ navigation }: any): JSX.Element {
             </Animated.View>
             <View style={styles.bottomContainer}>
                 <Animated.View
-                    style={[styles.bottomContainer, buttonsAnimatedStyle]}
+                    style={[
+                        styles.bottomContainer,
+                        buttonsAnimatedStyle(imagePosition),
+                    ]}
                 >
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity
@@ -179,7 +125,7 @@ export default function LoginScreen({ navigation }: any): JSX.Element {
                     style={[
                         StyleSheet.absoluteFill,
                         styles.formInputContainer,
-                        formAnimatedStyle,
+                        formAnimatedStyle(imagePosition),
                     ]}
                 >
                     {isRegistering && (
@@ -212,7 +158,10 @@ export default function LoginScreen({ navigation }: any): JSX.Element {
                         style={styles.textInput}
                     />
                     <TouchableOpacity
-                        style={[styles.formButton, formButtonAnimatedStyle]}
+                        style={[
+                            styles.formButton,
+                            formButtonAnimatedStyle(formButtonScale),
+                        ]}
                         onPress={
                             isRegistering
                                 ? () =>

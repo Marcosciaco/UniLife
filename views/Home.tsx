@@ -14,10 +14,11 @@ import { auth } from "../utils/Firebase";
 import { getGastronomyLocales } from "../utils/GastronomyAPIUtil";
 import { light, white } from "../utils/Theme";
 import { updateUserLocation } from "../utils/UserService";
-import WeatherAPIUtil, { WeatherTempImage } from "../utils/WeatherAPIUtil";
+import { getWeatherforecast } from "../utils/WeatherAPIUtil";
+import { WeatherTempImage } from "../components/Home/WeatherTempImage";
 
 export default function HomeScreen({ navigation }: any): JSX.Element {
-    const [weatherData, setWeatherData] = React.useState("");
+    const [weatherData, setWeatherData] = useState<string>("");
     const [location, setLocation] = useState<LocationObject>();
     const [restaurants, setRestaurants] = useState<GastronomyResponse[]>([]);
     const [username, setUsername] = useState<string>("");
@@ -39,7 +40,7 @@ export default function HomeScreen({ navigation }: any): JSX.Element {
     }, []);
 
     React.useEffect(() => {
-        WeatherAPIUtil.getWeatherforecast()
+        getWeatherforecast()
             .then((data) => {
                 setWeatherData(data.WeatherDesc);
             })

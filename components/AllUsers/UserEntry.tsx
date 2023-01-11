@@ -21,13 +21,13 @@ export default function UserEntry({
     user: User;
     delay: number;
 }): JSX.Element {
-    const [following, setFollowing] = useState<boolean>(false);
-    const [dialogVisible, setDialogVisible] = useState<boolean>(false);
+    const [following, setFollowing] = useState<boolean>();
+    const [dialogVisible, setDialogVisible] = useState<boolean>();
 
     useEffect(() => {
         getCurrentUser().then((currentUser) => {
             if (currentUser != null) {
-                if (currentUser.following?.includes(user.email || "")) {
+                if (user.email && currentUser.following?.includes(user.email)) {
                     setFollowing(true);
                 }
             }
