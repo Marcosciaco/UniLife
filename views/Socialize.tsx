@@ -43,7 +43,7 @@ function getEventsForDate({ onReturn }: { onReturn: Function }): void {
     });
 }
 
-export default function SocializeScreen({ navigation }: Prps): JSX.Element {
+export default function SocializeScreen({ navigation }: any): JSX.Element {
     const [filteredEvents, setFilteredEvents] = React.useState<Event[]>([]);
     const [visible, setVisible] = React.useState(false);
 
