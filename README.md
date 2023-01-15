@@ -24,53 +24,30 @@
   </p>
 </div>
 
-<div style="width: 100%; display: flex; flex-direction: row; justify-content: space-between; align-items: center">
-    <div style="margin: 50px; text-align: center">
-        <img src="./assets/images/avatar.png" alt="Logo" width="80" height="80" style="border-radius: 10px;">
-        <a href="https://github.com/lawitt">
-            <h3>Lara Sophie Witt</h3>
-        </a>
-    </div>
-    <div style="margin: 50px; text-align: center">
-        <img src="./assets/images/avatar.png" alt="Logo" width="80" height="80" style="border-radius: 10px;">
-        <a href="https://github.com/smilisa">
-            <h3>Lisa Mussner</h3>
-        </a>
-    </div>
-    <div style="margin: 50px; text-align: center">
-        <img src="./assets/images/avatar.png" alt="Logo" width="80" height="80" style="border-radius: 10px;">
-        <a href="https://github.com/Marcosciaco">
-            <h3>Marco Sciacovelli</h3>
-        </a>
-    </div>
-    <div style="margin: 50px; text-align: center">
-        <img src="./assets/images/avatar.png" alt="Logo" width="80" height="80" style="border-radius: 10px;">
-        <a href="https://github.com/mirko06854">
-            <h3>Mirko Bandello</h3>
-        </a>
-    </div>
-</div>
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
+<h1>Contributors</h1>
+<a href="https://github.com/lawitt"><h3>Lara Sophie Witt</h3></a>
+<a href="https://github.com/smilisa"><h3>Lisa Mussner</h3></a>
+<a href="https://github.com/Marcosciaco"><h3>Marco Sciacovelli</h3><a>
+<a href="https://github.com/mirko06854"><h3>Mirko Bandello</h3></a>
+<br/>
+<br/>
+<h1>Table of Contents</h1>
+<ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
+        <a href="#about-the-project">About The Project</a>
+        <ul>
         <li><a href="#built-with">Built With</a></li>
-      </ul>
+        </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
+        <a href="#getting-started">Getting Started</a>
+        <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
-      </ul>
+        </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-  </ol>
-</details>
+</ol>
 
 ## About The Project
 
@@ -103,15 +80,15 @@ To get a local copy up and running follow these simple example steps.
     npm install
     ```
 
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/Marcosciaco/Unilife.svg?style=for-the-badge
 [contributors-url]: https://github.com/Marcosciaco/UniLife/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/Marcosciaco/Unilife.svg?style=for-the-badge
 [forks-url]: https://github.com/Marcosciaco/UniLife/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/Marcosciaco/Unilife.svg?style=for-the-badge
 [stars-url]: https://github.com/Marcosciaco/UniLife/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/Marcosciaco/Unilife.svg?style=for-the-badge
 [issues-url]: https://github.com/Marcosciaco/UniLife/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/Marcosciaco/Unilife.svg?style=for-the-badge
 [license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
 [product-screenshot]: ./assets/images/renders/Home.png
 [react.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
