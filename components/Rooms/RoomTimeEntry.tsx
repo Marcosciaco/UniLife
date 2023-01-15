@@ -1,6 +1,10 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Pressable } from "react-native";
+import { Room } from "../../models/Room";
 import { Slot } from "../../models/Slot";
-import { dark, secondary, white } from "../../utils/Theme";
+import { reserveRoom } from "../../utils/RoomUtil";
+import { dark, error, secondary, white } from "../../utils/Theme";
+import { getCurrentUser } from "../../utils/UserService";
+import showToast from "../Inputs/Toast";
 
 function getHour(start: string): string {
     const date = new Date(start);
@@ -10,9 +14,11 @@ function getHour(start: string): string {
 
 export default function RoomTimeEntry({
     slot,
+    room,
     free,
 }: {
     slot: Slot;
+    room: Room;
     free: boolean;
 }) {
     const isNow = (slot: Slot): boolean => {
@@ -57,6 +63,30 @@ export default function RoomTimeEntry({
                           }`
                         : slot.description}
                 </Text>
+                <Pressable
+                    onPress={() => {
+                        getCurrentUser()
+                            .then((user) => {
+                                if (user) {
+                                    reserveRoom(room, slot, user)
+                                        .then(() => {
+                                            showToast(
+                                                "Room reserved",
+                                                secondary
+                                            );
+                                        })
+                                        .catch((errorMsg) => {
+                                            showToast(errorMsg, error);
+                                        });
+                                }
+                            })
+                            .catch((errorMsg) => {
+                                showToast(errorMsg, error);
+                            });
+                    }}
+                >
+                    <Text style={styles.text}>Reserve</Text>
+                </Pressable>
             </View>
         </View>
     );
