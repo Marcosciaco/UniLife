@@ -1,4 +1,12 @@
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import {
+    collection,
+    deleteDoc,
+    doc,
+    DocumentData,
+    DocumentReference,
+    getDocs,
+    setDoc,
+} from "firebase/firestore";
 import { Room } from "../models/Room";
 import { RoomReservation } from "../models/RoomReservation";
 import { Slot } from "../models/Slot";
@@ -15,7 +23,7 @@ export function reserveRoom(room: Room, slot: Slot, user: User) {
         getReservationsforSlot(slot)
             .then((resp) => {
                 if (resp === null) {
-                    setReservation(reservation, user)
+                    setReservation(reservation)
                         .then(() => {
                             resolve();
                         })
@@ -32,12 +40,20 @@ export function reserveRoom(room: Room, slot: Slot, user: User) {
     });
 }
 
-export function setReservation(
-    reservation: RoomReservation,
-    user: User
-): Promise<void> {
+export function setReservation(reservation: RoomReservation): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-        setDoc(doc(db, "reservations", user.email || ""), reservation)
+        setDoc(
+            doc(
+                db,
+                "reservations",
+                reservation.room.name +
+                    ";" +
+                    reservation.slot.start +
+                    ";" +
+                    reservation.slot.end
+            ),
+            reservation
+        )
             .then(() => {
                 resolve();
             })
@@ -53,11 +69,31 @@ export function getReservationsforSlot(
     return new Promise((resolve, reject) => {
         getDocs(collection(db, "reservations")).then((resp) => {
             resp.forEach((doc) => {
-                if (doc.data().slot.description === slot.description) {
+                if (
+                    doc.data().slot.start === slot.start &&
+                    doc.data().slot.end === slot.end
+                ) {
                     resolve(doc.data() as RoomReservation);
                 }
             });
             resolve(null);
         });
     });
+}
+
+export function removeReservation(
+    reservation: RoomReservation | undefined
+): void {
+    if (reservation === undefined) return;
+    deleteDoc(
+        doc(
+            db,
+            "reservations",
+            reservation.room.name +
+                ";" +
+                reservation.slot.start +
+                ";" +
+                reservation.slot.end
+        )
+    );
 }

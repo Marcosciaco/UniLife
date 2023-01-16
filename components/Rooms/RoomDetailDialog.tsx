@@ -33,6 +33,7 @@ export default function RoomDetailDialog({
                 keyExtractor={(item) => item.start}
                 renderItem={({ item }) => (
                     <RoomTimeEntry
+                        room={room.room}
                         slot={item}
                         free={room.freeSlots.includes(item)}
                     ></RoomTimeEntry>
