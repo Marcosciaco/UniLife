@@ -101,10 +101,10 @@ export default function HomeScreen({ navigation }: any): JSX.Element {
                 style={styles.mapContainerRow}
             >
                 <View style={styles.mapContainer}>
-                    {/* <RestaurantMapView
+                    <RestaurantMapView
                         location={location}
                         restaurants={restaurants}
-                    /> */}
+                    />
                 </View>
             </Animated.View>
         </SafeAreaView>
