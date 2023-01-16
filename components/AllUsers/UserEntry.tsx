@@ -56,7 +56,11 @@ export default function UserEntry({
                 >
                     <Image
                         style={styles.imageContainer}
-                        source={{ uri: user.photoURL || "" }}
+                        source={{
+                            uri:
+                                user.photoURL ||
+                                "../../assets/images/user_placeholder.png",
+                        }}
                     />
                     <Text style={styles.text}>{user.displayName}</Text>
                     <View style={styles.followButton}>

@@ -47,7 +47,11 @@ export function CustomDrawerContent({ ...props }: any): JSX.Element {
                 <View style={styles.header}>
                     <View>
                         <Image
-                            source={{ uri: user?.photoURL || "" }}
+                            source={{
+                                uri:
+                                    user?.photoURL ||
+                                    "../../assets/images/user_placeholder.png",
+                            }}
                             style={styles.profilePic}
                         />
                         <Text style={styles.profileName}>

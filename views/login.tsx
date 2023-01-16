@@ -1,6 +1,7 @@
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import React, { useState } from "react";
 import {
+    ScrollView,
     StyleSheet,
     Text,
     TextInput,
@@ -128,57 +129,64 @@ export default function LoginScreen({ navigation }: any): JSX.Element {
                         formAnimatedStyle(imagePosition),
                     ]}
                 >
-                    {isRegistering && (
-                        <TextInput
-                            placeholder="Username"
-                            placeholderTextColor={dark}
-                            style={styles.textInput}
-                            onChangeText={(text) => setDisplayName(text)}
-                        />
-                    )}
-                    {isRegistering && (
-                        <TextInput
-                            placeholder="Student-Id"
-                            placeholderTextColor={dark}
-                            style={styles.textInput}
-                            onChangeText={(text) => setStudentId(text)}
-                        />
-                    )}
-                    <TextInput
-                        onChangeText={(text) => setEmail(text)}
-                        placeholder="E-Mail"
-                        placeholderTextColor={dark}
-                        style={styles.textInput}
-                    />
-                    <TextInput
-                        secureTextEntry={true}
-                        onChangeText={(text) => setPassword(text)}
-                        placeholder="Password"
-                        placeholderTextColor={dark}
-                        style={styles.textInput}
-                    />
-                    <TouchableOpacity
-                        style={[
-                            styles.formButton,
-                            formButtonAnimatedStyle(formButtonScale),
-                        ]}
-                        onPress={
-                            isRegistering
-                                ? () =>
-                                      register(
-                                          email,
-                                          password,
-                                          studentId,
-                                          navigation,
-                                          displayName
-                                      )
-                                : () => login(email, password, navigation)
-                        }
+                    <ScrollView
+                        contentContainerStyle={{
+                            flexGrow: 1,
+                            justifyContent: "flex-end",
+                        }}
                     >
-                        <Text style={styles.buttonText}>
-                            {isRegistering ? "Register" : "Login"}
-                        </Text>
-                    </TouchableOpacity>
+                        {isRegistering && (
+                            <TextInput
+                                placeholder="Username"
+                                placeholderTextColor={dark}
+                                style={styles.textInput}
+                                onChangeText={(text) => setDisplayName(text)}
+                            />
+                        )}
+                        {isRegistering && (
+                            <TextInput
+                                placeholder="Student-Id"
+                                placeholderTextColor={dark}
+                                style={styles.textInput}
+                                onChangeText={(text) => setStudentId(text)}
+                            />
+                        )}
+                        <TextInput
+                            onChangeText={(text) => setEmail(text)}
+                            placeholder="E-Mail"
+                            placeholderTextColor={dark}
+                            style={styles.textInput}
+                        />
+                        <TextInput
+                            secureTextEntry={true}
+                            onChangeText={(text) => setPassword(text)}
+                            placeholder="Password"
+                            placeholderTextColor={dark}
+                            style={styles.textInput}
+                        />
+                        <TouchableOpacity
+                            style={[
+                                styles.formButton,
+                                formButtonAnimatedStyle(formButtonScale),
+                            ]}
+                            onPress={
+                                isRegistering
+                                    ? () =>
+                                          register(
+                                              email,
+                                              password,
+                                              studentId,
+                                              navigation,
+                                              displayName
+                                          )
+                                    : () => login(email, password, navigation)
+                            }
+                        >
+                            <Text style={styles.buttonText}>
+                                {isRegistering ? "Register" : "Login"}
+                            </Text>
+                        </TouchableOpacity>
+                    </ScrollView>
                 </Animated.View>
             </View>
         </Animated.View>
@@ -199,14 +207,14 @@ const styles = StyleSheet.create({
     },
     promoText: {
         position: "absolute",
-        bottom: 100,
+        top: 40,
         left: 15,
         zIndex: 100,
     },
     standardText: {
         fontSize: 30,
         fontFamily: "Poppins_300Light",
-        color: white,
+        color: dark,
     },
     highlightedText: {
         fontFamily: "Poppins_500Medium",
@@ -270,8 +278,12 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins_400Regular",
     },
     bottomContainer: {
-        justifyContent: "center",
-        height: height * 0.38,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "flex-end",
+        width: width,
+        height: 340,
     },
     textInput: {
         height: 45,

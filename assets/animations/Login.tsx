@@ -14,7 +14,7 @@ export function imageAnimatedStyle(
         const interpolation = interpolate(
             imagePosition.value,
             [0, 1],
-            [-height * 0.65, 0]
+            [-height * 0.8, 0]
         );
         return {
             transform: [

@@ -293,6 +293,7 @@ export function acceptInvite(event: Event): void {
             showToast("Error accepting invite. Please try again later.", error);
         });
 }
+
 export function declineInvite(event: Event): void {
     updateDoc(doc(db, "events", event.id), {
         inviteDeclined: true,
@@ -303,4 +304,8 @@ export function declineInvite(event: Event): void {
         .catch((error) => {
             showToast("Error declining invite. Please try again later.", error);
         });
+}
+
+export function isSelf(email: string): boolean {
+    return email === getUserEmail();
 }
