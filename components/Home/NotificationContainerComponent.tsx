@@ -3,17 +3,22 @@ import { StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import Animated, { FadeInLeft } from "react-native-reanimated";
 import { Event } from "../../models/Event";
-import { white } from "../../utils/Theme";
+import { error, white } from "../../utils/Theme";
 import { getProfileEvents, getUserEmail } from "../../utils/UserService";
+import showToast from "../Inputs/Toast";
 import { InviteNotification } from "./InviteNotification";
 
 export default function NotificationContainer(): JSX.Element {
     const [requests, setRequests] = React.useState<Event[]>([]);
 
     React.useEffect(() => {
-        getProfileEvents(getUserEmail()).then((data: Event[]) => {
-            setRequests(data);
-        });
+        getProfileEvents(getUserEmail())
+            .then((data: Event[]) => {
+                setRequests(data);
+            })
+            .catch(() => {
+                showToast("Error while fetching events", error);
+            });
     }, []);
 
     return (

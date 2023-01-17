@@ -1,13 +1,20 @@
+import { LocationObject } from "expo-location";
 import React from "react";
 import { Image, StyleSheet } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import { GastronomyResponse } from "../../models/GastronomyResponse";
+import { User } from "../../models/User";
 import { white } from "../../utils/Theme";
 
-export default function RestaurantMapView({
+export default function HomeMapView({
     location,
     restaurants,
-}: any): JSX.Element {
+    users,
+}: {
+    location: LocationObject | undefined;
+    restaurants: GastronomyResponse[];
+    users: User[];
+}): JSX.Element {
     return (
         <MapView
             region={{
@@ -45,6 +52,26 @@ export default function RestaurantMapView({
                     </Marker>
                 );
             })}
+            {users
+                .filter((u) => u.locationTracking)
+                .map((user) => {
+                    let image = require("../../assets/images/user_placeholder.png");
+                    if (user.photoURL) {
+                        image = { uri: user.photoURL };
+                    }
+                    return (
+                        <Marker
+                            key={user.email}
+                            coordinate={{
+                                latitude: user.location?.coords.latitude || 0,
+                                longitude: user.location?.coords.longitude || 0,
+                            }}
+                            style={styles.marker}
+                        >
+                            <Image source={image} style={styles.marker} />
+                        </Marker>
+                    );
+                })}
         </MapView>
     );
 }

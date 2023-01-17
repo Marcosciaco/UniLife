@@ -7,33 +7,39 @@ import Animated, { FadeInLeft } from "react-native-reanimated";
 import HeaderRow from "../components/Home/HomeHeaderComponent";
 import showToast from "../components/Inputs/Toast";
 import NotificationContainer from "../components/Home/NotificationContainerComponent";
-import RestaurantMapView from "../components/Home/RestaurantMapViewComponent";
+import HomeMapView from "../components/Home/HomeMapViewComponent";
 import { CategoryCode } from "../models/CategoryCode";
 import { GastronomyResponse } from "../models/GastronomyResponse";
 import { auth } from "../utils/Firebase";
 import { getGastronomyLocales } from "../utils/GastronomyAPIUtil";
 import { light, white } from "../utils/Theme";
-import { updateUserLocation } from "../utils/UserService";
+import { getAllUsers, updateUserLocation } from "../utils/UserService";
 import { getWeatherforecast } from "../utils/WeatherAPIUtil";
 import { WeatherTempImage } from "../components/Home/WeatherTempImage";
+import { User } from "../models/User";
 
 export default function HomeScreen({ navigation }: any): JSX.Element {
     const [weatherData, setWeatherData] = useState<string>("");
     const [location, setLocation] = useState<LocationObject>();
     const [restaurants, setRestaurants] = useState<GastronomyResponse[]>([]);
     const [username, setUsername] = useState<string>("");
+    const [users, setUsers] = React.useState<User[]>([]);
+
+    React.useEffect(() => {
+        getAllUsers()
+            .then((users) => {
+                setUsers(users);
+            })
+            .catch((error) => {
+                showToast("Error while fetching users", error);
+            });
+    }, []);
 
     React.useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 navigation.navigate("Login" as never);
-            }
-        });
-    }, []);
-
-    React.useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
+            } else {
                 setUsername(user.displayName as string);
             }
         });
@@ -101,9 +107,10 @@ export default function HomeScreen({ navigation }: any): JSX.Element {
                 style={styles.mapContainerRow}
             >
                 <View style={styles.mapContainer}>
-                    <RestaurantMapView
+                    <HomeMapView
                         location={location}
                         restaurants={restaurants}
+                        users={users}
                     />
                 </View>
             </Animated.View>
