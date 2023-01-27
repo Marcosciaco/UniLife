@@ -29,9 +29,10 @@ export default function NotificationContainer(): JSX.Element {
             <View>
                 <Text style={styles.notificationTitle}>Notifications</Text>
                 <FlatList
-                    data={requests.filter(
-                        (request) => getUserEmail() != request.creator
-                    )}
+                    data={requests
+                        .filter((request) => getUserEmail() != request.creator)
+                        .filter((request) => !request.inviteDeclined)
+                        .filter((request) => !request.inviteRead)}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item, index }) => (
                         <InviteNotification event={item} delay={index * 100} />

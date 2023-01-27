@@ -99,7 +99,7 @@ export function logout(navigation: any): void {
     })
         .then(() => {
             auth.signOut();
-            navigation.navigrate("Login");
+            navigation.navigate("Login");
         })
         .catch((error) => {
             showToast("Error logging out. Please try again later.", error);

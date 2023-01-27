@@ -7,6 +7,7 @@ import {
 } from "firebase/firestore";
 import { Room } from "../models/Room";
 import { RoomReservation } from "../models/RoomReservation";
+import { RoomSlot } from "../models/RoomSlot";
 import { Slot } from "../models/Slot";
 import { User } from "../models/User";
 import { db } from "./Firebase";
@@ -94,4 +95,27 @@ export function removeReservation(
                 reservation.slot.end
         )
     );
+}
+
+export function isFree(room: RoomSlot): boolean {
+    const now = new Date();
+
+    const freeSlots = room.freeSlots.filter((slot) => {
+        const start = new Date(slot.start);
+        const end = new Date(slot.end);
+        return start <= now && end >= now;
+    });
+
+    const reservedSlots = room.reservedSlots.filter((slot) => {
+        const start = new Date(slot.start);
+        const end = new Date(slot.end);
+        return start <= now && end >= now;
+    });
+
+    if (freeSlots.length > 0) {
+        return true && getReservationsforSlot(freeSlots[0]) === null;
+    } else if (reservedSlots.length > 0) {
+        return false;
+    }
+    return false;
 }
