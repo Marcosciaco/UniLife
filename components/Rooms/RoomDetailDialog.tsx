@@ -30,7 +30,9 @@ export default function RoomDetailDialog({
             <FlatList
                 style={styles.slots}
                 data={slots}
-                keyExtractor={(item) => item.start}
+                keyExtractor={(item) =>
+                    item.start + item.end + item.description
+                }
                 renderItem={({ item }) => (
                     <RoomTimeEntry
                         room={room.room}
@@ -57,6 +59,7 @@ export const styles = StyleSheet.create({
         marginTop: 10,
         paddingHorizontal: 10,
         width: "100%",
+        height: height - 185,
     },
     title: {
         fontSize: 20,

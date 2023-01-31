@@ -4,21 +4,26 @@ import { ImageBackground, View, Text, StyleSheet } from "react-native";
 import Animated, { FadeInLeft } from "react-native-reanimated";
 import { WeatherImage } from "../../models/WeatherImage";
 import { WeatherStationData } from "../../models/WeatherStationData";
-import { white } from "../../utils/Theme";
+import { error, white } from "../../utils/Theme";
 import {
     getWeatherforecast,
     getWeatherImage,
 } from "../../utils/WeatherAPIUtil";
+import showToast from "../Inputs/Toast";
 
 export function WeatherTempImage(): JSX.Element {
     const [weatherData, setWeatherData] = React.useState<WeatherStationData>();
     const [weatherDesc, setWeatherDesc] = React.useState<string>("");
 
     useEffect(() => {
-        getWeatherforecast().then((data) => {
-            setWeatherDesc(data.WeatherDesc);
-            setWeatherData(data);
-        });
+        getWeatherforecast()
+            .then((data) => {
+                setWeatherDesc(data.WeatherDesc);
+                setWeatherData(data);
+            })
+            .catch(() => {
+                showToast("Error while fetching weather data", error);
+            });
     }, []);
 
     const img: WeatherImage = getWeatherImage(weatherDesc);

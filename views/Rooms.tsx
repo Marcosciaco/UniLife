@@ -1,12 +1,6 @@
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import React, { useState } from "react";
-import {
-    FlatList,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Dialog from "react-native-dialog";
 import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -14,6 +8,7 @@ import FilterIcon from "../assets/icons/filter";
 import MenuIcon from "../assets/icons/menu";
 import RoomListEntry from "../components/Rooms/RoomListEntry";
 import { RoomSlot } from "../models/RoomSlot";
+import { isFree } from "../utils/RoomUtil";
 import { dark, height, light, primary, width } from "../utils/Theme";
 
 export default function RoomsScreen({ navigation }: any): JSX.Element {
@@ -26,7 +21,7 @@ export default function RoomsScreen({ navigation }: any): JSX.Element {
     const [campus, setCampus] = useState<string>("All");
     const [campuses, setCampuses] = useState<string[]>([]);
 
-    const [available, setAvailable] = useState<boolean>();
+    const [available, setAvailable] = useState<boolean>(false);
 
     const [building, setBuilding] = useState<string>("All");
     const [buildings, setBuildings] = useState<string[]>([]);
@@ -37,30 +32,25 @@ export default function RoomsScreen({ navigation }: any): JSX.Element {
     }, []);
 
     React.useEffect(() => {
-        if (campus === "All" && building === "All") {
-            setData(notFilteredData);
-        } else if (campus !== "All" && building === "All") {
-            setData(
-                notFilteredData.filter(
-                    (room: RoomSlot) => room.room.campus === campus
-                )
-            );
-        } else if (campus === "All" && building !== "All") {
-            setData(
-                notFilteredData.filter(
-                    (room: RoomSlot) => room.room.building === building
-                )
-            );
-        } else {
-            setData(
-                notFilteredData.filter(
-                    (room: RoomSlot) =>
-                        room.room.campus === campus &&
-                        room.room.building === building
-                )
+        let data = notFilteredData;
+
+        if (campus !== "All") {
+            data = data.filter((room: RoomSlot) => room.room.campus === campus);
+        }
+
+        if (building !== "All") {
+            data = data.filter(
+                (room: RoomSlot) => room.room.building === building
             );
         }
-    }, [campus, building]);
+
+        if (available === true) {
+            console.log("available");
+            data = data.filter((room: RoomSlot) => isFree(room));
+        }
+
+        setData(data);
+    }, [campus, building, available]);
 
     const fetchData = async () => {
         const c: string[] = ["All"];
@@ -75,7 +65,14 @@ export default function RoomsScreen({ navigation }: any): JSX.Element {
 
         da.forEach((room) => {
             room.room.id =
-                room.room.campus + "_" + room.room.building + room.room.name;
+                room.room.campus +
+                "_" +
+                room.room.building +
+                room.room.name +
+                room.freeSlots[0].start +
+                room.freeSlots[0].end +
+                room.reservedSlots[0].start +
+                room.reservedSlots[0].end;
             if (!c.includes(room.room.campus)) {
                 c.push(room.room.campus);
             }
@@ -135,7 +132,7 @@ export default function RoomsScreen({ navigation }: any): JSX.Element {
                                 }}
                             >
                                 <View>
-                                    <Text style={styles.filterCampusText}>
+                                    <Text style={styles.filterCampusLabel}>
                                         Only available Rooms?
                                     </Text>
                                     <View style={styles.filterCampus}>
@@ -174,7 +171,7 @@ export default function RoomsScreen({ navigation }: any): JSX.Element {
                                             </Text>
                                         </TouchableOpacity>
                                     </View>
-                                    <Text style={styles.filterCampusText}>
+                                    <Text style={styles.filterCampusLabel}>
                                         Campus
                                     </Text>
                                     <View style={styles.filterCampus}>
@@ -210,7 +207,7 @@ export default function RoomsScreen({ navigation }: any): JSX.Element {
                                             </TouchableOpacity>
                                         ))}
                                     </View>
-                                    <Text style={styles.filterCampusText}>
+                                    <Text style={styles.filterCampusLabel}>
                                         Building
                                     </Text>
                                     <View style={styles.filterCampus}>
@@ -317,9 +314,16 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: "wrap",
         marginLeft: 10,
-        width: 350,
+        width: 300,
     },
     filterCampusText: {
+        fontFamily: "Poppins_400Regular",
+        fontSize: 15,
+        margin: 5,
+        width: 60,
+        textAlign: "center",
+    },
+    filterCampusLabel: {
         fontFamily: "Poppins_400Regular",
         fontSize: 15,
         margin: 5,
