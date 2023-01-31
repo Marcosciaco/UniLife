@@ -21,7 +21,7 @@ export default function RoomsScreen({ navigation }: any): JSX.Element {
     const [campus, setCampus] = useState<string>("All");
     const [campuses, setCampuses] = useState<string[]>([]);
 
-    const [available, setAvailable] = useState<boolean>();
+    const [available, setAvailable] = useState<boolean>(false);
 
     const [building, setBuilding] = useState<string>("All");
     const [buildings, setBuildings] = useState<string[]>([]);
@@ -65,7 +65,14 @@ export default function RoomsScreen({ navigation }: any): JSX.Element {
 
         da.forEach((room) => {
             room.room.id =
-                room.room.campus + "_" + room.room.building + room.room.name;
+                room.room.campus +
+                "_" +
+                room.room.building +
+                room.room.name +
+                room.freeSlots[0].start +
+                room.freeSlots[0].end +
+                room.reservedSlots[0].start +
+                room.reservedSlots[0].end;
             if (!c.includes(room.room.campus)) {
                 c.push(room.room.campus);
             }

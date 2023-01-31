@@ -55,6 +55,7 @@ export default function RoomListEntry({
             <TouchableOpacity
                 style={styles.rowContainer}
                 onPress={() => setDialogVisible(true)}
+                key={room.room.id}
             >
                 <View style={styles.slotRoom}>
                     <Text style={styles.slotRoomText}>
@@ -173,5 +174,6 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         width: width - 20,
         backgroundColor: light,
+        height: height - 100,
     },
 });

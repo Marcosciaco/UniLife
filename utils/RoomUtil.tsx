@@ -73,6 +73,8 @@ export function getReservationsforSlot(
                     doc.data().slot.end === slot.end
                 ) {
                     resolve(doc.data() as RoomReservation);
+                } else {
+                    resolve(null);
                 }
             });
             resolve(null);
@@ -113,7 +115,7 @@ export function isFree(room: RoomSlot): boolean {
     });
 
     if (freeSlots.length > 0) {
-        return true && getReservationsforSlot(freeSlots[0]) === null;
+        return true;
     } else if (reservedSlots.length > 0) {
         return false;
     }

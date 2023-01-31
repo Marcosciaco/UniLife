@@ -1,11 +1,13 @@
 {
     "expo": {
-        "name": "unilife",
-        "slug": "unilife",
+        "name": "UniLife",
+        "slug": "UniLife",
         "version": "1.0.0",
+        "description": "A social media app for university students",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "userInterfaceStyle": "light",
+        "privacy": "public",
         "splash": {
             "image": "./assets/splash.png",
             "resizeMode": "contain",
